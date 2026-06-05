@@ -51,15 +51,17 @@ It is intentionally lightweight: no runtime dependencies, no app server, no extr
 
 ## Feature Demonstration
 
-Assume the active model is **Claude**, so Prompt Refine uses the Anthropic strategy internally.
+The same user request gets a different internal shape depending on the **host model**. These examples show the hidden rewrite style; in normal mode the user only sees the final answer.
 
 ### 1. Vague Request: Add The Missing Shape
+
+User request:
 
 ```text
 Help me analyze this market.
 ```
 
-Internal rewrite:
+Anthropic Claude shape:
 
 ```xml
 <role>You are a senior market analyst specializing in competitive intelligence.</role>
@@ -73,13 +75,35 @@ Analyze the market and make the missing scope explicit:
 <format>Use a concise structured report with assumptions, analysis, and next questions.</format>
 ```
 
+OpenAI GPT shape:
+
+```text
+Goal: Analyze the market despite missing scope.
+
+User request: "Help me analyze this market."
+
+Instructions:
+- State the assumed market and audience.
+- Identify major players and competitive dynamics.
+- Flag uncertainty instead of inventing facts.
+- Ask the few follow-up questions needed to refine the analysis.
+
+Output format:
+- Assumptions
+- Competitive landscape
+- Risks and unknowns
+- Next questions
+```
+
 ### 2. Clear Request: Preserve The Constraints
+
+User request:
 
 ```text
 Write a 5-item npm release checklist. Keep each item under 8 words.
 ```
 
-Internal rewrite:
+Anthropic Claude shape:
 
 ```xml
 <task>Write exactly five npm release checklist items.</task>
@@ -90,11 +114,24 @@ Internal rewrite:
 </constraints>
 ```
 
+OpenAI GPT shape:
+
+```text
+Task: Write exactly five npm release checklist items.
+
+Hard constraints:
+- Under 8 words per item.
+- Cover package.json, README, LICENSE, version, and dry-run publishing.
+- Return only the checklist.
+
+Output format: numbered list.
+```
+
 ### What The User Sees
 
 Only the final answer. The rewrite stays silent unless `/refine verbose` is enabled. For clear prompts, Prompt Refine should stay minimal and protect the user's exact constraints.
 
-If the same requests are answered by GPT, Prompt Refine uses the OpenAI strategy instead of XML. The strategy always follows the **host model**, not the topic.
+The strategy always follows the **host model**, not the topic: Claude gets Claude-shaped structure, GPT gets GPT-shaped structure.
 
 ## Quick Start
 
