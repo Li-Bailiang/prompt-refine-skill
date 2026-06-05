@@ -47,6 +47,8 @@ The core design is simple but important: **route by host model, not by task**. I
 
 That makes the skill useful anywhere Agent Skills are supported: Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Windsurf, CodeBuddy, and other compatible tools.
 
+It is context-aware: follow-up requests can inherit the relevant goal, constraints, terminology, and preferences from the conversation, while the newest user instruction still wins.
+
 It is intentionally lightweight: no runtime dependencies, no app server, no extra optimizer call, and only a short skill file plus one selected strategy file in context. The goal is better structure without spending a pile of extra tokens.
 
 ## Feature Demonstration

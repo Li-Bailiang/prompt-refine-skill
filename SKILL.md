@@ -67,16 +67,19 @@ for the rest of the conversation:
 
 For every request while active:
 
-1. Restructure the request using your host model's strategy. Do this in your **private
+1. **Read the conversation context first.** Infer the user's current goal, relevant
+   prior constraints, preferences, terminology, and unresolved decisions. Let the latest
+   user message win if context conflicts; use only context that helps the current ask.
+2. Restructure the request using your host model's strategy. Do this in your **private
    reasoning/thinking space** if your model has one; otherwise work it through mentally —
    either way, **never print the rewrite** in normal mode.
-2. **Preserve everything** — intent, requirements, constraints, and the user's
+3. **Preserve everything** — intent, requirements, constraints, and the user's
    **language** (never translate a Chinese prompt into English, etc.). Change only *how*
    the ask is expressed, never *what* is asked.
-3. Add only what the strategy needs. **If the request is already clear and well-structured,
+4. Add only what the strategy needs. **If the request is already clear and well-structured,
    skip refinement and answer it directly** — don't over-engineer.
-4. If verbose: print a short `Original → Refined` diff, then answer.
-5. Answer the refined request.
+5. If verbose: print a short `Original → Refined` diff, then answer.
+6. Answer the refined request.
 
 ## Important rules
 
@@ -85,6 +88,8 @@ For every request while active:
   files in your answer. Just deliver the better response.
 - **Match yourself, not the topic.** The strategy is chosen by *which model you are*, not
   by the subject. Never borrow another vendor's special tokens or chat-template markers.
+- **Use context gently.** Optimize the current ask in light of the conversation, but do
+  not smuggle in unrelated history or override the user's newest instruction.
 - **Preserve intent and language.** Restructure; don't rewrite the ask or its language.
 - **Be minimal.** Don't over-engineer simple questions.
 - **Graceful fallback.** Unknown host model → `strategies/universal.md`.

@@ -47,6 +47,8 @@
 
 因此它可以用于支持 Agent Skills 的工具：Claude Code、Cursor、OpenAI Codex、Gemini CLI、GitHub Copilot、Windsurf、CodeBuddy 以及其他兼容 Agent。
 
+它也会温和利用上下文：后续请求可以继承对话中相关的目标、约束、术语和偏好，但仍以用户最新指令为准。
+
 它刻意保持轻量：无运行时依赖、无应用服务、不会额外调用一个“优化器模型”，上下文里只需要短小的 skill 文件和一个被选中的策略文件。目标是在不大量增加 token 成本的前提下，让请求结构更适合当前模型。
 
 ## 功能演示
