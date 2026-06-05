@@ -1,0 +1,20 @@
+# Internal design/planning docs - not part of the published skill
+internal/
+docs/superpowers/
+
+# Local tool settings (user-specific)
+.claude/settings.local.json
+
+# Hook toggle flag (local runtime state)
+hooks/.refine-active
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Logs / temp
+*.log
+*.tmp

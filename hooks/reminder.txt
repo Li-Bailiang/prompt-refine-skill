@@ -1,0 +1,1 @@
+[Prompt Refine — active] Before answering, silently restructure the user's request using the strategy for YOUR host model (you are Claude → use strategies/anthropic.md). Preserve the user's intent, requirements, and original language; change only how the request is expressed. Do not show the rewrite unless verbose mode is on — just answer the refined request.
