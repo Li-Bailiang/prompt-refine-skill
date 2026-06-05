@@ -15,8 +15,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Li-Bailiang/prompt-refine/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine?style=for-the-badge">
+  <a href="https://github.com/Li-Bailiang/prompt-refine-skill/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine-skill?style=for-the-badge">
   </a>
   <a href="LICENSE">
     <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge">
@@ -25,6 +25,7 @@
     <img alt="Agent Skill" src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-blue?style=for-the-badge">
   </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
+  <img alt="Low token overhead" src="https://img.shields.io/badge/token%20overhead-low-brightgreen?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -46,48 +47,67 @@ The core design is simple but important: **route by host model, not by task**. I
 
 That makes the skill useful anywhere Agent Skills are supported: Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Windsurf, CodeBuddy, and other compatible tools.
 
+It is intentionally lightweight: no runtime dependencies, no app server, no extra optimizer call, and only a short skill file plus one selected strategy file in context. The goal is better structure without spending a pile of extra tokens.
+
 ## Feature Demonstration
 
 Assume the active model is **Claude**, so Prompt Refine uses the Anthropic strategy internally.
 
-### Before
+### 1. Vague Request: Add The Missing Shape
 
 ```text
-帮我分析一下这个市场的竞争格局
+Help me analyze this market.
 ```
 
-### Internal Rewrite
+Internal rewrite:
 
 ```xml
-<role>你是一位资深市场分析师，擅长竞争情报。</role>
+<role>You are a senior market analyst specializing in competitive intelligence.</role>
 <task>
-分析该市场的竞争格局，覆盖：
-1. 主要玩家及其市场地位
-2. 竞争动态与趋势
-3. 进入壁垒与转换成本
-4. 战略建议
+Analyze the market and make the missing scope explicit:
+1. Define the assumed market and audience.
+2. Identify major players and their positions.
+3. Compare competitive dynamics, barriers, and switching costs.
+4. State assumptions and ask for the one or two details needed to refine the answer.
 </task>
-<format>以结构化报告呈现，分节清晰，尽量给出具体数据。</format>
+<format>Use a concise structured report with assumptions, analysis, and next questions.</format>
+```
+
+### 2. Clear Request: Preserve The Constraints
+
+```text
+Write a 5-item npm release checklist. Keep each item under 8 words.
+```
+
+Internal rewrite:
+
+```xml
+<task>Write exactly five npm release checklist items.</task>
+<constraints>
+- Each item must be under 8 words.
+- Cover package.json, README, LICENSE, version, and dry-run publishing.
+- Do not add extra explanation.
+</constraints>
 ```
 
 ### What The User Sees
 
-Only the final answer. The rewrite stays silent unless `/refine verbose` is enabled, and the original Chinese stays Chinese.
+Only the final answer. The rewrite stays silent unless `/refine verbose` is enabled. For clear prompts, Prompt Refine should stay minimal and protect the user's exact constraints.
 
-If the same request is answered by GPT, Prompt Refine uses the OpenAI strategy instead of XML. The strategy always follows the **host model**, not the topic.
+If the same requests are answered by GPT, Prompt Refine uses the OpenAI strategy instead of XML. The strategy always follows the **host model**, not the topic.
 
 ## Quick Start
 
 Install this repository into your tool's project-level skills directory. For Claude Code:
 
 ```bash
-git clone https://github.com/Li-Bailiang/prompt-refine.git .claude/skills/prompt-refine
+git clone https://github.com/Li-Bailiang/prompt-refine-skill.git .claude/skills/prompt-refine
 ```
 
 To avoid copying the `.git` folder, use a release archive or:
 
 ```bash
-npx degit Li-Bailiang/prompt-refine .claude/skills/prompt-refine
+npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 ```
 
 Activate it in a conversation:
@@ -144,6 +164,7 @@ Most tools also accept the shared `.agents/skills/` convention. User-level paths
 | Output | Silent final answer | Shows optimized prompt |
 | Activation | Conversation-scoped and toggleable | Usually one-off |
 | Language | Preserves original language and intent | Depends on implementation |
+| Token cost | Low: short skill + one strategy | Often another full prompt pass |
 | Dependencies | None | Often app-specific |
 
 ## Compatible Platforms
@@ -161,7 +182,7 @@ Issues and pull requests are welcome. For new or improved model strategies, read
 ## Star History
 
 <p align="center">
-  <a href="https://star-history.com/#Li-Bailiang/prompt-refine&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine&type=Date">
+  <a href="https://star-history.com/#Li-Bailiang/prompt-refine-skill&Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date">
   </a>
 </p>

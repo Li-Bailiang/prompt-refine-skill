@@ -15,8 +15,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Li-Bailiang/prompt-refine/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine?style=for-the-badge">
+  <a href="https://github.com/Li-Bailiang/prompt-refine-skill/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine-skill?style=for-the-badge">
   </a>
   <a href="LICENSE">
     <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge">
@@ -25,6 +25,7 @@
     <img alt="Agent Skill" src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-blue?style=for-the-badge">
   </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
+  <img alt="Low token overhead" src="https://img.shields.io/badge/token%20overhead-low-brightgreen?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -46,17 +47,19 @@
 
 因此它可以用于支持 Agent Skills 的工具：Claude Code、Cursor、OpenAI Codex、Gemini CLI、GitHub Copilot、Windsurf、CodeBuddy 以及其他兼容 Agent。
 
+它刻意保持轻量：无运行时依赖、无应用服务、不会额外调用一个“优化器模型”，上下文里只需要短小的 skill 文件和一个被选中的策略文件。目标是在不大量增加 token 成本的前提下，让请求结构更适合当前模型。
+
 ## 功能演示
 
 假设当前宿主模型是 **Claude**，Prompt Refine 会在内部使用 Anthropic 策略。
 
-### 优化前
+### 1. 模糊需求：补出必要结构
 
 ```text
 帮我分析一下这个市场的竞争格局
 ```
 
-### 内部重构
+内部重构：
 
 ```xml
 <role>你是一位资深市场分析师，擅长竞争情报。</role>
@@ -70,24 +73,41 @@
 <format>以结构化报告呈现，分节清晰，尽量给出具体数据。</format>
 ```
 
+### 2. 清晰需求：保留硬约束
+
+```text
+请写一个 5 点 npm 发布检查清单，每点不超过 8 个字。
+```
+
+内部重构：
+
+```xml
+<task>写出恰好 5 点 npm 发布检查清单。</task>
+<constraints>
+- 每点不超过 8 个字。
+- 覆盖 package.json、README、LICENSE、版本号和 dry-run 发布。
+- 不添加额外解释。
+</constraints>
+```
+
 ### 用户看到什么
 
-用户只看到最终答案。除非启用 `/refine verbose`，否则中间重构不会显示，并且中文请求仍然用中文回答。
+用户只看到最终答案。除非启用 `/refine verbose`，否则中间重构不会显示。对于已经很清楚的请求，Prompt Refine 应尽量轻量处理，重点保护用户的硬约束。
 
-如果同一句话由 GPT 回答，Prompt Refine 会改用 OpenAI 策略，而不是 XML。策略始终跟随**宿主模型**，不是跟随任务话题。
+如果同样的请求由 GPT 回答，Prompt Refine 会改用 OpenAI 策略，而不是 XML。策略始终跟随**宿主模型**，不是跟随任务话题。
 
 ## 快速开始
 
 把本仓库安装到工具的项目级 skills 目录。以 Claude Code 为例：
 
 ```bash
-git clone https://github.com/Li-Bailiang/prompt-refine.git .claude/skills/prompt-refine
+git clone https://github.com/Li-Bailiang/prompt-refine-skill.git .claude/skills/prompt-refine
 ```
 
 如果不想带入 `.git` 目录，可以使用 Release 包，或：
 
 ```bash
-npx degit Li-Bailiang/prompt-refine .claude/skills/prompt-refine
+npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 ```
 
 在对话中激活：
@@ -144,6 +164,7 @@ npx degit Li-Bailiang/prompt-refine .claude/skills/prompt-refine
 | 输出 | 静默给出最终答案 | 展示优化后的 prompt |
 | 激活 | 会话级、可关闭 | 通常单次调用 |
 | 语言 | 保留原语言和意图 | 取决于实现 |
+| Token 成本 | 低：短 skill + 单策略文件 | 往往需要额外完整优化轮次 |
 | 依赖 | 无依赖 | 往往依赖具体应用 |
 
 ## 兼容平台
@@ -161,7 +182,7 @@ MIT License。可自由使用、修改和分发。
 ## Star History
 
 <p align="center">
-  <a href="https://star-history.com/#Li-Bailiang/prompt-refine&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine&type=Date">
+  <a href="https://star-history.com/#Li-Bailiang/prompt-refine-skill&Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date">
   </a>
 </p>
