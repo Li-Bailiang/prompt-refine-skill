@@ -64,34 +64,53 @@ Anthropic Claude shape:
 
 ```xml
 <role>You are a senior market analyst specializing in competitive intelligence.</role>
+<context>
+The user has not named the market, geography, customer segment, or timeframe.
+Preserve uncertainty; make practical assumptions explicit instead of inventing facts.
+</context>
 <task>
-Analyze the market and make the missing scope explicit:
-1. Define the assumed market and audience.
-2. Identify major players and their positions.
-3. Compare competitive dynamics, barriers, and switching costs.
-4. State assumptions and ask for the one or two details needed to refine the answer.
+Analyze the competitive landscape for the most likely intended market.
 </task>
-<format>Use a concise structured report with assumptions, analysis, and next questions.</format>
+<constraints>
+- Start by naming assumptions about market, audience, geography, and timeframe.
+- Separate confident analysis from unknowns.
+- Do not claim current market data unless it was provided or can be verified.
+- Ask only the one or two follow-up questions that would most improve the analysis.
+</constraints>
+<format>
+Use these sections: Assumptions, Competitive Map, Barriers And Switching Costs,
+Strategic Implications, Unknowns, Next Questions.
+</format>
+<success_criteria>
+The answer should be useful before the user clarifies the market, while making clear
+which parts depend on assumptions.
+</success_criteria>
 ```
 
 OpenAI GPT shape:
 
 ```text
-Goal: Analyze the market despite missing scope.
+Goal: Turn an underspecified market-analysis request into a useful first-pass competitive landscape.
 
-User request: "Help me analyze this market."
+User request:
+"""Help me analyze this market."""
+
+Relevant context:
+- Market, geography, audience, and timeframe are missing.
+- Preserve uncertainty and make assumptions explicit.
 
 Instructions:
-- State the assumed market and audience.
-- Identify major players and competitive dynamics.
-- Flag uncertainty instead of inventing facts.
-- Ask the few follow-up questions needed to refine the analysis.
+1. State the assumed market scope first.
+2. Identify likely player categories and competitive dynamics.
+3. Compare barriers, switching costs, and strategic implications.
+4. Flag unknowns instead of inventing facts.
 
-Output format:
-- Assumptions
-- Competitive landscape
-- Risks and unknowns
-- Next questions
+Hard constraints:
+- Do not claim current market data unless it was provided or can be verified.
+- Ask only 1-2 follow-up questions.
+
+Output format: Markdown headings for Assumptions, Competitive Map, Barriers,
+Strategic Implications, Unknowns, and Next Questions.
 ```
 
 ### 2. Clear Request: Preserve The Constraints
@@ -105,12 +124,19 @@ Write a 5-item npm release checklist. Keep each item under 8 words.
 Anthropic Claude shape:
 
 ```xml
+<context>
+The user gave a tightly constrained formatting request. Do not expand the task.
+</context>
 <task>Write exactly five npm release checklist items.</task>
 <constraints>
 - Each item must be under 8 words.
 - Cover package.json, README, LICENSE, version, and dry-run publishing.
-- Do not add extra explanation.
+- Return checklist items only; no intro or explanation.
 </constraints>
+<format>Use a numbered list with one short imperative phrase per item.</format>
+<success_criteria>
+Exactly 5 items, each under 8 words, with all requested topics covered.
+</success_criteria>
 ```
 
 OpenAI GPT shape:
@@ -118,12 +144,19 @@ OpenAI GPT shape:
 ```text
 Task: Write exactly five npm release checklist items.
 
+Context: The user already provided clear hard constraints, so preserve them and do not add scope.
+
 Hard constraints:
 - Under 8 words per item.
 - Cover package.json, README, LICENSE, version, and dry-run publishing.
 - Return only the checklist.
 
-Output format: numbered list.
+Output contract:
+- Numbered list.
+- Exactly 5 lines.
+- No intro or outro.
+
+Quality check before answering: each item is under 8 words and covers one requested release topic.
 ```
 
 ### What The User Sees
