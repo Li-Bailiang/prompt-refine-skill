@@ -15,9 +15,6 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Li-Bailiang/prompt-refine-skill/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine-skill?style=for-the-badge">
-  </a>
   <a href="LICENSE">
     <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge">
   </a>
@@ -25,7 +22,7 @@
     <img alt="Agent Skill" src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-blue?style=for-the-badge">
   </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
-  <img alt="Low token overhead" src="https://img.shields.io/badge/token%20overhead-low-brightgreen?style=for-the-badge">
+  <img alt="No optimizer call" src="https://img.shields.io/badge/optimizer%20call-none-brightgreen?style=for-the-badge">
 </p>
 
 <p align="center">
