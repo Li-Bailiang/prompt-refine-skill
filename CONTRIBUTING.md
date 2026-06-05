@@ -52,18 +52,19 @@ Each `strategies/*.md` follows the same shape — keep it consistent and **short
 
 1. Create `strategies/<vendor>.md` following the shape above.
 2. Add one row to the **Host model → strategy** table in `SKILL.md`.
-3. Add a row to the strategy table in `README.md` **and** `README.en.md`.
+3. Add a row to the strategy table in `README.md`, `README.en.md`, and `README.zh.md`.
 4. Add a before/after pair under `examples/` if the model has a distinctive format.
 
-## Keep the two READMEs in sync
+## Keep READMEs in sync
 
-`README.md` (中文) and `README.en.md` (English) must stay equivalent. Any change to one
-needs the matching change to the other.
+`README.md` is the default English README. `README.en.md` is kept as an English
+compatibility entrypoint, and `README.zh.md` is the Chinese version. Any content change
+to one language needs the matching change in the other language.
 
 ## Submitting
 
 1. Fork, branch, make your change.
-2. Confirm `SKILL.md`, the strategy table in both READMEs, and the strategy files all
+2. Confirm `SKILL.md`, the strategy table in the READMEs, and the strategy files all
    agree.
 3. Open a PR describing **which model** your change targets and **what is distinctive**
    about the strategy.

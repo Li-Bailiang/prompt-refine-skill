@@ -1,89 +1,63 @@
-<div align="right"><a href="README.en.md">English</a> | <b>中文</b></div>
+<p align="center">
+  <a href="README.md"><b>English</b></a> |
+  <a href="README.zh.md">中文</a>
+</p>
 
-# 🎯 Prompt Refine
+<h1 align="center">Prompt Refine</h1>
 
-> 让模型按**它自己**的偏好重写你的话 —— 你只管说，重构交给模型。
+<p align="center">
+  <b>A model-aware Agent Skill that silently refines your prompt for the model currently answering.</b>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Standard](https://img.shields.io/badge/Agent%20Skills-SKILL.md-blue)](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
+<p align="center">
+  You just ask. The active model reshapes the request for itself, preserves your language,
+  and answers without showing the rewrite.
+</p>
 
-## 这是什么？
+<p align="center">
+  <a href="https://github.com/Li-Bailiang/prompt-refine/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine?style=for-the-badge">
+  </a>
+  <a href="LICENSE">
+    <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge">
+  </a>
+  <a href="SKILL.md">
+    <img alt="Agent Skill" src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-blue?style=for-the-badge">
+  </a>
+  <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
+</p>
 
-**Prompt Refine** 是一个轻量的 Agent Skill。激活后，它会先识别**当前正在运行的是哪个模型**，然后**始终用那个模型的官方提示词最佳实践**，在你提问后于内部把请求重组成它最擅长的结构，再作答。你不需要学提示词工程，也看不到中间过程——只感觉到"回答变好了"。
+<p align="center">
+  <a href="#project-introduction">Project Introduction</a> |
+  <a href="#quick-start">Quick Start</a> |
+  <a href="#feature-demonstration">Feature Demonstration</a> |
+  <a href="#built-in-strategies">Strategies</a> |
+  <a href="#compatible-platforms">Platforms</a> |
+  <a href="examples/README.md">Examples</a>
+</p>
 
-### 核心理念
+---
 
-不同模型偏好不同的提示词结构：Claude 吃 XML 标签，GPT 的推理模型反而要你**别**画蛇添足，Qwen 要你**保留中文**别硬翻译……
+## Project Introduction
 
-所以 Prompt Refine 不按话题在厂商间乱跳，而是**认准你正在用的那个模型**，套用它自家的官方策略。内置 11 家厂商策略，是为了让它**无论跑在哪个模型 / 平台上都最优**——一个 Skill，处处适配。
+**Prompt Refine** is a lightweight, cross-platform Agent Skill. After activation, it detects **which model is currently running the conversation** and applies that model family's prompting strategy before answering.
 
-## 快速开始
+The core design is simple but important: **route by host model, not by task**. If Claude is answering, Prompt Refine uses the Anthropic strategy for the whole conversation. If GPT is answering, it uses the OpenAI strategy. A coding task never switches Claude into GPT-style prompting, and a writing task never switches GPT into Claude-style XML.
 
-### 安装
+That makes the skill useful anywhere Agent Skills are supported: Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Windsurf, CodeBuddy, and other compatible tools.
 
-把本仓库放进你工具的项目级 skills 目录。以 Claude Code 为例：
+## Feature Demonstration
 
-```bash
-git clone https://github.com/Li-Bailiang/prompt-refine.git .claude/skills/prompt-refine
-```
+Assume the active model is **Claude**, so Prompt Refine uses the Anthropic strategy internally.
 
-各工具的项目级 skills 目录（已于 2026-06 对照官方文档核实）：
-
-| 工具 | 安装目录 |
-|------|---------|
-| Claude Code | `.claude/skills/prompt-refine` |
-| Cursor | `.cursor/skills/prompt-refine`（或 `.agents/skills/`） |
-| OpenAI Codex | `.agents/skills/prompt-refine` |
-| Gemini CLI | `.gemini/skills/prompt-refine`（或 `.agents/skills/`） |
-| GitHub Copilot (VS Code) | `.github/skills/prompt-refine`（或 `.agents/skills/`） |
-| Windsurf | `.windsurf/skills/prompt-refine` |
-| CodeBuddy | `.codebuddy/skills/prompt-refine` |
-
-> 多数工具同时支持通用别名 **`.agents/skills/`**，放一处即可多工具共用。全局/用户级路径各异（如 `~/.gemini/skills/`、`~/.copilot/skills/`），见各平台文档。
->
-> 提示：若不想带入 `.git`，可改用 `npx degit Li-Bailiang/prompt-refine <目录>` 或下载 Release 包。
-
-### 使用
+### Before
 
 ```text
-/prompt-refine        # 激活（多数工具：输入 / 选 prompt-refine）
+帮我分析一下这个市场的竞争格局
 ```
 
-激活后，用文本指令控制（由已激活的 skill 解释）：
+### Internal Rewrite
 
-```text
-/refine verbose       # 显示每次「重构前 → 重构后」对比
-/refine off           # 停止优化
-/prompt-refine        # 上下文被压缩后可随时重新激活
-```
-
-> ⚠️ **关于"会话级"**：这是**对话级 best-effort**——只要激活指令还在上下文里就持续生效，并非持久化的运行时开关。若长对话被压缩导致失效，重新 `/prompt-refine` 即可。需要**硬强制**的 Claude Code 用户可启用 [`hooks/`](hooks/) 里的可选 hook。
-
-## 内置策略（按宿主模型自动选用）
-
-| 宿主模型 | 模型系列 | 策略来源 |
-|------|---------|---------|
-| OpenAI | GPT-4o / 4.1 / o-series | [Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering) |
-| Anthropic | Claude 4.x (Opus/Sonnet) | [Best Practices](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) |
-| Google | Gemini 2.5 / 3 | [Prompt Design Strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies) |
-| Meta | Llama 3 / 4 | [Prompting Guide](https://www.llama.com/docs/how-to-guides/prompting/) |
-| DeepSeek | V3 / R1 | [Prompt Library](https://api-docs.deepseek.com/prompt-library/) |
-| Mistral | Large / Codestral | [Best Practices](https://docs.mistral.ai/models/best-practices/prompt-engineering) |
-| Alibaba | Qwen 3 / 3.6 | [百炼提示工程指南](https://help.aliyun.com/zh/model-studio/prompt-engineering-guide) |
-| xAI | Grok 3 / 4 | [grok-prompts](https://github.com/xai-org/grok-prompts) |
-| Cohere | Command R / R+ | [官方文档](https://docs.cohere.com/) |
-| Amazon | Nova | [Nova Prompt Guide](https://docs.aws.amazon.com/nova/latest/nova2-userguide/prompt-engineering-guide.html) |
-| Microsoft | Phi-3 / 4 | [Phi Cookbook](https://github.com/microsoft/PhiCookBook) |
-| 其他/未知 | — | `strategies/universal.md`（通用兜底） |
-
-## 效果对比
-
-假设你正在 **Claude** 上运行（自动选用 Anthropic 策略）：
-
-### 优化前（你的原话）
-> 帮我分析一下这个市场的竞争格局
-
-### 优化后（内部重组，**保留中文**）
 ```xml
 <role>你是一位资深市场分析师，擅长竞争情报。</role>
 <task>
@@ -96,32 +70,98 @@ git clone https://github.com/Li-Bailiang/prompt-refine.git .claude/skills/prompt
 <format>以结构化报告呈现，分节清晰，尽量给出具体数据。</format>
 ```
 
-> 💡 你只打了一句话，模型补全了角色、分析维度、输出格式——**且保留了你的中文**，全程对你透明。
-> 若同样这句话跑在 **GPT** 上，它会改用 OpenAI 偏好的分隔符 + 输出格式规范，而不是 XML。
+### What The User Sees
 
-## 为什么选择 Prompt Refine？
+Only the final answer. The rewrite stays silent unless `/refine verbose` is enabled, and the original Chinese stays Chinese.
 
-| | Prompt Refine | 独立优化工具 |
+If the same request is answered by GPT, Prompt Refine uses the OpenAI strategy instead of XML. The strategy always follows the **host model**, not the topic.
+
+## Quick Start
+
+Install this repository into your tool's project-level skills directory. For Claude Code:
+
+```bash
+git clone https://github.com/Li-Bailiang/prompt-refine.git .claude/skills/prompt-refine
+```
+
+To avoid copying the `.git` folder, use a release archive or:
+
+```bash
+npx degit Li-Bailiang/prompt-refine .claude/skills/prompt-refine
+```
+
+Activate it in a conversation:
+
+```text
+/prompt-refine
+```
+
+Available in-session controls:
+
+```text
+/refine verbose    # Show a compact original -> refined diff before each answer
+/refine off        # Stop refining for the rest of the conversation
+/prompt-refine     # Re-activate after context compaction or a new session
+```
+
+## Install Paths
+
+| Tool | Project-level skill path |
+|---|---|
+| Claude Code | `.claude/skills/prompt-refine` |
+| Cursor | `.cursor/skills/prompt-refine` or `.agents/skills/prompt-refine` |
+| OpenAI Codex | `.agents/skills/prompt-refine` |
+| Gemini CLI | `.gemini/skills/prompt-refine` or `.agents/skills/prompt-refine` |
+| GitHub Copilot (VS Code) | `.github/skills/prompt-refine` or `.agents/skills/prompt-refine` |
+| Windsurf | `.windsurf/skills/prompt-refine` |
+| CodeBuddy | `.codebuddy/skills/prompt-refine` |
+
+Most tools also accept the shared `.agents/skills/` convention. User-level paths differ by platform, so use each tool's official docs when installing globally.
+
+## Built-in Strategies
+
+| Host model | Strategy file | Source family |
+|---|---|---|
+| OpenAI GPT / o-series | `strategies/openai.md` | OpenAI prompting guidance |
+| Anthropic Claude | `strategies/anthropic.md` | Anthropic prompt engineering |
+| Google Gemini | `strategies/google-gemini.md` | Gemini prompt design |
+| Meta Llama | `strategies/meta-llama.md` | Llama prompting guidance |
+| DeepSeek V3 / R1 | `strategies/deepseek.md` | DeepSeek prompt library |
+| Mistral / Codestral | `strategies/mistral.md` | Mistral best practices |
+| Qwen | `strategies/qwen.md` | Alibaba Model Studio guidance |
+| xAI Grok | `strategies/xai-grok.md` | xAI Grok prompting references |
+| Cohere Command | `strategies/cohere.md` | Cohere docs |
+| Amazon Nova | `strategies/amazon-nova.md` | Nova prompt guide |
+| Microsoft Phi | `strategies/microsoft-phi.md` | Phi Cookbook |
+| Unknown host | `strategies/universal.md` | Conservative fallback |
+
+## Why Prompt Refine?
+
+| | Prompt Refine | Standalone prompt optimizers |
 |---|:---:|:---:|
-| **形式** | Agent Skill（轻量） | Web/桌面应用（重） |
-| **模型适配** | **认准当前模型，套用其官方策略** | 通用策略 / 手动选模型 |
-| **输出** | 静默内化，不阻断任务 | 显式输出优化后 prompt |
-| **激活** | 对话级持续（可关闭） | 单次调用 |
-| **语言** | 保留原语言与意图 | 视实现而定 |
-| **Token** | 轻量（元指令 + 单策略文件） | 中–高 |
+| Form | Agent Skill | Web or desktop app |
+| Model fit | Uses the currently running model's strategy | Generic or manually selected |
+| Output | Silent final answer | Shows optimized prompt |
+| Activation | Conversation-scoped and toggleable | Usually one-off |
+| Language | Preserves original language and intent | Depends on implementation |
+| Dependencies | None | Often app-specific |
 
-## 兼容平台
+## Compatible Platforms
 
-基于 SKILL.md 开放标准，可用于 Claude Code、Cursor、OpenAI Codex、Gemini CLI、GitHub Copilot、Windsurf、Cline 等支持 Agent Skills 的工具。**各平台 skills 目录路径以其官方文档为准。**
+Prompt Refine follows the `SKILL.md` Agent Skill convention and is designed for tools that can load project-level skills, including Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Windsurf, CodeBuddy, and compatible agents.
 
-## 许可证
+## License
 
-MIT License — 自由使用、修改和分发。
+MIT License. Free to use, modify, and distribute.
 
-## 贡献
+## Contributing
 
-欢迎 Issue 与 PR！新增厂商策略或改进现有策略，请先读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+Issues and pull requests are welcome. For new or improved model strategies, read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine&type=Date)](https://star-history.com/#Li-Bailiang/prompt-refine&Date)
+<p align="center">
+  <a href="https://star-history.com/#Li-Bailiang/prompt-refine&Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine&type=Date">
+  </a>
+</p>
