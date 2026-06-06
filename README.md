@@ -212,11 +212,11 @@ Most tools also accept the shared `.agents/skills/` convention. User-level paths
 
 | Host model | Strategy file | Source family |
 |---|---|---|
-| OpenAI GPT / o-series | `strategies/openai.md` | OpenAI prompting guidance |
+| OpenAI GPT (GPT-5 family) | `strategies/openai.md` | OpenAI prompting guidance |
 | Anthropic Claude | `strategies/anthropic.md` | Anthropic prompt engineering |
 | Google Gemini | `strategies/google-gemini.md` | Gemini prompt design |
 | Meta Llama | `strategies/meta-llama.md` | Llama prompting guidance |
-| DeepSeek V3 / R1 | `strategies/deepseek.md` | DeepSeek prompt library |
+| DeepSeek V4 (+ R1) | `strategies/deepseek.md` | DeepSeek prompt library |
 | Mistral / Codestral | `strategies/mistral.md` | Mistral best practices |
 | Qwen | `strategies/qwen.md` | Alibaba Model Studio guidance |
 | xAI Grok | `strategies/xai-grok.md` | xAI Grok prompting references |

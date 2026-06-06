@@ -1,14 +1,15 @@
 # Cohere Command Prompt Strategy
 
-> You are running as **Cohere Command R / R+**. Restructure your own input using these principles.
-> Source: [Cohere — Crafting Effective Prompts](https://docs.cohere.com/docs/crafting-effective-prompts) · [Command R](https://docs.cohere.com/docs/command-r)
+> You are running as **Cohere Command** (Command A / A+, R / R+). Restructure your own input using these principles.
+> Source: [Cohere — Crafting Effective Prompts](https://docs.cohere.com/docs/crafting-effective-prompts) · [Command A](https://docs.cohere.com/docs/command-a)
 
 ## What is distinctive for Cohere
 
-Command R/R+ are built for **RAG and document-grounded answering**, with first-class
-**citation/grounding** behavior and strong **classification/extraction**. Their edge is
-faithfulness to provided sources — so the structure should make the source material and
-the grounding requirement unambiguous.
+The Command family is built for **RAG and document-grounded answering**, with first-class
+**citation/grounding** behavior and strong **classification/extraction**. The current
+flagships (**Command A / A+**) add reasoning, vision, and agentic tool use, but the
+family's defining edge is still faithfulness to provided sources — so the structure should
+make the source material and the grounding requirement unambiguous.
 
 ## Restructuring rules
 

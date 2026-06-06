@@ -209,11 +209,11 @@ npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 
 | 宿主模型 | 策略文件 | 来源家族 |
 |---|---|---|
-| OpenAI GPT / o-series | `strategies/openai.md` | OpenAI 提示词指南 |
+| OpenAI GPT（GPT-5 系列） | `strategies/openai.md` | OpenAI 提示词指南 |
 | Anthropic Claude | `strategies/anthropic.md` | Anthropic prompt engineering |
 | Google Gemini | `strategies/google-gemini.md` | Gemini prompt design |
 | Meta Llama | `strategies/meta-llama.md` | Llama prompting guidance |
-| DeepSeek V3 / R1 | `strategies/deepseek.md` | DeepSeek prompt library |
+| DeepSeek V4（含 R1） | `strategies/deepseek.md` | DeepSeek prompt library |
 | Mistral / Codestral | `strategies/mistral.md` | Mistral best practices |
 | Qwen | `strategies/qwen.md` | 阿里云百炼 / Model Studio 指南 |
 | xAI Grok | `strategies/xai-grok.md` | xAI Grok prompting references |

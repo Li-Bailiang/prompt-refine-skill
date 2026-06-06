@@ -8,7 +8,7 @@
 Llama rewards a **clear system role** and **direct, concise instructions**, and it
 handles structured output (JSON / Markdown / code) reliably.
 
-> **Note on chat tokens.** Llama's `[INST]…[/INST]`, `<<SYS>>`, and Llama-3 header
+> **Note on chat tokens.** Llama's `[INST]…[/INST]`, `<<SYS>>`, and Llama 3/4 header
 > tokens are inserted by the **chat template / tokenizer**, not typed into the message
 > body. This skill optimizes the *user-message text*, so **never write those markers as
 > literal text** — they only confuse the model when they appear in content.

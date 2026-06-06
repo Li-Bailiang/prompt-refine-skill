@@ -1,7 +1,7 @@
 # Anthropic Claude Prompt Strategy
 
 > You are running as **Claude**. Restructure your own input using these principles.
-> Source: [Anthropic Prompt Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) + [Interactive Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
+> Source: [Claude Prompt Engineering Overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) + [Interactive Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
 
 ## What is distinctive for Claude
 
