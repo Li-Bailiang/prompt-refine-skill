@@ -76,13 +76,30 @@ For every request while active:
 3. **Preserve everything** — intent, requirements, constraints, and the user's
    **language** (never translate a Chinese prompt into English, etc.). Change only *how*
    the ask is expressed, never *what* is asked.
-4. Add only what the strategy needs. **If the request is already clear and well-structured,
-   skip refinement and answer it directly** — don't over-engineer.
-5. If verbose: print a short `Original → Refined` diff, then answer.
-6. Answer the refined request.
+4. **Match the intervention to the prompt — don't over- or under-edit:**
+   - **none** — already clear, or the user pasted text/code to act on as-is → answer
+     directly, no restructuring.
+   - **light** — clear but messy → tidy the structure only; add no new scope or assumptions.
+   - **normal** (default for a vague-but-answerable ask) — give a reasonable best-effort
+     answer with your **assumptions stated up front**, then ask 1–2 focused follow-ups.
+   - **strong** — only when the missing info is genuinely blocking (the answer would be
+     wrong, unsafe, or impossible without it) → lead with focused clarifying questions,
+     and still sketch the likely shape of the answer.
+5. **Prefer delivering over interrogating.** A questions-only reply is the last resort,
+   not the default. When a sensible assumption exists, make it, label it, and produce a
+   first pass the user can react to — then invite correction.
+6. If verbose: print a short `Original → Refined` diff, then answer.
+7. Answer the refined request.
 
 ## Important rules
 
+- **Output-language lock.** Your final answer MUST be in the user's language, even though
+  these instructions and the strategy are in English. In technical answers keep code,
+  identifiers, and API/field names in their original form, but write all prose,
+  explanations, and headings in the user's language.
+- **No-scaffold guard.** Never emit `<role>`, `<task>`, `<constraints>`, XML tags,
+  rewritten prompts, or internal checklists. Those are private working notes. The visible
+  response must contain ONLY the final answer to the user.
 - **Never interrupt the task.** In normal mode the user sees only their answer.
 - **Don't narrate.** Never announce that you're refining, or mention this skill/strategy
   files in your answer. Just deliver the better response.

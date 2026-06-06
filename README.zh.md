@@ -30,6 +30,7 @@
   <a href="#快速开始">快速开始</a> |
   <a href="#功能演示">功能演示</a> |
   <a href="#内置策略">内置策略</a> |
+  <a href="#评测">评测</a> |
   <a href="#兼容平台">兼容平台</a> |
   <a href="examples/README.zh.md">示例</a>
 </p>
@@ -220,6 +221,42 @@ npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 | Amazon Nova | `strategies/amazon-nova.md` | Nova prompt guide |
 | Microsoft Phi | `strategies/microsoft-phi.md` | Phi Cookbook |
 | 未知宿主 | `strategies/universal.md` | 保守通用兜底 |
+
+## 评测
+
+Prompt Refine 在 **120 条模糊提示词**上做过盲测的 A/B 评测（60 条英文 + 60 条中文，覆盖 32 个领域）。同一个生成模型针对每条提示词回答两次——一次原始、一次启用 Prompt Refine，由独立的裁判模型在不知道哪边是哪边的前提下打分。每对答案还会交换位置再判一次，以抵消顺序偏差。
+
+### 关键结果
+
+| | 结果 |
+|---|---|
+| Refine 对 raw 的胜率 | **74.0%**（240 次判罚中 167 胜 / 52 负 / 21 平） |
+| 95% bootstrap 置信区间（按 prompt，n = 120） | **[66.9%, 80.6%]** |
+| 符号检验 | **p < 0.0001** |
+| 英文 / 中文 | 75.0% / 72.9% |
+| 等长子集胜率 | **64.7%**（refine 答案长度在 raw 的 ±25% 以内） |
+
+等长胜率与主指标一并公布，用于排除裁判可能存在的长度偏好。在等长子集上，本版本胜率为 **64.7%**，而上一版本的同口径仅为 **50.5%**——说明改进是真实的答案质量提升，而不仅仅是输出更长。
+
+### 各维度差值（refine − raw，1–5 分制）
+
+| 维度 | Δ |
+|---|---|
+| 可执行性 (actionability) | **+0.96** |
+| 完整性 (completeness) | **+0.81** |
+| 结构性 (structure) | **+0.49** |
+| 澄清问询 (clarification) | **+0.35** |
+| 语言保真 (language fidelity) | +0.03 |
+
+### 稳健性检查
+
+| 检查 | 结果 |
+|---|---|
+| 内部脚手架泄漏（`<role>` / `<task>` / 重写后的提示词被输出） | **0 / 120** |
+| 中文提示词上的正文语言切换（剔除代码后） | **0 / 60** |
+| JSON 解析回退 · 被跳过的样本 | 0 · 0 |
+
+模型配置：生成模型 `claude-sonnet-4-6`，裁判模型 `claude-opus-4-8`。当前评测的宿主模型策略为 Anthropic (`strategies/anthropic.md`)；其他策略文件采用相同设计，但尚未做过同等规模的评测。
 
 ## 为什么选择 Prompt Refine？
 

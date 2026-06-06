@@ -28,3 +28,16 @@ handles very long context well when the **data comes first and the question last
 - Burying a long document *after* the question
 - Forcing a heavy `<thinking>` ritual onto a one-line request
 - Vague role or missing output-shape when the format matters
+- **Leaking the scaffold**: printing `<role>`/`<task>`/`<constraints>` (or the rewritten
+  prompt) instead of the answer — the tags structure your *internal* rewrite only
+- **Drifting language**: answering a non-English prompt in English because this strategy
+  is written in English
+
+## Output discipline (hard guards)
+
+The XML tags above are for organizing the rewrite **in your head** — they are private
+working notes, not output. The visible response must contain ONLY the final answer:
+no `<role>`/`<task>`/`<constraints>` tags, no rewritten prompt, no checklist. And the
+answer MUST be in the user's language, even though this strategy is written in English —
+keep code and identifiers in their original form, but write prose, comments, and headings
+in the user's language.

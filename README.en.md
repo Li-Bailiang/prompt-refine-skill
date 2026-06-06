@@ -30,6 +30,7 @@
   <a href="#quick-start">Quick Start</a> |
   <a href="#feature-demonstration">Feature Demonstration</a> |
   <a href="#built-in-strategies">Strategies</a> |
+  <a href="#evaluation">Evaluation</a> |
   <a href="#compatible-platforms">Platforms</a> |
   <a href="examples/README.md">Examples</a>
 </p>
@@ -223,6 +224,42 @@ Most tools also accept the shared `.agents/skills/` convention. User-level paths
 | Amazon Nova | `strategies/amazon-nova.md` | Nova prompt guide |
 | Microsoft Phi | `strategies/microsoft-phi.md` | Phi Cookbook |
 | Unknown host | `strategies/universal.md` | Conservative fallback |
+
+## Evaluation
+
+Prompt Refine was evaluated in a blind, position-swapped A/B test on **120 vague prompts** (60 English, 60 Chinese, 32 domains). The same generator model answered each prompt twice — once raw, once with Prompt Refine active — and an independent judge scored the two answers without knowing which was which. Each pair was judged twice with the answers swapped to cancel order bias.
+
+### Headline results
+
+| | Result |
+|---|---|
+| Refine vs raw win-rate | **74.0%** (167 wins / 52 losses / 21 ties of 240 judgments) |
+| 95% bootstrap CI (per prompt, n = 120) | **[66.9%, 80.6%]** |
+| Sign test | **p < 0.0001** |
+| English / Chinese split | 75.0% / 72.9% |
+| Length-matched win-rate | **64.7%** (refine answer within ±25% of raw length) |
+
+The length-matched figure is reported alongside the headline to rule out a length preference in the judge. On length-matched pairs the current release wins **64.7%**, versus **50.5%** for the previous version of the skill — evidence of a genuine quality gain, not just longer answers.
+
+### Per-dimension delta (refine − raw, 1–5 scale)
+
+| Dimension | Δ |
+|---|---|
+| actionability | **+0.96** |
+| completeness | **+0.81** |
+| structure | **+0.49** |
+| clarification | **+0.35** |
+| language fidelity | +0.03 |
+
+### Robustness
+
+| Check | Result |
+|---|---|
+| scaffold leakage (`<role>` / `<task>` / rewritten prompt in output) | **0 / 120** |
+| prose-language switches on Chinese prompts (code stripped) | **0 / 60** |
+| parse fallbacks · skipped prompts | 0 · 0 |
+
+Models: generator `claude-sonnet-4-6`, judge `claude-opus-4-8`. The host-model strategy under test is Anthropic (`strategies/anthropic.md`); other strategy files ship with the same design but have not yet been evaluated at this scale.
 
 ## Why Prompt Refine?
 
