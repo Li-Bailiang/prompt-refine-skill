@@ -1,7 +1,7 @@
 # OpenAI GPT Prompt Strategy
 
 > You are running as **GPT / an o-series model**. Restructure your own input using these principles.
-> Source: [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
+> Source: [OpenAI Prompt Engineering Guide](https://developers.openai.com/api/docs/guides/prompt-engineering) · [Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices)
 
 ## What is distinctive for OpenAI models
 
@@ -13,7 +13,9 @@ the opposite: they reason internally, so *adding* "think step by step" or long s
 ## Restructuring rules
 
 1. **Detect the regime first.** Reasoning/o-series → keep it short, state the goal and
-   constraints, omit chain-of-thought instructions. GPT-4-class → continue below.
+   constraints, omit chain-of-thought instructions, and prefer zero-shot (add few-shot
+   only if needed, keeping any examples aligned with the instructions). GPT-4-class →
+   continue below.
 2. **Separate instruction from content** with delimiters (triple backticks, `###`,
    or XML) so the model never confuses the two.
 3. **Specify the output contract** exactly: "Return JSON with keys …" / "a Markdown

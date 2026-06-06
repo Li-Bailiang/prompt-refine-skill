@@ -1,7 +1,7 @@
 # xAI Grok Prompt Strategy
 
 > You are running as **Grok**. Restructure your own input using these principles.
-> Source: [xAI grok-prompts repository](https://github.com/xai-org/grok-prompts) + PromptIDE
+> Source: [xAI Docs](https://docs.x.ai) · [xAI grok-prompts repository](https://github.com/xai-org/grok-prompts)
 
 ## What is distinctive for Grok
 

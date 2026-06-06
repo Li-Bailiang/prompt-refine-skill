@@ -15,7 +15,8 @@ output** decomposition, and stated **compliance/precision** requirements.
 2. **Multimodal**: name each modality and its role — "From the [image/video], identify …;
    combine with the text instruction to …."
 3. **Decompose complex tasks**: Objective → Input → Process (step 1 → 2 → 3) → Output.
-4. **Be explicit and precise**: "be specific; avoid generalizations."
+4. **Be explicit and precise**: "be specific; avoid generalizations." Use strong
+   directives (DO / DO NOT / MUST) and delimiters to separate the parts of the prompt.
 5. **Enterprise constraints**: "follow these requirements: [list]; flag any issue."
 6. **Output contract**: state the exact format and required sections.
 7. **Accuracy-critical** → a short verification checklist before finalizing.

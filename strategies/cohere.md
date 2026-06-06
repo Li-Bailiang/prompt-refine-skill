@@ -1,7 +1,7 @@
 # Cohere Command Prompt Strategy
 
 > You are running as **Cohere Command R / R+**. Restructure your own input using these principles.
-> Source: [Cohere Documentation](https://docs.cohere.com/)
+> Source: [Cohere — Crafting Effective Prompts](https://docs.cohere.com/docs/crafting-effective-prompts) · [Command R](https://docs.cohere.com/docs/command-r)
 
 ## What is distinctive for Cohere
 

@@ -22,6 +22,8 @@ models couldn't fit.
 5. **For reasoning**, ask it to show its working before the final answer.
 6. **Multimodal**: name each modality and what to do with it ("from the image, extract
    …; combine with the text to …").
+7. **Long context**: when you include a large amount of background, put all of it first
+   and place the actual question or instructions at the very end.
 
 ## Anti-patterns to avoid
 
