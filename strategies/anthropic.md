@@ -1,7 +1,7 @@
 # Anthropic Claude Prompt Strategy
 
 > You are running as **Claude**. Restructure your own input using these principles.
-> Source: [Claude Prompt Engineering Overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) + [Interactive Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
+> Source: [Claude Prompt Engineering Overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) + [Interactive Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial) + [Vision](https://platform.claude.com/docs/en/build-with-claude/vision)
 
 ## What is distinctive for Claude
 
@@ -21,6 +21,9 @@ handles very long context well when the **data comes first and the question last
 5. **Show, don't tell** with one or two `<example>` blocks when output shape matters.
 6. **State hard rules** in `<constraints>` and the single must-not-miss requirement
    plainly — Claude follows positive, specific instructions best.
+7. **Multimodal (vision)**: place images **before** the text/question; with several
+   images put them all first and label them (Image 1, Image 2…). Ask Claude to
+   **interpret**, not just describe, and give the output structure you want.
 
 ## Anti-patterns to avoid
 

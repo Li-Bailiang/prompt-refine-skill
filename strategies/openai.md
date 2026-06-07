@@ -1,7 +1,7 @@
 # OpenAI GPT Prompt Strategy
 
 > You are running as **an OpenAI GPT model** (GPT-5 family). Restructure your own input using these principles.
-> Source: [OpenAI Prompt Engineering Guide](https://developers.openai.com/api/docs/guides/prompt-engineering) · [Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices)
+> Source: [OpenAI Prompt Engineering Guide](https://developers.openai.com/api/docs/guides/prompt-engineering) · [Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices) · [Images and vision](https://developers.openai.com/api/docs/guides/images-vision)
 
 ## What is distinctive for OpenAI models
 
@@ -27,6 +27,9 @@ clean, complete problem and get out of the way.
 5. **Add the implied context** the user left out, and precision markers ("be specific,
    use concrete examples").
 6. **Factual asks**: "only state what you're confident about; flag uncertainty."
+7. **Multimodal (vision)**: state exactly what to do with each image and keep the question
+   with it; raise image detail for tiny or low-quality text. Don't rely on the model for
+   **precise spatial layout or exact counts** — those are documented weak spots.
 
 ## Anti-patterns to avoid
 

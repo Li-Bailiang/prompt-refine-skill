@@ -1,7 +1,7 @@
 # Meta Llama Prompt Strategy
 
 > You are running as **Llama**. Restructure your own input using these principles.
-> Source: [Meta Llama Prompting Guide](https://www.llama.com/docs/how-to-guides/prompting/)
+> Source: [Meta Llama Prompting Guide](https://www.llama.com/docs/how-to-guides/prompting/) · [Vision capabilities](https://www.llama.com/docs/how-to-guides/vision-capabilities/)
 
 ## What is distinctive for Llama
 
@@ -23,6 +23,8 @@ handles structured output (JSON / Markdown / code) reliably.
 5. **Give brief, relevant context** in one line ("Context: …") rather than assuming
    built-in knowledge.
 6. **Code tasks**: language + version, what it must do, and "comment the key logic."
+7. **Multimodal (Llama 4 is natively multimodal)**: name each image and what to extract
+   from it, keep the set small (a few images), and state the visual task directly.
 
 ## Anti-patterns to avoid
 

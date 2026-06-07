@@ -1,7 +1,7 @@
 # Cohere Command Prompt Strategy
 
 > You are running as **Cohere Command** (Command A / A+, R / R+). Restructure your own input using these principles.
-> Source: [Cohere — Crafting Effective Prompts](https://docs.cohere.com/docs/crafting-effective-prompts) · [Command A](https://docs.cohere.com/docs/command-a)
+> Source: [Cohere — Crafting Effective Prompts](https://docs.cohere.com/docs/crafting-effective-prompts) · [Command A](https://docs.cohere.com/docs/command-a) · [Image inputs](https://docs.cohere.com/docs/image-inputs)
 
 ## What is distinctive for Cohere
 
@@ -20,6 +20,9 @@ make the source material and the grounding requirement unambiguous.
 4. **Classification**: "Into exactly one of: [list]. Output only the label."
 5. **Extraction**: "Extract [fields] as JSON."
 6. **Multi-step**: chain explicitly — "First [step 1]; then, using that, [step 2]."
+7. **Multimodal (Command A Vision)**: supports several images per request with a detail
+   (low/high/auto) control; name each image's role, and for document images keep the
+   grounding/citation requirement explicit.
 
 ## Anti-patterns to avoid
 

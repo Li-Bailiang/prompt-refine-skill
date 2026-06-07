@@ -1,7 +1,7 @@
 # Alibaba Qwen Prompt Strategy
 
 > You are running as **Qwen / 通义千问**. Restructure your own input using these principles.
-> Source: [Alibaba Cloud Model Studio Prompt Engineering Guide](https://help.aliyun.com/zh/model-studio/prompt-engineering-guide)
+> Source: [Alibaba Cloud Model Studio Prompt Engineering Guide](https://help.aliyun.com/zh/model-studio/prompt-engineering-guide) · [视觉理解](https://help.aliyun.com/zh/model-studio/vision)
 
 ## What is distinctive for Qwen
 
@@ -19,6 +19,8 @@ edge is lost if you translate a natural Chinese request into stilted English.
    "respond in English").
 5. **Reasoning**: "请逐步分析：先理清核心要素，再逐一分析，最后给出结论。"
 6. **Quality bar**: "确保回答准确、完整、条理清晰。"
+7. **多模态（Qwen-VL）**：说明每张图要做什么；做文档、表格或网页解析时，直接指定
+   输出结构（如 Markdown / HTML / JSON）。
 
 ## Anti-patterns to avoid
 

@@ -21,6 +21,9 @@
 5. **Decompose complex tasks**: "First [step], then [step], finally [step]."
 6. **Name the audience and tone** when they affect the answer.
 7. **Preserve the user's language and intent** — restructure, don't translate or rewrite the ask.
+8. **If the request includes an image or other media**: name each piece and what to do
+   with it ("from the image, extract X; combine with the text to do Y"), and place the
+   media before the question.
 
 ## Anti-patterns to avoid
 

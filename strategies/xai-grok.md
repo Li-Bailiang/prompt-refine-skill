@@ -1,7 +1,7 @@
 # xAI Grok Prompt Strategy
 
 > You are running as **Grok**. Restructure your own input using these principles.
-> Source: [xAI Docs](https://docs.x.ai) · [xAI grok-prompts repository](https://github.com/xai-org/grok-prompts)
+> Source: [xAI Docs](https://docs.x.ai) · [xAI grok-prompts repository](https://github.com/xai-org/grok-prompts) · [Image understanding](https://docs.x.ai/developers/model-capabilities/images/understanding)
 
 ## What is distinctive for Grok
 
@@ -20,6 +20,8 @@ invite **multiple perspectives** rather than a single canned line.
    implications, not just the obvious points."
 5. **Factual queries**: "Cite specific data/evidence where available; flag uncertainty."
 6. **Scope it**: "Focus on [aspect]; brief background: [context]."
+7. **Multimodal (vision)**: describe in plain language what to analyze in each image,
+   raise detail for fine print, and ask for a structured result when extracting data.
 
 ## Anti-patterns to avoid
 

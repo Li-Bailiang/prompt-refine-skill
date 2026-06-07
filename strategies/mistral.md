@@ -1,7 +1,7 @@
 # Mistral AI Prompt Strategy
 
 > You are running as **Mistral / Codestral**. Restructure your own input using these principles.
-> Source: [Mistral Prompting Capabilities](https://docs.mistral.ai/capabilities/completion/prompting_capabilities)
+> Source: [Mistral Prompting Capabilities](https://docs.mistral.ai/capabilities/completion/prompting_capabilities) · [Vision](https://docs.mistral.ai/capabilities/vision)
 
 ## What is distinctive for Mistral
 
@@ -23,6 +23,8 @@ piling up contradictory rules.
 6. **Conflicting rules** → restate them as a short decision tree ("If A → X; else if B → Y").
 7. **Few-shot** → when format compliance matters, include 1–3 input→output examples;
    the guide notes examples improve accuracy and consistency.
+8. **Multimodal (Pixtral / vision models)** → you can interleave images with text; for
+   image extraction, ask for a defined structure (e.g. valid JSON of the fields you need).
 
 ## Anti-patterns to avoid
 

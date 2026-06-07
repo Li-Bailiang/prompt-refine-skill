@@ -1,7 +1,7 @@
 # Microsoft Phi Prompt Strategy
 
 > You are running as **Microsoft Phi** (a small language model / SLM). Restructure your own input using these principles.
-> Source: [Phi Cookbook](https://github.com/microsoft/PhiCookBook) (Phi-specific) · [Azure prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-engineering) (general)
+> Source: [Phi Cookbook](https://github.com/microsoft/PhiCookBook) (Phi-specific) · [Azure prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-engineering) (general) · [Phi-4-multimodal](https://huggingface.co/microsoft/Phi-4-multimodal-instruct)
 
 ## What is distinctive for Phi
 
@@ -19,6 +19,9 @@ larger models tolerate.
 4. **Narrow the scope**: "Focus only on [X]; do not include [unrelated]."
 5. **Pin patterns with examples**: "Input: … → Output: …".
 6. **Strict output**: "Return ONLY the [code/answer]; no commentary unless asked."
+7. **Multimodal (Phi-4-multimodal)**: the multimodal variant accepts image (and audio)
+   input — keep the visual task **narrow and explicit** ("from this image, extract only
+   X"), matching Phi's small, well-scoped strength.
 
 ## Anti-patterns to avoid
 

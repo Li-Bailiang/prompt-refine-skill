@@ -34,6 +34,9 @@ strongly bilingual (中/英).
 5. **Bilingual**: keep the user's language; if mixed, state the desired answer language.
 6. **Role-play**: define persona traits and the target style explicitly.
 7. **Analysis**: list the angles to cover and ask for specific evidence per angle.
+8. **Multimodal**: DeepSeek's documented vision line is **DeepSeek-VL**; if a
+   vision-capable DeepSeek is the host, name what to extract from each image and keep the
+   visual ask explicit. Official image-prompting guidance is limited, so don't over-specify.
 
 ## Anti-patterns to avoid
 
