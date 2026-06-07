@@ -106,11 +106,7 @@ user's **original language is always preserved**.
 
 ---
 
-> These are illustrative. In normal (non-verbose) mode the user never sees the "after" —
-> the model answers the refined version directly. Run `/refine verbose` to see the diff
-> for your own prompts.
-
-## 6. Host model: Grok — time-bound, multi-perspective analysis
+## 7. Host model: Grok — time-bound, multi-perspective analysis
 
 **Before**
 > AI startup growth feels like a bubble. Is this real or hype?
@@ -135,3 +131,9 @@ user's **original language is always preserved**.
 > - most-likely scenario
 > - bubble-risk scenario
 > - key indicators to watch in the next 90 days
+
+---
+
+> These are illustrative. In normal (non-verbose) mode the user never sees the "after" —
+> the model answers the refined version directly. Run `/refine verbose` to see the diff
+> for your own prompts.
