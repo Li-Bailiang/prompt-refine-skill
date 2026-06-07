@@ -91,3 +91,29 @@ user's **original language is always preserved**.
 > These are illustrative. In normal (non-verbose) mode the user never sees the "after" —
 > the model answers the refined version directly. Run `/refine verbose` to see the diff
 > for your own prompts.
+
+## 6. Host model: Grok — time-bound, multi-perspective analysis
+
+**Before**
+> AI startup growth feels like a bubble. Is this real or hype?
+
+**After** (`strategies/xai-grok.md`)
+> As of 2026-06-08, evaluate whether current AI startup momentum appears speculative.
+>
+> Separate your response into: evidence, interpretation, and uncertainty.
+>
+> Use 3 perspectives:
+>
+> 1. Business traction (user growth, retention, retention quality)
+> 2. Product defensibility (moat, switching costs, unit economics signal)
+> 3. Capital efficiency (burn, runway, dilution, and financing quality)
+>
+> For each perspective:
+> - list what is clearly supported by observable facts
+> - list what is inference
+> - list what is opinion
+>
+> End with:
+> - most-likely scenario
+> - bubble-risk scenario
+> - key indicators to watch in the next 90 days
