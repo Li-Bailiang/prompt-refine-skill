@@ -1,0 +1,39 @@
+{
+  "name": "prompt-refine-skill",
+  "version": "2.2.0",
+  "description": "A model-aware Agent Skill that silently refines your prompt for the model currently answering.",
+  "keywords": [
+    "agent-skill",
+    "agent-skills",
+    "prompt-engineering",
+    "prompt-refine",
+    "ai-tools",
+    "llm",
+    "claude",
+    "gpt"
+  ],
+  "homepage": "https://github.com/Li-Bailiang/prompt-refine-skill#readme",
+  "bugs": {
+    "url": "https://github.com/Li-Bailiang/prompt-refine-skill/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Li-Bailiang/prompt-refine-skill.git"
+  },
+  "license": "MIT",
+  "author": "Li-Bailiang",
+  "files": [
+    "SKILL.md",
+    "strategies/",
+    "examples/",
+    "hooks/",
+    "README.md",
+    "README.en.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE"
+  ]
+}
