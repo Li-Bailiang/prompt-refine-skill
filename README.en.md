@@ -289,6 +289,6 @@ Issues and pull requests are welcome. For new or improved model strategies, read
 
 <p align="center">
   <a href="https://star-history.com/#Li-Bailiang/prompt-refine-skill&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date&size=desktop">
   </a>
 </p>

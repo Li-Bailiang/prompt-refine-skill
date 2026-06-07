@@ -286,6 +286,6 @@ MIT License。可自由使用、修改和分发。
 
 <p align="center">
   <a href="https://star-history.com/#Li-Bailiang/prompt-refine-skill&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Li-Bailiang/prompt-refine-skill&type=Date&size=desktop">
   </a>
 </p>
