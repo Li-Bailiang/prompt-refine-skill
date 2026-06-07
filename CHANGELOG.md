@@ -3,6 +3,35 @@
 All notable changes to Prompt Refine are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.2.0] — 2026-06-08
+
+Accuracy and repository-health release. The strategy **design** and routing are unchanged;
+this release refreshes strategy *content* against each vendor's current official guidance,
+adds a multimodal (vision) framing rule where the host model supports images, and adds
+standard project governance files.
+
+> The **Evaluation** numbers in the README describe the 2.1.0 behavior and were **not**
+> re-run for this release. The changes here are documentation/accuracy and governance —
+> not a behavioral redesign.
+
+### Changed
+- **Vendor strategies aligned with official guidance.** Corrected source links and claims
+  across `strategies/*.md` to match each vendor's current official prompt-engineering docs
+  (e.g. OpenAI `developers.openai.com`, Anthropic `platform.claude.com`); removed claims a
+  current official guide no longer supports.
+- **Refreshed for current model lines.** OpenAI reframed around the **GPT-5 family**;
+  DeepSeek updated to the **V4** main line (V4-Pro / V4-Flash, dual Thinking / Non-Thinking
+  modes, 1M context) with **R1** kept explicitly as a legacy, R1-scoped case; Cohere
+  updated to the **Command A** family. README strategy tables updated to match.
+
+### Added
+- **Multimodal (vision) framing rule** in the strategies that lacked one — Anthropic,
+  OpenAI, Meta Llama, DeepSeek, Mistral, Cohere, xAI Grok, Qwen, Microsoft Phi — plus
+  `universal.md`. (Google Gemini and Amazon Nova already covered vision.) Each rule is
+  short and grounded in the vendor's official vision documentation.
+- **Repository governance files**: `SECURITY.md`, `CODE_OF_CONDUCT.md`, issue templates,
+  and a pull-request template. Private Vulnerability Reporting enabled on the repository.
+
 ## [2.1.0] — 2026-06-06
 
 Hardening release focused on output discipline and answer style. Routing and strategy
