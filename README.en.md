@@ -21,6 +21,9 @@
   <a href="SKILL.md">
     <img alt="Agent Skill" src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-blue?style=for-the-badge">
   </a>
+  <a href="https://www.npmjs.com/package/prompt-refine-skill">
+    <img alt="npm version" src="https://img.shields.io/npm/v/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837">
+  </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
   <img alt="No optimizer call" src="https://img.shields.io/badge/optimizer%20call-none-brightgreen?style=for-the-badge">
 </p>
@@ -179,6 +182,10 @@ To avoid copying the `.git` folder, use a release archive or:
 ```bash
 npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 ```
+
+The skill is also published on npm as
+[`prompt-refine-skill`](https://www.npmjs.com/package/prompt-refine-skill) (versioned
+releases). The commands above place the files in your tool's skills directory.
 
 Activate it in a conversation:
 
