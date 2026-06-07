@@ -24,6 +24,9 @@
   <a href="https://www.npmjs.com/package/prompt-refine-skill">
     <img alt="npm version" src="https://img.shields.io/npm/v/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837">
   </a>
+  <a href="https://www.npmjs.com/package/prompt-refine-skill">
+    <img alt="npm downloads" src="https://img.shields.io/npm/dt/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837&label=downloads">
+  </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
   <img alt="No optimizer call" src="https://img.shields.io/badge/optimizer%20call-none-brightgreen?style=for-the-badge">
 </p>
@@ -268,6 +271,21 @@ The length-matched figure is reported alongside the headline to rule out a lengt
 
 Models: generator `claude-sonnet-4-6`, judge `claude-opus-4-8`. The host-model strategy under test is Anthropic (`strategies/anthropic.md`); other strategy files ship with the same design but have not yet been evaluated at this scale.
 
+## Limitations
+
+Prompt Refine is deliberately simple, and it is honest about what it is not:
+
+- **Best-effort, not deterministic.** It refines while the activation stays in the model's
+  context. On a long, compacted conversation it can lapse until you re-run `/prompt-refine`.
+- **Depends on the host model following meta-instructions.** Models that do not reliably
+  follow "silently restructure, then answer" will benefit less.
+- **Only the Anthropic strategy is evaluated at scale.** The other strategy files ship with
+  the same design but have not been benchmarked equivalently (see Evaluation).
+- **Strategies track fast-moving vendor docs.** They summarize official guidance and need
+  periodic updates as that guidance changes.
+- **Little benefit on already-clear prompts.** By design the intervention can be *none* —
+  it is most useful on vague or underspecified requests.
+
 ## Why Prompt Refine?
 
 | | Prompt Refine | Standalone prompt optimizers |
@@ -291,6 +309,11 @@ MIT License. Free to use, modify, and distribute.
 ## Contributing
 
 Issues and pull requests are welcome. For new or improved model strategies, read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+## Show your support
+
+If Prompt Refine saves you time, please consider giving the repo a ⭐ — it genuinely helps
+other people discover the project.
 
 ## Star History
 
