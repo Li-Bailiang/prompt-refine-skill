@@ -24,9 +24,6 @@
   <a href="https://www.npmjs.com/package/prompt-refine-skill">
     <img alt="npm version" src="https://img.shields.io/npm/v/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837">
   </a>
-  <a href="https://www.npmjs.com/package/prompt-refine-skill">
-    <img alt="npm downloads" src="https://img.shields.io/npm/dt/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837&label=downloads">
-  </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
   <img alt="No optimizer call" src="https://img.shields.io/badge/optimizer%20call-none-brightgreen?style=for-the-badge">
 </p>
