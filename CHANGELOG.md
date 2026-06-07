@@ -3,6 +3,32 @@
 All notable changes to Prompt Refine are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.3.0] — 2026-06-08
+
+Distribution, automation, and a deeper OpenAI strategy. Routing and runtime behavior are
+unchanged; this release adds npm distribution, CI, and refreshes the OpenAI strategy.
+
+### Added
+- **Published to npm** as [`prompt-refine-skill`](https://www.npmjs.com/package/prompt-refine-skill),
+  with a `files` whitelist (skill content only) and `publishConfig` pinned to the official
+  registry.
+- **CI** — a dependency-free validator for strategy-file structure and source links
+  (`.github/workflows/validate.yml`), plus tag-triggered npm publish with provenance
+  (`.github/workflows/publish.yml`).
+- **ROADMAP.md**; a **Limitations** section in the READMEs; npm version/downloads badges;
+  a star call-to-action.
+
+### Changed
+- **OpenAI strategy deepened for the GPT-5 family (5.1 / 5.2 / 5.5).** Reframed around
+  OpenAI's current **outcome-first** guidance (describe the destination; set success
+  criteria and constraints; avoid over-specifying the process), reasoning-effort control,
+  agentic stopping/persistence/verification, and a **Codex** section (verify-your-work,
+  decompose, durable rules in `AGENTS.md`). Source links updated to current pages.
+- New **Codex** before/after example; example #2 modernized from "o-series" to GPT-5
+  (Thinking).
+- Routing labels in `SKILL.md` made consistent with the READMEs (OpenAI → GPT-5;
+  DeepSeek → V4 (+ R1)).
+
 ## [2.2.0] — 2026-06-08
 
 Accuracy and repository-health release. The strategy **design** and routing are unchanged;

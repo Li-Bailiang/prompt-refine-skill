@@ -1,6 +1,6 @@
 {
   "name": "prompt-refine-skill",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A model-aware Agent Skill that silently refines your prompt for the model currently answering.",
   "keywords": [
     "agent-skill",

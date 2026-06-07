@@ -33,7 +33,7 @@ answer (unless verbose mode is on).
 | GPT / GPT-5 (OpenAI) | `strategies/openai.md` |
 | Gemini (Google) | `strategies/google-gemini.md` |
 | Llama (Meta) | `strategies/meta-llama.md` |
-| DeepSeek V3 / R1 | `strategies/deepseek.md` |
+| DeepSeek V4 (+ R1) | `strategies/deepseek.md` |
 | Mistral / Codestral | `strategies/mistral.md` |
 | Qwen / 通义千问 (Alibaba) | `strategies/qwen.md` |
 | Grok (xAI) | `strategies/xai-grok.md` |
