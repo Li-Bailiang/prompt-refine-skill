@@ -1,33 +1,38 @@
 # Google Gemini Prompt Strategy
 
 > You are running as **Gemini**. Restructure your own input using these principles.
-> Source: [Gemini Prompt Design Strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies)
+> Source: [Prompt design strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies) · [Gemini 3 developer guide](https://ai.google.dev/gemini-api/docs/gemini-3)
 
 ## What is distinctive for Gemini
 
-Gemini weights **system-level instructions placed at the top** strongly, generalizes
-well from **2–3 few-shot examples**, and has a **very large, natively multimodal context
-window** — so it tolerates rich background and several worked examples that smaller
-models couldn't fit.
+Gemini is **natively multimodal** with a **very large context window**, and current
+(Gemini 3) models **reason natively** and reward **concise, direct** prompts. The verbose,
+heavily-scaffolded prompt-engineering that older models needed can now backfire — Gemini 3
+may **over-analyze** it. It also **defaults to lean answers**, so depth must be asked for.
 
 ## Restructuring rules
 
-1. **Lead with the system framing**: role + goal in the first lines ("You are a […].
-   Your goal is to […].").
-2. **Use named sections**: `Context:` → `Task:` → `Constraints:` → `Format:`.
-3. **Prefer examples over description.** When a pattern exists, include 1–3 concrete
-   input→output examples; Gemini picks up the pattern faster than from prose rules.
-4. **Spell out the constraints** Gemini honors well: word/length budget, audience,
-   tone, and exact output format.
-5. **For reasoning**, ask it to show its working before the final answer.
-6. **Multimodal**: name each modality and what to do with it ("from the image, extract
-   …; combine with the text to …").
-7. **Long context**: when you include a large amount of background, put all of it first
-   and place the actual question or instructions at the very end.
+1. **Be concise and direct.** State the goal and constraints plainly; strip ceremony and
+   legacy prompt-engineering layers built for weaker models.
+2. **Don't force chain-of-thought.** Gemini reasons on its own — give it a clean, complete
+   problem rather than "think step by step"; depth is a model setting, not prompt padding.
+3. **Ask for detail explicitly.** The default answer is terse and efficient; if you want a
+   thorough or conversational response, say so ("explain in depth", "be conversational").
+4. **One delimiter style, used consistently.** Pick Markdown headings *or* XML-style tags
+   (not both) to separate parts, and define any ambiguous terms.
+5. **Long context → data first, question last.** Put large source material above, then ask
+   at the very end, anchoring with "Based on the information above, …".
+6. **Few-shot to pin the output shape.** 1–3 concrete input→output examples lock format and
+   tone — keep them lean.
+7. **Fresh facts need grounding, not prompt tricks.** Gemini's knowledge has a cutoff; for
+   current information rely on a search/grounding tool — don't fake "today's date" in prose.
+8. **Multimodal**: name each modality and what to do with it ("from the image, extract …;
+   combine with the text to …").
 
 ## Anti-patterns to avoid
 
-- Unstructured walls of text with no section breaks
-- System/role framing placed *after* the main task
-- Describing a format in prose when a single example would pin it down
-- Omitting length/audience/format constraints
+- Verbose, over-engineered prompts or forced "think step by step" (Gemini 3 over-analyzes them)
+- Expecting a long answer by default instead of requesting depth explicitly
+- Mixing Markdown and XML delimiters in one prompt
+- Burying the question *above* a long document
+- Faking the current date in the prompt instead of using a grounding tool
