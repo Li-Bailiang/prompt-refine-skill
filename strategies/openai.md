@@ -1,39 +1,46 @@
 # OpenAI GPT Prompt Strategy
 
-> You are running as **an OpenAI GPT model** (GPT-5 family). Restructure your own input using these principles.
-> Source: [OpenAI Prompt Engineering Guide](https://developers.openai.com/api/docs/guides/prompt-engineering) · [Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices) · [Images and vision](https://developers.openai.com/api/docs/guides/images-vision)
+> You are running as **an OpenAI GPT model** (GPT-5 family — 5.1 / 5.2 / 5.5). Restructure your own input using these principles.
+> Source: [Prompt guidance](https://developers.openai.com/api/docs/guides/prompt-guidance) · [Using the latest model](https://developers.openai.com/api/docs/guides/latest-model) · [Reasoning best practices](https://developers.openai.com/api/docs/guides/reasoning-best-practices) · [Codex prompting](https://developers.openai.com/codex/prompting) · [Images and vision](https://developers.openai.com/api/docs/guides/images-vision)
 
 ## What is distinctive for OpenAI models
 
-There are **two regimes**, and current models expose both. **Non-reasoning chat models**
-(the GPT-5 "Instant"-class; earlier GPT-4.1 / 4o) reward explicit instructions, delimiters,
-and an output-format spec. **Reasoning models** (the GPT-5 "Thinking"-class — the
-standalone o-series has been folded into the GPT-5 family) are the opposite: they reason
-internally, so *adding* "think step by step" or long scaffolding **hurts** — give them a
-clean, complete problem and get out of the way.
+GPT-5-family models follow instructions precisely, call tools well, and reason internally.
+The current official stance is **outcome-first**: describe the *destination* — goal, success
+criteria, constraints, available context — and let the model choose the path. Heavy
+step-by-step scaffolding that older models needed now **hurts**: it adds noise, narrows the
+search space, and yields mechanical answers. Reasoning ("Thinking") variants reason on their
+own, so "think step by step" is redundant — set **reasoning effort** to fit the task instead.
 
 ## Restructuring rules
 
-1. **Detect the regime first.** Reasoning ("Thinking") model → keep it short, state the
-   goal and constraints, omit chain-of-thought instructions, and prefer zero-shot (add
-   few-shot only if needed, keeping any examples aligned with the instructions).
-   Non-reasoning chat model → continue below.
-2. **Separate instruction from content** with delimiters (triple backticks, `###`,
-   or XML) so the model never confuses the two.
-3. **Specify the output contract** exactly: "Return JSON with keys …" / "a Markdown
-   table with columns …".
-4. **For non-reasoning chat models on complex tasks**, request a short ordered breakdown
-   before the final answer.
-5. **Add the implied context** the user left out, and precision markers ("be specific,
-   use concrete examples").
-6. **Factual asks**: "only state what you're confident about; flag uncertainty."
-7. **Multimodal (vision)**: state exactly what to do with each image and keep the question
-   with it; raise image detail for tiny or low-quality text. Don't rely on the model for
-   **precise spatial layout or exact counts** — those are documented weak spots.
+1. **Lead with the outcome, not the procedure.** State the goal, what "done/correct" looks
+   like (success criteria + required output fields), and the hard constraints — then stop.
+   Don't transcribe every step.
+2. **Reserve absolutes for true invariants.** Use `MUST` / `NEVER` only for real rules
+   (safety, format contracts); for judgment calls, give the decision criteria instead.
+3. **Separate instructions from content** with delimiters (` ``` `, `###`, or XML), and
+   **specify the output contract** exactly ("Return JSON with keys …").
+4. **Agentic / multi-step asks**: set a stopping rule ("stop when you can answer the core
+   request") and allow persistence ("don't stop early if another tool call improves
+   correctness"); ask for a short verification pass before high-impact output.
+5. **Coding on Codex**: have it **verify its own work** — include repro steps, how to
+   validate, and run lint/tests; split large work into smaller reviewable steps (ask it to
+   propose a plan first if decomposition is unclear). Put durable, repo-wide rules in
+   **`AGENTS.md`**, not in every prompt.
+6. **Grounding**: never fabricate citations, URLs, or IDs; separate confident facts from
+   uncertainty; don't turn missing evidence into a confident "no".
+7. **Don't over-format.** Plain prose unless structure genuinely aids comprehension — avoid
+   reflexive cards and nested bullets.
+8. **Multimodal (vision)**: say exactly what to do with each image and keep the question with
+   it; raise image detail for small or low-quality text. Don't rely on the model for
+   **precise spatial layout or exact counts** (documented weak spots).
 
 ## Anti-patterns to avoid
 
-- Adding "let's think step by step" to a reasoning ("Thinking") model
-- Mixing several unrelated asks in one prompt
-- No delimiter between instruction and pasted content
-- Missing an explicit output format
+- Carrying over a legacy prompt stack that **over-specifies the process** (now counter-productive)
+- `ALWAYS` / `NEVER` / `must` on judgment calls instead of on true invariants
+- Forcing "think step by step" onto a reasoning ("Thinking") model
+- Loading durable, repo-wide rules into every Codex prompt instead of `AGENTS.md`
+- No delimiter between instruction and pasted content; missing an output contract
+- Reflexive heavy formatting where plain prose would read better

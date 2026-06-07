@@ -30,7 +30,7 @@ answer (unless verbose mode is on).
 | If you are running as… | Load |
 |---|---|
 | Claude (Anthropic) | `strategies/anthropic.md` |
-| GPT / o-series (OpenAI) | `strategies/openai.md` |
+| GPT / GPT-5 (OpenAI) | `strategies/openai.md` |
 | Gemini (Google) | `strategies/google-gemini.md` |
 | Llama (Meta) | `strategies/meta-llama.md` |
 | DeepSeek V3 / R1 | `strategies/deepseek.md` |

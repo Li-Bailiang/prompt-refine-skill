@@ -28,7 +28,7 @@ user's **original language is always preserved**.
 
 ---
 
-## 2. Host model: GPT o-series — minimal, no added chain-of-thought
+## 2. Host model: GPT-5 (Thinking) — minimal, no added chain-of-thought
 
 **Before**
 > figure out the time complexity of this function and whether it can be improved
@@ -41,9 +41,10 @@ user's **original language is always preserved**.
 > [function]
 > ```
 
-> Why no "think step by step"? o-series models reason internally — adding scaffolding
-> hurts. For a **GPT-4o**-class host, the same request would instead get an explicit
-> "work through it briefly, then answer" plus an output-format line.
+> Why no "think step by step"? GPT-5 "Thinking"-class models reason internally — adding
+> scaffolding hurts; set **reasoning effort** instead. For a GPT-5 "Instant"-class host,
+> the same request would get an explicit "work through it briefly, then answer" plus an
+> output-format line.
 
 ---
 
@@ -85,6 +86,23 @@ user's **original language is always preserved**.
 >
 > Using only the release notes above, summarize what changed in the auth module.
 > Cite the specific line(s) you used for each point. If something isn't covered, say so.
+
+## 6. Host model: GPT on Codex — outcome + self-verification
+
+**Before**
+> add rate limiting to the API
+
+**After** (`strategies/openai.md`)
+> Goal: add rate limiting to the public API endpoints.
+> Done = requests over the limit return HTTP 429; existing tests still pass; new tests cover
+> the limit, a burst, and the reset window.
+> Approach: propose a short plan first, then implement in small steps. **Verify your work** —
+> run the test suite and the linter before finishing. Put durable repo conventions in
+> `AGENTS.md` rather than restating them here.
+
+> Why this shape? Codex produces better output when it can **verify its work** and when large
+> tasks are **decomposed**; outcome + success criteria beat step-by-step dictation, and
+> durable rules belong in `AGENTS.md`, not the prompt.
 
 ---
 

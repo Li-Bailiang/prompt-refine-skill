@@ -26,7 +26,7 @@
 
 ---
 
-## 2. 宿主模型：GPT o 系列 —— 精简，不添加思维链脚手架
+## 2. 宿主模型：GPT-5（Thinking）—— 精简，不添加思维链脚手架
 
 **重构前**
 > figure out the time complexity of this function and whether it can be improved
@@ -39,8 +39,8 @@
 > [function]
 > ```
 
-> 为什么不加 "think step by step"？o 系列推理模型在内部自行推理，额外脚手架反而有害。
-> 若宿主是 **GPT-4o** 这类模型，同样的请求则会改为"先简要推演再作答" + 一行输出格式说明。
+> 为什么不加 "think step by step"？GPT-5 "Thinking" 类模型在内部自行推理，额外脚手架反而有害——
+> 应改为设置 **reasoning effort**。若宿主是 GPT-5 "Instant" 类模型，同样的请求则会改为"先简要推演再作答" + 一行输出格式说明。
 
 ---
 
@@ -82,6 +82,22 @@
 >
 > 仅基于上方 release notes，总结 auth 模块的变更。每条结论标注所依据的具体行；
 > 若未覆盖某点，请明确说明。
+
+## 6. 宿主模型：Codex 上的 GPT —— 目标导向 + 自我校验
+
+**重构前**
+> add rate limiting to the API
+
+**重构后**（`strategies/openai.md`）
+> Goal: add rate limiting to the public API endpoints.
+> Done = requests over the limit return HTTP 429; existing tests still pass; new tests cover
+> the limit, a burst, and the reset window.
+> Approach: propose a short plan first, then implement in small steps. **Verify your work** —
+> run the test suite and the linter before finishing. Put durable repo conventions in
+> `AGENTS.md` rather than restating them here.
+
+> 为什么是这个形态？Codex 在能**自我校验**、且大任务被**拆小**时产出更好；用"目标 + 成功标准"
+> 胜过逐步指令，而长期规则应放进 `AGENTS.md`，而不是每次塞进 prompt。
 
 ---
 
