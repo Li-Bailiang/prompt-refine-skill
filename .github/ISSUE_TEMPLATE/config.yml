@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or usage help
+    url: https://github.com/Li-Bailiang/prompt-refine-skill#readme
+    about: Read the README and CONTRIBUTING first. Open an issue only for a bug or a strategy/feature change.
