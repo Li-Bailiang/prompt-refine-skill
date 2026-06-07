@@ -35,5 +35,9 @@
     "SECURITY.md",
     "CODE_OF_CONDUCT.md",
     "LICENSE"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
 }
