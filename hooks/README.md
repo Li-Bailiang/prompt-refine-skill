@@ -63,9 +63,10 @@ Create or delete the flag file `hooks/.refine-active`:
 | **On** | `touch .claude/skills/prompt-refine/hooks/.refine-active` | `New-Item -ItemType File .claude/skills/prompt-refine/hooks/.refine-active` |
 | **Off** | `rm .claude/skills/prompt-refine/hooks/.refine-active` | `Remove-Item .claude/skills/prompt-refine/hooks/.refine-active` |
 
-If the agent has shell access, you can let it manage the flag: on `/prompt-refine` it
-creates the flag, on `/refine off` it deletes it — so the chat commands and the hook stay
-in sync. Otherwise toggle manually with the commands above.
+If the agent has shell access, let it mirror the `SKILL.md` state machine:
+`/prompt-refine`, `/refine`, and `/refine verbose` create the flag; `/refine off` deletes
+it. The hook flag is only the Claude Code persistence layer. The conversation-level state
+still controls normal behavior in tools that do not run hooks.
 
 ## Why a flag instead of always-on
 

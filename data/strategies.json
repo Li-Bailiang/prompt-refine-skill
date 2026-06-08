@@ -1,0 +1,110 @@
+[
+  {
+    "id": "openai",
+    "file": "strategies/openai.md",
+    "skillLabel": "GPT / GPT-5 (OpenAI)",
+    "readmeLabelEn": "OpenAI GPT (GPT-5 family)",
+    "readmeLabelZh": "OpenAI GPT（GPT-5 系列）",
+    "sourceEn": "OpenAI prompting guidance",
+    "sourceZh": "OpenAI 提示词指南"
+  },
+  {
+    "id": "anthropic",
+    "file": "strategies/anthropic.md",
+    "skillLabel": "Claude (Anthropic)",
+    "readmeLabelEn": "Anthropic Claude",
+    "readmeLabelZh": "Anthropic Claude",
+    "sourceEn": "Anthropic prompt engineering",
+    "sourceZh": "Anthropic prompt engineering"
+  },
+  {
+    "id": "google-gemini",
+    "file": "strategies/google-gemini.md",
+    "skillLabel": "Gemini (Google)",
+    "readmeLabelEn": "Google Gemini",
+    "readmeLabelZh": "Google Gemini",
+    "sourceEn": "Gemini prompt design",
+    "sourceZh": "Gemini prompt design"
+  },
+  {
+    "id": "meta-llama",
+    "file": "strategies/meta-llama.md",
+    "skillLabel": "Llama (Meta)",
+    "readmeLabelEn": "Meta Llama",
+    "readmeLabelZh": "Meta Llama",
+    "sourceEn": "Llama prompting guidance",
+    "sourceZh": "Llama prompting guidance"
+  },
+  {
+    "id": "deepseek",
+    "file": "strategies/deepseek.md",
+    "skillLabel": "DeepSeek V4 (+ R1)",
+    "readmeLabelEn": "DeepSeek V4 (+ R1)",
+    "readmeLabelZh": "DeepSeek V4（含 R1）",
+    "sourceEn": "DeepSeek prompt library",
+    "sourceZh": "DeepSeek prompt library"
+  },
+  {
+    "id": "mistral",
+    "file": "strategies/mistral.md",
+    "skillLabel": "Mistral / Codestral",
+    "readmeLabelEn": "Mistral / Codestral",
+    "readmeLabelZh": "Mistral / Codestral",
+    "sourceEn": "Mistral best practices",
+    "sourceZh": "Mistral best practices"
+  },
+  {
+    "id": "qwen",
+    "file": "strategies/qwen.md",
+    "skillLabel": "Qwen / 通义千问 (Alibaba)",
+    "readmeLabelEn": "Qwen",
+    "readmeLabelZh": "Qwen",
+    "sourceEn": "Alibaba Model Studio guidance",
+    "sourceZh": "阿里云百炼 / Model Studio 指南"
+  },
+  {
+    "id": "xai-grok",
+    "file": "strategies/xai-grok.md",
+    "skillLabel": "Grok (xAI)",
+    "readmeLabelEn": "xAI Grok",
+    "readmeLabelZh": "xAI Grok",
+    "sourceEn": "xAI Grok prompting references",
+    "sourceZh": "xAI Grok prompting references"
+  },
+  {
+    "id": "cohere",
+    "file": "strategies/cohere.md",
+    "skillLabel": "Command R / R+ (Cohere)",
+    "readmeLabelEn": "Cohere Command",
+    "readmeLabelZh": "Cohere Command",
+    "sourceEn": "Cohere docs",
+    "sourceZh": "Cohere docs"
+  },
+  {
+    "id": "amazon-nova",
+    "file": "strategies/amazon-nova.md",
+    "skillLabel": "Nova (Amazon)",
+    "readmeLabelEn": "Amazon Nova",
+    "readmeLabelZh": "Amazon Nova",
+    "sourceEn": "Nova prompt guide",
+    "sourceZh": "Nova prompt guide"
+  },
+  {
+    "id": "microsoft-phi",
+    "file": "strategies/microsoft-phi.md",
+    "skillLabel": "Phi (Microsoft)",
+    "readmeLabelEn": "Microsoft Phi",
+    "readmeLabelZh": "Microsoft Phi",
+    "sourceEn": "Phi Cookbook",
+    "sourceZh": "Phi Cookbook"
+  },
+  {
+    "id": "universal",
+    "file": "strategies/universal.md",
+    "skillLabel": "Any other / unknown model",
+    "readmeLabelEn": "Unknown host",
+    "readmeLabelZh": "未知宿主模型",
+    "sourceEn": "Conservative fallback",
+    "sourceZh": "保守兜底策略"
+  }
+]

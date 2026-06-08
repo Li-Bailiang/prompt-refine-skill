@@ -29,8 +29,8 @@ answer (unless verbose mode is on).
 
 | If you are running as… | Load |
 |---|---|
-| Claude (Anthropic) | `strategies/anthropic.md` |
 | GPT / GPT-5 (OpenAI) | `strategies/openai.md` |
+| Claude (Anthropic) | `strategies/anthropic.md` |
 | Gemini (Google) | `strategies/google-gemini.md` |
 | Llama (Meta) | `strategies/meta-llama.md` |
 | DeepSeek V4 (+ R1) | `strategies/deepseek.md` |
@@ -42,8 +42,11 @@ answer (unless verbose mode is on).
 | Phi (Microsoft) | `strategies/microsoft-phi.md` |
 | Any other / unknown model | `strategies/universal.md` |
 
-On activation reply briefly, e.g.: `✓ Refine mode on — optimizing for <your model>. Ask anything.`
-Add `— verbose: you'll see each before/after.` when verbose is requested.
+If the user sends a standalone activation command, reply briefly, e.g.:
+`✓ Refine mode on — optimizing for <your model>. Ask anything.` Add
+`— verbose: you'll see each before/after.` when verbose is requested. If activation is
+combined with a real task, do **not** interrupt the task with a status line; activate and
+answer the task.
 
 ## Activation & controls
 
@@ -53,15 +56,33 @@ for the rest of the conversation:
 
 | Control | Behavior |
 |---|---|
-| `/prompt-refine` · `/refine` | Activate / re-affirm refine mode |
-| `/refine verbose` | Show a compact original→refined diff before each answer |
-| `/refine off` | Stop refining for the rest of the conversation |
+| `/prompt-refine` · `/refine` | Enter `on` mode; silently refine future prompts |
+| `/refine verbose` | Enter `verbose` mode; show a compact original→refined diff before each answer |
+| `/refine off` | Enter `off` mode; stop refining future prompts |
 
 > **Scope is conversational, not a stored flag.** "Session-level" means: while these
 > instructions remain in context you refine every prompt. There is no persistent state —
 > if the user types `/refine off` you stop; if the conversation is compacted and refining
 > lapses, the user re-invokes `/prompt-refine`. For hard enforcement on Claude Code, see
 > the optional hook in `hooks/`.
+
+### State machine
+
+| Current state | Input | Next state | Visible behavior |
+|---|---|---|---|
+| `off` | standalone `/prompt-refine` or `/refine` | `on` | One short confirmation |
+| `off` | `/prompt-refine` plus a task | `on` | No confirmation; answer the task refined |
+| `on` | normal user prompt | `on` | Silent refinement; final answer only |
+| `on` | `/refine verbose` | `verbose` | One short confirmation, then show compact diffs |
+| `verbose` | normal user prompt | `verbose` | Show compact diff, then final answer |
+| `on` or `verbose` | `/refine off` | `off` | One short confirmation if standalone |
+| `off` | normal user prompt | `off` | Answer normally |
+
+When the optional Claude Code hook is installed and the agent can edit local files, keep
+the hook flag in sync with this state machine: create `hooks/.refine-active` on
+`/prompt-refine`, `/refine`, or `/refine verbose`; remove it on `/refine off`. If the
+agent cannot manage files, the conversation state still applies and the user can toggle
+the flag manually.
 
 ## Refining each prompt
 
@@ -101,8 +122,9 @@ For every request while active:
   rewritten prompts, or internal checklists. Those are private working notes. The visible
   response must contain ONLY the final answer to the user.
 - **Never interrupt the task.** In normal mode the user sees only their answer.
-- **Don't narrate.** Never announce that you're refining, or mention this skill/strategy
-  files in your answer. Just deliver the better response.
+- **Don't narrate.** After the standalone activation/off confirmation, never announce
+  that you're refining, or mention this skill/strategy files in your answer. Just deliver
+  the better response.
 - **Match yourself, not the topic.** The strategy is chosen by *which model you are*, not
   by the subject. Never borrow another vendor's special tokens or chat-template markers.
 - **Use context gently.** Optimize the current ask in light of the conversation, but do

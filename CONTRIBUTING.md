@@ -51,8 +51,9 @@ Each `strategies/*.md` follows the same shape — keep it consistent and **short
 ### Adding a brand-new model family
 
 1. Create `strategies/<vendor>.md` following the shape above.
-2. Add one row to the **Host model → strategy** table in `SKILL.md`.
-3. Add a row to the strategy table in `README.md`, `README.en.md`, and `README.zh.md`.
+2. Add one entry to `data/strategies.json`.
+3. Run `npm run render:tables` so `SKILL.md`, `README.md`, `README.en.md`, and
+   `README.zh.md` get the same generated strategy table.
 4. Add a before/after pair under `examples/` if the model has a distinctive format.
 
 ## Keep READMEs in sync
@@ -65,7 +66,7 @@ to one language needs the matching change in the other language.
 
 1. Fork, branch, make your change.
 2. Confirm `SKILL.md`, the strategy table in the READMEs, and the strategy files all
-   agree.
+   agree by running `npm test` and `npm run validate`.
 3. Open a PR describing **which model** your change targets and **what is distinctive**
    about the strategy.
 

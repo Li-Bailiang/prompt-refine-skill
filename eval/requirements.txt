@@ -1,0 +1,3 @@
+# Eval harness only (not needed to use the skill).
+# Needs a recent SDK for output_config structured outputs + current model IDs.
+anthropic>=0.70
