@@ -24,6 +24,9 @@
   <a href="https://www.npmjs.com/package/prompt-refine-skill">
     <img alt="npm version" src="https://img.shields.io/npm/v/prompt-refine-skill?style=for-the-badge&logo=npm&color=cb3837">
   </a>
+  <a href="https://github.com/Li-Bailiang/prompt-refine-skill/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Li-Bailiang/prompt-refine-skill?style=for-the-badge&logo=github&label=stars&color=dab500">
+  </a>
   <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-zero-lightgrey?style=for-the-badge">
   <img alt="No optimizer call" src="https://img.shields.io/badge/optimizer%20call-none-brightgreen?style=for-the-badge">
 </p>
