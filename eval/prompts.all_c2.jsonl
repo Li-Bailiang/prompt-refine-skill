@@ -1,0 +1,40 @@
+{"id": "p41", "lang": "en", "domain": "marketing", "prompt": "how do I grow my instagram", "why_vague": "niche, current size, goal, resources unknown"}
+{"id": "p42", "lang": "zh", "domain": "marketing", "prompt": "我的公众号怎么涨粉", "why_vague": "定位、现状、目标、可投入资源未知"}
+{"id": "p43", "lang": "en", "domain": "ecommerce", "prompt": "write product descriptions for my store", "why_vague": "no products, brand voice, or audience"}
+{"id": "p44", "lang": "zh", "domain": "ecommerce", "prompt": "给我的网店写商品描述", "why_vague": "商品、品牌调性、受众未提供"}
+{"id": "p45", "lang": "en", "domain": "branding", "prompt": "help me name my startup", "why_vague": "industry, values, audience, style missing"}
+{"id": "p46", "lang": "zh", "domain": "branding", "prompt": "帮我的公司起个名字", "why_vague": "行业、理念、受众、风格缺失"}
+{"id": "p47", "lang": "en", "domain": "legal", "prompt": "write a privacy policy", "why_vague": "no company, data practices, or jurisdiction"}
+{"id": "p48", "lang": "zh", "domain": "legal", "prompt": "帮我写一份隐私政策", "why_vague": "公司、数据处理方式、适用地区未知"}
+{"id": "p49", "lang": "en", "domain": "learning", "prompt": "explain machine learning to me", "why_vague": "background, depth, and purpose unspecified"}
+{"id": "p50", "lang": "zh", "domain": "learning", "prompt": "给我讲讲机器学习", "why_vague": "基础、深度、用途未说明"}
+{"id": "p51", "lang": "en", "domain": "learning", "prompt": "help me learn spanish", "why_vague": "level, goal, time budget, method missing"}
+{"id": "p52", "lang": "zh", "domain": "learning", "prompt": "帮我学英语", "why_vague": "水平、目标、时间、方法未定"}
+{"id": "p53", "lang": "en", "domain": "planning", "prompt": "create a study schedule for my exams", "why_vague": "subjects, dates, hours, current level unknown"}
+{"id": "p54", "lang": "zh", "domain": "planning", "prompt": "帮我做个备考复习计划", "why_vague": "科目、考期、可用时间、基础未知"}
+{"id": "p55", "lang": "en", "domain": "writing", "prompt": "how do I improve my writing", "why_vague": "no sample, genre, or specific weakness"}
+{"id": "p56", "lang": "zh", "domain": "writing", "prompt": "怎么提高我的写作水平", "why_vague": "没有样本、文体、具体短板"}
+{"id": "p57", "lang": "en", "domain": "creative", "prompt": "write me a short story", "why_vague": "genre, length, theme, characters missing"}
+{"id": "p58", "lang": "zh", "domain": "creative", "prompt": "帮我写个短篇故事", "why_vague": "题材、篇幅、主题、人物未定"}
+{"id": "p59", "lang": "en", "domain": "events", "prompt": "help me plan a wedding", "why_vague": "date, budget, guest count, style unknown"}
+{"id": "p60", "lang": "zh", "domain": "events", "prompt": "帮我策划一场婚礼", "why_vague": "日期、预算、人数、风格未知"}
+{"id": "p61", "lang": "en", "domain": "finance", "prompt": "help me make a budget", "why_vague": "income, expenses, goals, period missing"}
+{"id": "p62", "lang": "zh", "domain": "finance", "prompt": "帮我做个家庭预算", "why_vague": "收入、支出、目标、周期未知"}
+{"id": "p63", "lang": "en", "domain": "finance", "prompt": "how should I invest 10k", "why_vague": "horizon, risk tolerance, goals unspecified"}
+{"id": "p64", "lang": "zh", "domain": "finance", "prompt": "我有十万块该怎么投资", "why_vague": "期限、风险偏好、目标未说明"}
+{"id": "p65", "lang": "en", "domain": "learning", "prompt": "explain crypto to a beginner", "why_vague": "which aspect, depth, and use case unclear"}
+{"id": "p66", "lang": "zh", "domain": "learning", "prompt": "给小白讲讲区块链", "why_vague": "讲哪方面、深度、用途不明"}
+{"id": "p67", "lang": "en", "domain": "data", "prompt": "write a SQL query to get sales data", "why_vague": "no schema, tables, filters, or output spec"}
+{"id": "p68", "lang": "zh", "domain": "data", "prompt": "写个SQL查一下销售数据", "why_vague": "表结构、字段、过滤条件、输出未定"}
+{"id": "p69", "lang": "en", "domain": "debugging", "prompt": "help me fix my code", "why_vague": "no code, language, error, or behavior"}
+{"id": "p70", "lang": "zh", "domain": "debugging", "prompt": "帮我看看代码哪里出问题了", "why_vague": "没有代码、语言、报错、现象"}
+{"id": "p71", "lang": "en", "domain": "coding", "prompt": "design a REST API for a todo app", "why_vague": "auth, data model, scale, format unspecified"}
+{"id": "p72", "lang": "zh", "domain": "coding", "prompt": "帮我设计一个待办应用的接口", "why_vague": "鉴权、数据模型、规模、格式未定"}
+{"id": "p73", "lang": "en", "domain": "devops", "prompt": "set up CI for my project", "why_vague": "stack, platform, test, deploy target unknown"}
+{"id": "p74", "lang": "zh", "domain": "devops", "prompt": "帮我给项目配置CI", "why_vague": "技术栈、平台、测试、部署目标未知"}
+{"id": "p75", "lang": "en", "domain": "testing", "prompt": "write unit tests for my function", "why_vague": "no function, language, or framework"}
+{"id": "p76", "lang": "zh", "domain": "testing", "prompt": "给我的函数写单元测试", "why_vague": "没有函数、语言、框架"}
+{"id": "p77", "lang": "en", "domain": "performance", "prompt": "optimize my website performance", "why_vague": "no site, metrics, stack, or symptoms"}
+{"id": "p78", "lang": "zh", "domain": "performance", "prompt": "帮我优化网站性能", "why_vague": "网站、指标、技术栈、症状未知"}
+{"id": "p79", "lang": "en", "domain": "docs", "prompt": "help me write documentation", "why_vague": "subject, audience, scope, format missing"}
+{"id": "p80", "lang": "zh", "domain": "docs", "prompt": "帮我写技术文档", "why_vague": "主题、受众、范围、格式未定"}

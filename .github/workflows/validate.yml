@@ -13,5 +13,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Validate strategy files
-        run: node scripts/validate-strategies.mjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run tests
+        run: npm test
+      - name: Validate repository quality gates
+        run: npm run validate
+      - name: Verify npm package contents
+        run: npm run pack:dry

@@ -1,0 +1,2557 @@
+{
+  "summary": {
+    "config": {
+      "suite": "vague",
+      "suite_purpose": "uplift",
+      "host_strategy": "anthropic",
+      "gen_model": "claude-sonnet-4-6",
+      "judge_model": "claude-opus-4-8",
+      "prompts_file": "D:\\propmt\\internal\\eval\\prompts.all_c1.jsonl",
+      "rubric_file": "D:\\propmt\\internal\\eval\\rubric.vague.md",
+      "n_prompts": 40,
+      "n_skipped": 0,
+      "skipped_ids": [],
+      "judgments": 80,
+      "dry_run": false,
+      "generate_only": false,
+      "judge": "api_pairwise_position_swap",
+      "api_reproducible_judge": true,
+      "rejudge_source": null
+    },
+    "refine_win_rate": 0.637,
+    "win_counts": {
+      "refine": 46,
+      "control": 24,
+      "tie": 10
+    },
+    "per_dimension_mean_delta_refine_minus_control": {
+      "clarification": 0.2,
+      "structure": 0.34,
+      "completeness": 0.54,
+      "actionability": 0.6,
+      "language_fidelity": 0.0
+    }
+  },
+  "results": [
+    {
+      "item": {
+        "id": "p01",
+        "lang": "en",
+        "domain": "coding",
+        "prompt": "write me a python script to process excel",
+        "why_vague": "no file, no operation, no output spec"
+      },
+      "answers": {
+        "control": "I'll write a Python script to process Excel files. Since you didn't specify exact requirements, I'll create a comprehensive example that demonstrates common Excel operations.\n\n```python\n\"\"\"\nExcel Processing Script\nDemonstrates reading, processing, and writing Excel files using pandas and openpyxl\n\"\"\"\n\nimport pandas as pd\nfrom pathlib import Path\nimport sys\n\n\ndef read_excel_file(file_path, sheet_name=0):\n    \"\"\"\n    Read an Excel file and return a DataFrame\n    \n    Args:\n        file_path: Path to the Excel file\n        sheet_name: Sheet name or index (default: first sheet)\n    \n    Returns:\n        pandas DataFrame\n    \"\"\"\n    try:\n        df = pd.read_excel(file_path, sheet_name=sheet_name)\n        print(f\"✓ Loaded {len(df)} rows from {file_path}\")\n        return df\n    except Exception as e:\n        print(f\"✗ Error reading file: {e}\")\n        sys.exit(1)\n\n\ndef process_data(df):\n    \"\"\"\n    Process the DataFrame - customize this based on your needs\n    \n    Example operations:\n    - Remove duplicates\n    - Fill missing values\n    - Filter rows\n    - Add calculated columns\n    \"\"\"\n    # Remove duplicates\n    original_count = len(df)\n    df = df.drop_duplicates()\n    print(f\"✓ Removed {original_count - len(df)} duplicate rows\")\n    \n    # Fill missing numeric values with 0\n    numeric_cols = df.select_dtypes(include=['number']).columns\n    df[numeric_cols] = df[numeric_cols].fillna(0)\n    \n    # Example: Add a new calculated column (customize as needed)\n    # df['total'] = df['quantity'] * df['price']\n    \n    return df\n\n\ndef write_excel_file(df, output_path, sheet_name='Processed'):\n    \"\"\"\n    Write DataFrame to Excel file\n    \n    Args:\n        df: pandas DataFrame\n        output_path: Output file path\n        sheet_name: Name of the sheet\n    \"\"\"\n    try:\n        with pd.ExcelWriter(output_path, engine='openpyxl') as writer:\n            df.to_excel(writer, sheet_name=sheet_name, index=False)\n        print(f\"✓ Wrote {len(df)} rows to {output_path}\")\n    except Exception as e:\n        print(f\"✗ Error writing file: {e}\")\n        sys.exit(1)\n\n\ndef get_summary_stats(df):\n    \"\"\"Display summary statistics\"\"\"\n    print(\"\\n=== Summary Statistics ===\")\n    print(f\"Total rows: {len(df)}\")\n    print(f\"Total columns: {len(df.columns)}\")\n    print(f\"\\nColumns: {', '.join(df.columns.tolist())}\")\n    print(f\"\\nData types:\\n{df.dtypes}\")\n    print(f\"\\nMissing values:\\n{df.isnull().sum()}\")\n\n\ndef main():\n    \"\"\"Main execution function\"\"\"\n    # Configuration\n    input_file = \"input.xlsx\"  # Change to your input file\n    output_file = \"output.xlsx\"  # Change to your output file\n    \n    print(f\"Starting Excel processing...\")\n    print(f\"Input: {input_file}\")\n    print(f\"Output: {output_file}\\n\")\n    \n    # Check if input file exists\n    if not Path(input_file).exists():\n        print(f\"✗ Error: {input_file} not found\")\n        print(\"\\nUsage: Update 'input_file' variable to point to your Excel file\")\n        sys.exit(1)\n    \n    # Process the Excel file\n    df = read_excel_file(input_file)\n    get_summary_stats(df)\n    df_processed = process_data(df)\n    write_excel_file(df_processed, output_file)\n    \n    print(\"\\n✓ Processing complete!\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n\nTo use this script, you'll need to install the required dependencies:\n\n```bash\npip install pandas openpyxl\n```\n\n**What this script does:**\n- Reads Excel files using pandas\n- Removes duplicate rows\n- Fills missing numeric values with 0\n- Displays summary statistics\n- Writes the processed data to a new Excel file\n\n**To customize for your needs:**\n1. Update `input_file` and `output_file` variables\n2. Modify the `process_data()` function to add your specific processing logic (filtering, calculations, transformations)\n3. Adjust which sheet to read by changing the `sheet_name` parameter\n\nWant me to customize this for a specific use case? Let me know what operations you need to perform on your Excel data.",
+        "refine": "I'll need a bit more context to give you the most useful script, but here's a solid general-purpose Excel processing script using `openpyxl` and `pandas` that covers the most common operations:\n\n```python\nimport pandas as pd\nfrom openpyxl import load_workbook\nfrom pathlib import Path\n\n\ndef read_excel(file_path: str, sheet_name: str = 0) -> pd.DataFrame:\n    \"\"\"Read an Excel file into a DataFrame.\"\"\"\n    return pd.read_excel(file_path, sheet_name=sheet_name)\n\n\ndef filter_rows(df: pd.DataFrame, column: str, value) -> pd.DataFrame:\n    \"\"\"Filter rows where column matches value.\"\"\"\n    return df[df[column] == value]\n\n\ndef drop_empty_rows(df: pd.DataFrame) -> pd.DataFrame:\n    \"\"\"Remove rows where all values are NaN.\"\"\"\n    return df.dropna(how=\"all\")\n\n\ndef rename_columns(df: pd.DataFrame, mapping: dict) -> pd.DataFrame:\n    \"\"\"Rename columns using a {old_name: new_name} mapping.\"\"\"\n    return df.rename(columns=mapping)\n\n\ndef write_excel(df: pd.DataFrame, output_path: str, sheet_name: str = \"Sheet1\") -> None:\n    \"\"\"Write a DataFrame to an Excel file.\"\"\"\n    df.to_excel(output_path, sheet_name=sheet_name, index=False)\n    print(f\"Written to {output_path}\")\n\n\ndef summarize(df: pd.DataFrame) -> None:\n    \"\"\"Print a quick summary of the DataFrame.\"\"\"\n    print(f\"Shape: {df.shape[0]} rows x {df.shape[1]} columns\")\n    print(f\"\\nColumns: {list(df.columns)}\")\n    print(f\"\\nData types:\\n{df.dtypes}\")\n    print(f\"\\nMissing values:\\n{df.isnull().sum()}\")\n    print(f\"\\nPreview:\\n{df.head()}\")\n\n\ndef process(input_path: str, output_path: str) -> None:\n    \"\"\"Main processing pipeline — customize this to your needs.\"\"\"\n    print(f\"Reading {input_path}...\")\n    df = read_excel(input_path)\n\n    summarize(df)\n\n    # --- Add your transformations here ---\n    df = drop_empty_rows(df)\n    # df = filter_rows(df, \"Status\", \"Active\")\n    # df = rename_columns(df, {\"OldName\": \"NewName\"})\n    # df[\"NewColumn\"] = df[\"ColA\"] + df[\"ColB\"]\n    # --------------------------------------\n\n    write_excel(df, output_path)\n\n\nif __name__ == \"__main__\":\n    import sys\n\n    if len(sys.argv) < 3:\n        print(\"Usage: python process_excel.py <input.xlsx> <output.xlsx>\")\n        sys.exit(1)\n\n    input_file = sys.argv[1]\n    output_file = sys.argv[2]\n\n    if not Path(input_file).exists():\n        print(f\"Error: file not found — {input_file}\")\n        sys.exit(1)\n\n    process(input_file, output_file)\n```\n\nTo install the dependencies:\n\n```bash\npip install pandas openpyxl\n```\n\nRun it like:\n\n```bash\npython process_excel.py input.xlsx output.xlsx\n```\n\nThe `process()` function is where you'd add your actual logic. A few follow-up questions to help me tailor this further:\n\n1. What are you trying to do with the Excel data — clean it, transform it, aggregate it, merge multiple files?\n2. Do you need to handle multiple sheets?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both provide functional, well-structured Excel scripts with similar coverage. B edges ahead on actionability with CLI args (argv) making it immediately runnable, more reusable helper functions (filter, rename), and focused follow-up questions; A hardcodes file paths and asks one open-ended clarification. Both are faithful and in English."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers give a runnable assumption-based first pass with pandas/openpyxl plus follow-up questions, scoring similarly across dimensions. A uses CLI args making it more flexible and immediately runnable with any file, and offers a cleaner set of composable transformation helpers; B hardcodes filenames requiring edits and adds opinionated defaults (filling NaN with 0) that may not suit the user. A's edge in actionability and a slightly more focused clarification gives it the win."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p02",
+        "lang": "zh",
+        "domain": "coding",
+        "prompt": "帮我写个爬虫",
+        "why_vague": "目标网站、抓取字段、反爬、输出格式全缺"
+      },
+      "answers": {
+        "control": "你想爬取什么网站或数据？给我一些细节：\n\n- 目标网站或 URL\n- 需要提取哪些数据（标题、价格、图片等）\n- 输出格式（CSV、JSON、数据库等）\n- 是否需要处理分页、登录或动态内容（JavaScript 渲染）\n\n有了这些信息我可以给你写一个针对性的爬虫。",
+        "refine": "我来帮你写一个爬虫。不过需要了解几个关键信息：\n\n**目标网站是什么？** 不同网站结构不同，爬虫的写法也不一样。\n\n在你回答之前，我先给你一个通用的 Python 爬虫示例，基于 `requests` + `BeautifulSoup`，可以爬取静态网页：\n\n```python\nimport requests\nfrom bs4 import BeautifulSoup\nimport time\nimport csv\n\ndef crawl(url: str, output_file: str = \"output.csv\"):\n    headers = {\n        \"User-Agent\": (\n            \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) \"\n            \"AppleWebKit/537.36 (KHTML, like Gecko) \"\n            \"Chrome/124.0.0.0 Safari/537.36\"\n        )\n    }\n\n    results = []\n\n    try:\n        response = requests.get(url, headers=headers, timeout=10)\n        response.raise_for_status()\n        response.encoding = response.apparent_encoding\n\n        soup = BeautifulSoup(response.text, \"html.parser\")\n\n        # 示例：提取所有链接和标题\n        for a_tag in soup.find_all(\"a\", href=True):\n            title = a_tag.get_text(strip=True)\n            link = a_tag[\"href\"]\n            if title:\n                results.append({\"title\": title, \"url\": link})\n\n        print(f\"共找到 {len(results)} 条结果\")\n\n    except requests.RequestException as e:\n        print(f\"请求失败: {e}\")\n        return\n\n    # 保存到 CSV\n    with open(output_file, \"w\", newline=\"\", encoding=\"utf-8-sig\") as f:\n        writer = csv.DictWriter(f, fieldnames=[\"title\", \"url\"])\n        writer.writeheader()\n        writer.writerows(results)\n\n    print(f\"结果已保存到 {output_file}\")\n\n\nif __name__ == \"__main__\":\n    crawl(\"https://example.com\")\n```\n\n安装依赖：\n\n```bash\npip install requests beautifulsoup4\n```\n\n---\n\n告诉我更多细节，我可以针对性地帮你写：\n\n1. **目标网站** — 爬什么内容？（新闻、商品、图片、数据...）\n2. **是否需要翻页？** — 多页批量抓取\n3. **是动态渲染的吗？** — 如果页面用 JavaScript 渲染，需要用 Selenium 或 Playwright"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask the right clarifying questions in Chinese, but B also delivers a working, well-structured Python crawler skeleton with dependencies and notes on dynamic rendering, giving the user an immediate first pass to act on. A only asks questions and stalls the task, while B balances clarification with concrete, actionable output."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask the same focused clarifying questions in Chinese, but A also delivers a working assumption-based first pass with runnable code, dependency install, and clear follow-up options, giving real forward progress. B only asks questions and stalls the task without any draft output."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p03",
+        "lang": "en",
+        "domain": "writing",
+        "prompt": "help me write an email to my boss",
+        "why_vague": "topic, tone, ask, and recipient context missing"
+      },
+      "answers": {
+        "control": "I'd be happy to help you write an email to your boss. To write something effective, I need a bit more context:\n\n- What's the purpose of the email? (e.g., requesting time off, updating on a project, raising a concern, asking for a meeting)\n- What key points do you need to cover?\n- What tone are you going for? (formal, casual, somewhere in between)\n- Any specific details I should include?",
+        "refine": "Happy to help. To write something that fits your situation, I need a bit more info:\n\n1. What's the topic or purpose of the email? (e.g., requesting time off, sharing an update, raising a concern)\n2. What's your relationship like with your boss — formal or fairly casual?\n3. Any key details or points you want to make sure are included?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers respond with focused clarifying questions and are well-structured, but neither offers an assumption-based draft or template that would let the user move forward immediately, limiting actionability. A is marginally more complete by explicitly asking about tone and offering more purpose examples, while B is otherwise equivalent."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers only ask clarifying questions and neither offers an assumption-based draft, which limits actionability. B is slightly more complete, separating tone from purpose and adding a meeting-request example, while A's questions are a bit more redundant. The difference is marginal but favors B."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p04",
+        "lang": "zh",
+        "domain": "writing",
+        "prompt": "写一段产品介绍",
+        "why_vague": "产品、受众、卖点、长度未定"
+      },
+      "answers": {
+        "control": "你想介绍什么产品？给我一些基本信息，比如：\n\n- 产品名称和类型\n- 核心功能或特点\n- 目标用户\n- 使用场景\n\n有了这些，我可以帮你写出更贴合需求的介绍。",
+        "refine": "请告诉我你想介绍的是什么产品，我来帮你写。\n\n可以简单说说：产品名称、主要功能、目标用户，或者任何你想突出的亮点。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers only ask clarifying questions without offering an assumption-based first draft, which limits actionability. A is more structured with clear bullets covering name, features, audience, and use case, while B is briefer and covers fewer dimensions; neither attempts a sample intro to move the task forward."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers only ask clarifying questions rather than offering an assumption-based draft, which limits actionability. B is more structured and complete, listing specific information categories (name/type, features, users, scenarios) in scannable bullets, while A is briefer and less organized."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p05",
+        "lang": "en",
+        "domain": "analysis",
+        "prompt": "analyze this market",
+        "why_vague": "which market, for whom, what decision"
+      },
+      "answers": {
+        "control": "I'd be happy to help analyze a market, but it looks like no market data or information was attached to your message.\n\nCould you share what you'd like me to analyze? For example:\n\n- A dataset (CSV, spreadsheet, etc.)\n- A market name or industry (e.g., \"EV market\", \"SaaS in healthcare\")\n- A description of the market you're interested in\n- Specific questions you want answered\n\nLet me know what you're working with and I'll dig in.",
+        "refine": "I'd need a bit more to work with here. You haven't attached or shared any market data yet — no file, chart, dataset, or description.\n\nShare what you have (a CSV, an image, a table, a description of the market) and I'll dig into it."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both correctly identify the missing market data and ask for it, staying in the same language. A is more structured and actionable, enumerating concrete input types and prompting for specific questions, which gives the user clearer paths forward. B is fine but thinner, offering less guidance on how to proceed."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both correctly identify the missing data and ask for it without stalling, but B is more actionable by offering concrete examples of what to share (dataset, market name, description, specific questions) and is better structured with a scannable list. A is concise and adequate but offers fewer paths forward."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p06",
+        "lang": "zh",
+        "domain": "analysis",
+        "prompt": "分析一下这个行业的前景",
+        "why_vague": "哪个行业、时间范围、判断依据缺失"
+      },
+      "answers": {
+        "control": "您好！您想了解哪个行业的前景？请告诉我具体的行业名称，我来为您分析。",
+        "refine": "请问您指的是哪个行业？\n\n如果您能告诉我具体的行业，我可以从以下几个维度为您分析：\n\n- **市场规模与增长趋势**\n- **主要驱动因素与潜在风险**\n- **竞争格局与头部玩家**\n- **技术变革与创新方向**\n- **政策环境的影响**\n- **未来3-5年的发展预判**\n\n您可以直接说明行业名称，比如\"新能源\"、\"AI大模型\"、\"医疗健康\"、\"跨境电商\"等，我来帮您做深度分析。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask for the missing industry, but A only poses a bare question while B provides a clear analytical framework (six dimensions) and concrete examples, giving the user a scannable structure and decision criteria to move forward. B is more complete and actionable without stalling."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask for clarification, but A also provides a concrete analysis framework with six dimensions and example industries, giving the user something actionable even before specifying. B only asks the question with no structure or framework, offering minimal uplift."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p07",
+        "lang": "en",
+        "domain": "planning",
+        "prompt": "help me plan a trip",
+        "why_vague": "destination, dates, budget, party size unknown"
+      },
+      "answers": {
+        "control": "Happy to help plan a trip. A few questions to get started:\n\n1. Where are you thinking of going, or are you open to suggestions?\n2. When are you traveling and for how long?\n3. Who's going — solo, couple, family, group?\n4. What's your travel style — relaxing, adventurous, cultural, a mix?\n5. Any budget range in mind?",
+        "refine": "Happy to help plan a trip. A few quick questions to sketch something useful:\n\n1. Where are you thinking of going, or are you open to suggestions?\n2. When and for how long?\n3. Any focus — relaxation, adventure, culture, food, a mix?\n4. Rough budget range?\n\nIf you're open to suggestions, tell me where you're coming from and what kind of traveler you are, and I can throw out some ideas."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask focused clarifying questions covering destination, timing, style, and budget. B is slightly stronger on actionability because it offers to provide concrete suggestions if the user shares their origin and traveler type, moving the task forward rather than purely stalling on questions."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask focused clarifying questions and are well-structured, but neither offers an assumption-based first pass. A is slightly more actionable because it tells the user what to share to receive suggestions, giving a concrete path forward, while B only lists questions. The difference is marginal."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p08",
+        "lang": "zh",
+        "domain": "planning",
+        "prompt": "帮我做个学习计划",
+        "why_vague": "学什么、基础、时长、目标未给"
+      },
+      "answers": {
+        "control": "好的，我可以帮你制定一个学习计划。为了给你最合适的建议，我需要了解一些信息：\n\n1. **学习目标** - 你想学什么？（编程、语言、某个技术栈、考试准备等）\n2. **当前水平** - 你在这个领域的基础如何？\n3. **可用时间** - 每天/每周能投入多少时间学习？\n4. **时间跨度** - 希望在多长时间内达成目标？（几周、几个月、一年等）\n5. **学习偏好** - 更喜欢理论学习、动手实践，还是两者结合？\n\n告诉我这些信息，我会帮你设计一个具体可行的学习计划。",
+        "refine": "我来帮你制定学习计划！为了给你一个真正有用的方案，先做几个假设，你可以根据实际情况调整：\n\n**假设你是想提升某项技能（比如编程/英语/考试备考），每天有1-2小时可用。**\n\n---\n\n## 通用学习计划框架\n\n### 第一步：明确目标（第1天）\n- 写下你想学什么，以及学成后能做什么\n- 设定一个具体的截止日期\n\n### 第二步：评估现状（第1-2天）\n- 测试自己目前的水平\n- 找出知识盲区和薄弱点\n\n### 第三步：拆解任务（第2-3天）\n- 把大目标分解成小模块\n- 每个模块估算所需时间\n\n### 第四步：每日执行节奏\n| 时间 | 内容 |\n|------|------|\n| 前20分钟 | 复习昨天的内容 |\n| 中间40分钟 | 学习新内容 |\n| 最后10分钟 | 总结 + 记笔记 |\n\n### 第五步：每周复盘\n- 每周日回顾本周进度\n- 调整下周计划\n\n---\n\n**想让计划更精准，告诉我两件事：**\n1. 你想学什么？（编程、语言、考试、职业技能……）\n2. 你大概有多少时间可以用？\n\n这样我可以给你量身定制一个具体的计划。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are in Chinese and faithful to the request. A only asks clarifying questions and stalls without delivering any usable plan, while B makes explicit assumptions, provides a concrete actionable framework with daily/weekly rhythm, and still asks two focused follow-up questions. B better balances clarification with immediate uplift."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask clarifying questions in Chinese, but A pairs them with an assumption-based, actionable framework (goal-setting, assessment, task breakdown, daily/weekly schedule with a concrete time table), letting the user move forward immediately. B only asks questions and stalls the task entirely."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p09",
+        "lang": "en",
+        "domain": "debugging",
+        "prompt": "my code doesn't work, help",
+        "why_vague": "no code, no error, no language"
+      },
+      "answers": {
+        "control": "I'd be happy to help, but I'll need a bit more to go on. Can you share:\n\n1. The code that's not working\n2. What error or unexpected behavior you're seeing\n3. What you expected to happen instead",
+        "refine": "I'd be happy to help, but I need a bit more to go on. Could you share:\n\n1. The code that's not working\n2. What error or unexpected behavior you're seeing"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask focused clarifying questions in the same minimal style, but A also asks what the user expected to happen, which is more complete for diagnosing the problem. Neither offers an assumption-based first pass, though for such a vague prompt clarification is reasonable; A edges out on completeness."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are nearly identical, asking for the code and the error. B adds a third question about expected behavior, which is a meaningfully useful clarification for debugging, giving it a slight edge in clarification and completeness. Neither offers assumption-based progress, but B is marginally more thorough."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p10",
+        "lang": "zh",
+        "domain": "learning",
+        "prompt": "怎么学好机器学习",
+        "why_vague": "基础、目标、时间、偏好未知"
+      },
+      "answers": {
+        "control": "学好机器学习需要系统化的方法：\n\n**基础准备**\n- 数学基础：线性代数、微积分、概率论和统计学\n- 编程能力：Python 是首选，熟悉 NumPy、Pandas\n- 从经典算法开始：线性回归、逻辑回归、决策树、聚类\n\n**学习路径**\n1. 理论与实践结合：不要只看理论，每学一个算法就用代码实现\n2. 从简单数据集入手：Iris、MNIST、Titanic 等经典数据集\n3. 使用成熟框架：scikit-learn 打基础，PyTorch 或 TensorFlow 做深度学习\n4. 参与 Kaggle 竞赛：从入门赛开始，学习他人的解决方案\n\n**深入方向**\n- 选择感兴趣的领域：计算机视觉、NLP、推荐系统等\n- 读经典论文：了解算法演进和前沿进展\n- 做实际项目：解决真实问题比刷题更有价值\n\n**持续提升**\n- 复现论文代码\n- 关注学术会议（NeurIPS、ICML、CVPR）\n- 建立学习笔记和代码库\n\n重点是动手实践，理论和代码要结合。先把基础打牢，再根据兴趣深入某个方向。",
+        "refine": "学好机器学习需要循序渐进，下面是一条比较清晰的路径：\n\n## 打好数学基础\n\n- **线性代数**：矩阵运算、特征值、SVD——Khan Academy 或 3Blue1Brown 的视频很直观\n- **概率与统计**：贝叶斯定理、概率分布、最大似然估计\n- **微积分**：链式法则、梯度——理解反向传播的核心\n\n不需要精通，够用就行，边学算法边补数学效率更高。\n\n## 掌握 Python 编程\n\n重点库：`NumPy`、`Pandas`、`Matplotlib`，再加上 `scikit-learn`。能熟练处理数据、做可视化就算过关。\n\n## 系统学习核心算法\n\n从经典算法开始，不要上来就学深度学习：\n\n- 线性回归 / 逻辑回归\n- 决策树、随机森林、XGBoost\n- SVM、KNN、K-Means\n- 主成分分析（PCA）\n\n每个算法都要**自己推导一遍公式，再写代码实现**，这两步缺一不可。\n\n## 推荐学习资源\n\n| 类型 | 推荐 |\n|------|------|\n| 课程 | Andrew Ng 的 Machine Learning Specialization（Coursera） |\n| 书籍 | 《Hands-On ML with Scikit-Learn, Keras & TensorFlow》（Aurélien Géron） |\n| 中文书 | 周志华《机器学习》（西瓜书）+ 南瓜书（配套公式推导） |\n| 实战 | Kaggle 比赛、UCI 数据集 |\n\n## 实战是关键\n\n光看教程没用，要动手做项目：\n\n1. 先跑通 Kaggle 的入门竞赛（Titanic、House Prices）\n2. 找一个自己感兴趣的真实问题建模\n3. 读论文，复现代码\n\n## 进阶方向\n\n基础扎实后再选方向深入：深度学习（PyTorch / TensorFlow）、NLP、计算机视觉、强化学习——不要一开始就铺太广。\n\n---\n\n最常见的坑是**看了很多教程但不写代码**。建议每学完一个概念就立刻写代码验证，哪怕是几十行的小实验。你目前是完全零基础，还是已经有一些编程/数学背景？"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers cover similar ground in Chinese with good structure, but B adds concrete named resources (specific courses, books, the 西瓜书/南瓜书), a scannable table, and ends with a clarifying question about the user's background—directly addressing the vague prompt's missing context. A is solid but more generic and offers no clarification of the user's starting point."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are well-organized Chinese responses covering the same learning path, but A is more actionable with specific resource recommendations (named courses, books, the 西瓜书+南瓜书pairing), concrete first steps (Titanic, House Prices), and ends with a focused clarifying question about the user's background. B is solid but more generic and offers no clarification to handle the vague prompt."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p11",
+        "lang": "en",
+        "domain": "data",
+        "prompt": "make a chart from my data",
+        "why_vague": "no data, no chart type, no goal"
+      },
+      "answers": {
+        "control": "I'd be happy to help you make a chart from your data. Could you share the data you'd like to visualize? Also, let me know if you have any preferences for the chart type (bar, line, pie, etc.) or format (HTML, Python script, etc.).",
+        "refine": "I'd be glad to help make a chart, but I need the data first. Could you share it here? Paste it as text, a table, CSV, or whatever format you have.\n\nAlso helpful to know: what kind of chart are you thinking (bar, line, pie, scatter, etc.) and what tool or format do you want the output in (Python/matplotlib, JavaScript, Excel, HTML, etc.)?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly ask for the data and surface chart-type and format preferences without stalling, but neither offers an assumption-based first pass. B is slightly more actionable and complete, specifying acceptable data formats (text, table, CSV) and more concrete tool options, making it easier to act on."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly ask for the missing data and chart preferences, which is reasonable since no data was provided to make assumptions on. A is slightly more thorough, suggesting concrete data formats to paste and a wider range of chart types and output tools, giving the user clearer guidance on how to proceed. B covers the same essentials more tersely but with less specificity."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p12",
+        "lang": "zh",
+        "domain": "product",
+        "prompt": "给我的 app 提点建议",
+        "why_vague": "app 是什么、用户、目标、平台缺失"
+      },
+      "answers": {
+        "control": "我需要先了解你的 app 才能给出有针对性的建议。能告诉我：\n\n- 这是什么类型的 app？（工具类、社交、电商、游戏等）\n- 主要面向哪些用户？\n- 目前遇到什么问题或者想改进哪方面？（性能、UI/UX、架构、功能等）\n\n如果有代码或截图也可以分享出来。",
+        "refine": "我需要更多信息才能给出有用的建议。能告诉我：\n\n1. 你的 app 是做什么的？（功能、目标用户）\n2. 目前遇到什么问题或挑战？（性能、用户留存、变现、技术架构……）\n\n有了这些背景，我可以给出具体有针对性的建议，而不是泛泛而谈。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are clarification-only and decline to give any assumption-based first pass, which limits actionability equally. A is slightly more complete, covering more app categories and inviting code/screenshots, giving the user more concrete dimensions to respond to."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers only ask clarifying questions without offering any assumption-based first pass, limiting actionability. B is slightly more thorough, giving concrete category examples for app type and inviting code/screenshots, making it marginally more useful for moving forward."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p13",
+        "lang": "en",
+        "domain": "career",
+        "prompt": "how do I get better at my job",
+        "why_vague": "role, current level, and goal unspecified"
+      },
+      "answers": {
+        "control": "I'd be happy to help, but I need more context to give you useful advice. Could you tell me:\n\n- What do you do? (role, industry, type of work)\n- What specifically do you want to improve? (technical skills, communication, speed, quality, something else)\n- What's driving this question? (feedback you received, personal goal, new responsibilities, feeling stuck)\n\nThe more specific you are, the more practical my suggestions will be.",
+        "refine": "Depends on the job, but a few things work across almost every role:\n\n**Get feedback actively** — don't wait for annual reviews. Ask your manager or a trusted colleague \"what's one thing I could do better?\" regularly.\n\n**Work at the edge of your ability** — tasks that are slightly too hard for you right now build skill faster than comfortable work.\n\n**Reflect on what you do** — a quick end-of-day note on what went well and what didn't compounds fast over months.\n\n**Learn from people who are better than you** — watch how they handle problems, ask them questions, read what they read.\n\n**Build the meta-skills** — communication, prioritization, and managing your own energy often matter more than technical knowledge, regardless of role.\n\n**Ship things** — in most jobs, finishing and delivering beats perfecting. The feedback from real output teaches you more than preparation.\n\nWhat kind of work do you do? I can give more specific advice if you share that."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "A only asks clarifying questions and stalls without offering any substance, while B provides concrete, universally applicable advice as an assumption-based first pass and still closes with a focused clarifying question. B better serves a user with an incomplete prompt by delivering actionable progress immediately."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "A delivers a useful assumption-based first pass with concrete, broadly applicable tactics and still asks one focused clarifying question, while B only asks questions and stalls the task entirely. A is stronger on completeness and actionability without sacrificing clarification."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p14",
+        "lang": "zh",
+        "domain": "writing",
+        "prompt": "帮我润色一下简历",
+        "why_vague": "无简历内容、目标岗位、行业"
+      },
+      "answers": {
+        "control": "请把你的简历内容粘贴过来，我来帮你润色。",
+        "refine": "请把你的简历内容粘贴过来，我来帮你润色。\n\n如果你有特定的目标职位或行业，也可以一并告诉我，这样我可以更有针对性地优化。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly request the resume content in Chinese, but B surfaces additional useful missing context (target role/industry) that helps tailor the polish, making it more complete and actionable. Neither offers an assumption-based first pass, but B is the stronger response."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask for the resume content in correct Chinese, but A additionally surfaces missing context (target role/industry) that meaningfully improves the polishing, making it more complete and actionable. B is minimal and offers no guidance beyond pasting."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p15",
+        "lang": "en",
+        "domain": "research",
+        "prompt": "explain AI progress",
+        "why_vague": "scope, audience, depth, and decision context undefined"
+      },
+      "answers": {
+        "control": "AI progress has been rapid and spans several dimensions:\n\n**Capabilities**\n\n- Language models went from struggling with coherent paragraphs to writing code, reasoning through complex problems, and passing professional exams (bar, medical, etc.)\n- Image generation jumped from blurry, artifact-filled outputs to photorealistic and artistically sophisticated results in just a few years\n- Multimodal models now handle text, images, audio, and video in a single system\n- Reasoning models (like o1/o3) show meaningful gains on math, logic, and scientific benchmarks by thinking step-by-step before answering\n\n**Scale and efficiency**\n\n- Model size grew from millions to hundreds of billions of parameters, but recent work focuses on doing more with smaller models (Mistral, Llama, Phi)\n- Training compute has followed rough scaling laws — more data and compute generally yields better models, though returns aren't always linear\n- Inference efficiency has improved dramatically, enabling models to run on consumer hardware that would've required a data center a few years ago\n\n**Key inflection points**\n\n- 2017: Transformer architecture paper (\"Attention Is All You Need\") — essentially the foundation for most modern AI\n- 2020: GPT-3 demonstrated that scale alone could produce surprisingly general language abilities\n- 2022: ChatGPT made these capabilities accessible to a mass audience\n- 2023-present: Rapid iteration on reasoning, tool use, agents, and multimodality\n\n**Where things stand now**\n\nProgress on benchmarks has been fast, but real-world reliability is uneven. Models can fail on simple tasks while succeeding on hard ones. Hallucination, context limits, and alignment remain active research areas. The shift toward agentic systems — AI that takes actions, uses tools, and operates autonomously — is the current frontier.\n\nThe pace has been fast enough that even researchers in the field have been surprised by what emerged from scale.",
+        "refine": "AI progress has been rapid and nonlinear. Here's a clear picture of where things stand and how we got here.\n\n**The key eras**\n\n- 1950s–1980s: Rule-based systems. AI was hand-coded logic — expert systems that could reason within narrow, predefined domains but couldn't learn or generalize.\n- 1990s–2000s: Machine learning takes hold. Models learn patterns from data rather than explicit rules. Support vector machines, decision trees, and early neural nets start solving real problems.\n- 2012: Deep learning breakthrough. AlexNet wins ImageNet by a huge margin using GPUs and convolutional networks. This kicks off the modern era.\n- 2017: The Transformer architecture (from Google's \"Attention is All You Need\" paper) becomes the foundation for nearly everything that follows.\n- 2020–present: Scale laws kick in. Bigger models trained on more data with more compute keep getting reliably better. GPT-3, then ChatGPT, then GPT-4, Claude, Gemini — each generation significantly more capable.\n\n**What's actually improving**\n\n- Reasoning: models can now solve multi-step math, write and debug code, and handle complex logic — things that seemed out of reach five years ago.\n- Multimodality: text, images, audio, and video are increasingly handled by the same models.\n- Efficiency: newer models do more with less compute — better architectures, quantization, distillation.\n- Agents: models can now use tools, browse the web, write and run code, and take multi-step actions autonomously.\n\n**What's still hard**\n\n- Reliability: models hallucinate — they generate plausible but wrong information with confidence.\n- Long-horizon planning: autonomous agents still struggle with tasks requiring many interdependent steps.\n- True generalization: models are still brittle outside their training distribution in ways humans aren't.\n- Physical world: robotics and embodied AI lag far behind language and vision progress.\n\n**The underlying driver**\n\nMost of the gains come from three things compounding together: more compute, more data, and better algorithms. The scaling hypothesis — that simply making models bigger and training them longer produces emergent capabilities — has largely held up, though there's debate about whether it continues indefinitely.\n\nWe're likely in a period where the low-hanging fruit of scaling is getting more expensive, pushing more investment into architecture improvements, synthetic data, and reasoning-time compute (thinking longer rather than training bigger).\n\nWant me to go deeper on any particular aspect — technical, historical, or applications?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are well-structured overviews of AI progress, but B covers a fuller historical arc (1950s onward vs A starting at 2017), separates what's improving from what's still hard more clearly, and explicitly offers to narrow scope, which surfaces the vague prompt's missing context. A is solid and accurate but ends flatly without inviting the user to direct the depth or angle."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers cover similar ground (eras, scaling, capabilities, limitations) with strong structure and completeness in English matching the prompt. A is more complete with an explicit historical timeline, underlying drivers, and ends with a focused clarifying question offering to go deeper on technical/historical/applications, which adds actionability for a vague prompt. B is solid but lacks any clarification or next-step prompt, leaving the user without direction to refine."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p16",
+        "lang": "zh",
+        "domain": "coding",
+        "prompt": "优化一下这段 SQL",
+        "why_vague": "无 SQL、表结构、数据量、目标"
+      },
+      "answers": {
+        "control": "当然，我很乐意帮你优化 SQL。不过我需要先看到你想优化的 SQL 语句。请分享一下代码，我会分析并提供优化建议。",
+        "refine": "请把你的 SQL 贴过来，我来帮你优化。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 2,
+              "completeness": 1,
+              "actionability": 1,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers simply request the SQL without offering any assumption-based first pass, optimization dimensions to consider (indexing, joins, query plans), or concrete next steps. A is marginally fuller by noting it will analyze and provide suggestions, but neither surfaces what info matters or provides actionable structure."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 1,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 2,
+              "completeness": 2,
+              "actionability": 1,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers simply ask for the SQL without surfacing useful context (DB engine, schema, indexes) or offering any assumption-based optimization checklist, so both are weak on completeness and actionability. A is concise while B is slightly padded with filler, but the substantive content is identical; neither provides meaningful uplift."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p17",
+        "lang": "en",
+        "domain": "design",
+        "prompt": "design a logo for my startup",
+        "why_vague": "name, industry, style, constraints missing"
+      },
+      "answers": {
+        "control": "Logo design is visual work that I can't do directly — I can't generate or render images.\n\nHere's what I can help with instead:\n\n- Write a design brief you can hand to a designer or paste into a tool like Midjourney, DALL-E, or Canva\n- Describe logo concepts based on your brand (style, colors, typography direction)\n- Create an SVG logo if you want something simple and text/shape-based\n\nWhat's your startup about? I can put together a solid design brief or SVG concept once I know a bit more.",
+        "refine": "I can't generate or design images directly, but I can help you create a strong logo concept that you can hand off to a designer or use with an AI image tool like Midjourney, DALL-E, or Canva.\n\nTo point you in the right direction, a few quick questions:\n\n1. What does your startup do, and what's the name?\n2. What feeling should the logo convey — trustworthy, playful, bold, minimal, technical?\n3. Any color preferences or styles you're drawn to (wordmark, icon, combination)?\n\nIf you share those details, I can write you a precise design brief and prompt you can use immediately with any AI image generator."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly state they can't render images and offer to write a design brief or prompt for AI tools. A goes further by offering a concrete SVG logo option and lists actionable deliverables, giving slightly more tangible next steps; B asks tighter focused questions but offers a narrower set of outputs. Both are well-structured and faithful to the ask, with A edging ahead on actionability via the SVG offer."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both correctly note they can't render images, surface the same key missing info, and stay in English. A uses a cleaner numbered set of focused questions, but B adds a concrete extra option (generating an actual SVG logo for simple text/shape designs), which gives a real draft-output path beyond just a brief, edging out A on actionability and completeness."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p18",
+        "lang": "zh",
+        "domain": "general",
+        "prompt": "给我讲讲量子计算",
+        "why_vague": "受众、深度、侧重点未定"
+      },
+      "answers": {
+        "control": "量子计算是一种利用量子力学原理进行信息处理的计算范式。下面是核心概念的梳理。\n\n## 基本原理\n\n**量子比特（Qubit）**\n传统计算机用比特（0或1）存储信息，量子计算机用量子比特，它可以同时处于0和1的叠加态。这就是\"叠加\"（Superposition）。\n\n**纠缠（Entanglement）**\n两个量子比特可以相互纠缠，一个的状态会瞬间影响另一个，无论相距多远。这让量子计算机能并行处理大量信息。\n\n**干涉（Interference）**\n量子算法通过干涉放大正确答案的概率，压低错误答案的概率，从而提高计算效率。\n\n**测量与坍缩**\n量子比特一旦被测量，叠加态会坍缩成0或1，这是量子计算设计的核心挑战之一。\n\n## 量子优势在哪里\n\n量子计算不是对所有问题都更快，它在特定类型的问题上有显著优势：\n\n- 大数分解（威胁现有加密体系）\n- 数据库无序搜索（Grover算法，√N 速度）\n- 量子化学模拟（药物研发、材料科学）\n- 优化问题（物流、金融建模）\n\n## 当前挑战\n\n- **退相干**：量子态极其脆弱，环境干扰会破坏计算\n- **错误率**：现有量子计算机错误率还很高，需要大量纠错量子比特\n- **规模**：目前最强的量子计算机有几百到几千个物理量子比特，距离实用还有差距\n\n## 现状\n\nGoogle、IBM、微软、百度、本源量子等公司都在积极研发。IBM 的 Heron 处理器已达 133 个量子比特，Google 在 2019 年宣称实现了\"量子霸权\"（用量子计算机完成传统计算机需要数千年的任务）。\n\n目前我们处于 NISQ 时代（嘈杂中等规模量子）——机器已经能运行，但还不够稳定和强大来解决现实世界的大规模问题。\n\n有哪个方向想深入了解？比如具体算法、硬件实现方式，或者对密码学的影响？",
+        "refine": "量子计算是一种利用量子力学原理来处理信息的计算方式，和传统计算机有本质上的区别。\n\n## 核心概念\n\n**经典比特 vs 量子比特（Qubit）**\n\n传统计算机用比特（bit）存储信息，每个比特非 0 即 1。量子比特则可以同时处于 0 和 1 的叠加态，直到被测量时才\"坍缩\"成一个确定值。\n\n**三个关键原理**\n\n- **叠加（Superposition）**：一个量子比特可以同时表示 0 和 1，n 个量子比特可以同时表示 2ⁿ 种状态。这让量子计算机在某些问题上能并行探索大量可能性。\n\n- **纠缠（Entanglement）**：两个量子比特可以建立关联，对其中一个的测量会瞬间影响另一个，无论距离多远。这是量子计算实现强大协作的基础。\n\n- **干涉（Interference）**：量子算法通过让错误答案的概率\"相消\"、正确答案的概率\"相加\"来放大最终结果的准确性。\n\n## 能解决什么问题\n\n量子计算并不是\"万能加速器\"，它在特定类型的问题上有优势：\n\n| 领域 | 应用场景 |\n|------|---------|\n| 密码学 | Shor 算法可以高效分解大整数，威胁现有 RSA 加密 |\n| 优化问题 | 物流路线、金融组合优化 |\n| 化学模拟 | 模拟分子结构，加速药物和材料研发 |\n| 机器学习 | 某些算法的量子加速版本 |\n\n## 目前的现状\n\n量子计算还处于早期阶段，面临几个主要挑战：\n\n- **噪声与退相干**：量子比特极其脆弱，环境干扰会导致计算错误，目前的量子计算机被称为 NISQ（噪声中型量子设备）。\n- **纠错开销大**：为了容错，需要用大量物理量子比特来模拟一个逻辑量子比特。\n- **低温要求**：大多数量子处理器需要接近绝对零度（约 -273°C）才能运行。\n\n主要玩家包括 IBM、Google、微软、以及初创公司 IonQ 和 Quantinuum 等。Google 在 2019 年宣称实现了\"量子霸权\"，用 200 秒完成了传统超算需要上万年的特定任务——但这个任务是专门设计的，实用价值有限。\n\n## 一句话总结\n\n量子计算不是替代传统计算机，而是针对特定难题的\"专用加速器\"。它最激动人心的潜力在于化学模拟和破解/构建新型加密系统，但真正实用的通用量子计算机还需要若干年甚至更长时间。\n\n有哪个方向你想深入了解？比如量子算法、硬件实现，或者和 AI 的结合？"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers cover quantum computing fundamentals well in Chinese, are well-structured, and end with a clarifying follow-up question offering directions to explore. B is slightly more complete—it adds the low-temperature requirement, a cleaner table format, contextualizes the quantum supremacy claim (200 seconds, specialized task with limited practical value), and includes a one-line summary that aids decision-making. A is accurate and includes more specific hardware figures but is marginally less rounded."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are well-structured Chinese explanations covering core principles, applications, challenges, and a follow-up question to guide next steps. A is slightly richer: it includes a comparison table, more accurate framing (e.g., noting quantum supremacy task's limited practical value), an explicit 'not a universal accelerator' framing, and a clear one-line summary. B is solid and includes specific hardware details (Heron 133 qubits) but slightly overstates entanglement as the source of parallelism and is marginally less polished."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p19",
+        "lang": "en",
+        "domain": "marketing",
+        "prompt": "help me write a launch tweet for my app",
+        "why_vague": "no app description, audience, tone, or call-to-action"
+      },
+      "answers": {
+        "control": "I'd be happy to help you write a launch tweet! To make it effective, I need to know a bit more about your app:\n\n- What does your app do?\n- Who is it for?\n- What's the main problem it solves or benefit it provides?\n- Any unique features or differentiators?\n- What tone do you want - professional, casual, exciting, technical?\n\nShare those details and I'll craft a tweet that captures what makes your app worth checking out.",
+        "refine": "Happy to help. What's the app called, and what does it do? A sentence or two is enough to get started."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask clarifying questions instead of offering an assumption-based draft, which limits actionability. A provides a structured, scannable set of focused questions covering function, audience, value, differentiators, and tone, giving the user clear guidance on what to provide. B is too sparse, asking only the name and function without surfacing other key details or offering a draft."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both stall on clarification rather than offering an assumption-based draft, but B surfaces the key missing dimensions (audience, problem, differentiators, tone) in a scannable list, while A asks only the bare minimum. Neither gives a first-pass tweet, yet B is more complete and actionable in guiding the user forward."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p20",
+        "lang": "zh",
+        "domain": "business",
+        "prompt": "帮我写一份商业计划书",
+        "why_vague": "行业、商业模式、受众、融资阶段全缺"
+      },
+      "answers": {
+        "control": "我需要了解一些基本信息才能为你写一份有针对性的商业计划书：\n\n1. **行业/业务类型** — 你做的是什么？（餐饮、科技、电商、教育、服务业等）\n2. **目标受众** — 面向个人消费者还是企业客户？\n3. **阶段** — 是创业初期、寻求融资，还是内部规划？\n4. **核心卖点** — 你的产品或服务有什么独特之处？\n5. **目标市场** — 地区范围（本地、全国、海外）？\n\n提供这些信息后，我可以写出一份结构完整、内容具体的计划书。",
+        "refine": "我来帮你写一份商业计划书。在开始之前，我需要了解几个关键信息：\n\n1. **业务类型** — 你的项目/公司是做什么的？（例如：餐饮、科技、电商、服务业等）\n2. **目标市场** — 面向哪类客户？（B2B、B2C、本地市场还是全国/国际市场？）\n3. **发展阶段** — 是初创想法、已在运营，还是寻求融资扩张？\n4. **核心需求** — 这份计划书主要用途是什么？（内部规划、银行贷款、吸引投资人？）\n\n如果你现在没有完整信息，可以告诉我大致方向，我先按通用框架给你写一个模板版本，你再根据实际情况填充细节。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask focused clarifying questions in fluent Chinese with similar structure, but B offers to proceed with a template framework if the user lacks full info, giving better actionability and avoiding a stall. A only gathers info and waits, which is less helpful for moving forward."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask similar clarifying questions in Chinese with good structure, but A offers a concrete fallback to draft a template version if the user lacks full info, providing more actionability and progress; B only promises to write after receiving answers, stalling the task."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p21",
+        "lang": "en",
+        "domain": "finance",
+        "prompt": "explain how to budget my money",
+        "why_vague": "no income, expenses, goals, or timeframe given"
+      },
+      "answers": {
+        "control": "Here's a practical approach to budgeting:\n\n**Track your income and expenses**\nStart by recording what you earn (after taxes) and what you spend for a month or two. This shows you where your money actually goes.\n\n**Use a budgeting framework**\nThe 50/30/20 rule is a good starting point:\n- 50% for needs (rent, utilities, groceries, insurance)\n- 30% for wants (dining out, entertainment, hobbies)\n- 20% for savings and debt repayment\n\nAdjust these percentages based on your situation. If you have high debt or live in an expensive area, your split might look different.\n\n**Prioritize in order**\n1. Essential expenses (housing, food, utilities)\n2. Minimum debt payments\n3. Emergency fund (start with $1,000, build to 3-6 months of expenses)\n4. Retirement savings (especially if your employer matches)\n5. Extra debt payments\n6. Other savings goals\n\n**Choose a method that fits your style**\n- Zero-based budgeting: assign every dollar a job\n- Envelope system: allocate cash to spending categories\n- Pay yourself first: automate savings, then spend what's left\n- Apps like YNAB, Mint, or a simple spreadsheet\n\n**Review and adjust monthly**\nYour budget isn't static. Check in regularly to see what's working and what needs to change.\n\nThe best budget is one you'll actually stick with. Start simple and refine as you go.",
+        "refine": "Here's a straightforward framework for budgeting:\n\n**Start with your take-home income**\nKnow exactly how much hits your account each month after taxes. That's your starting number.\n\n**Track what you actually spend**\nBefore building a budget, look at 1-2 months of bank/credit card statements. Most people are surprised by what they find.\n\n**Use a simple allocation framework**\n\nA common starting point is the 50/30/20 rule:\n- 50% needs — rent, utilities, groceries, minimum debt payments, insurance\n- 30% wants — dining out, subscriptions, entertainment, shopping\n- 20% savings and extra debt payoff\n\nAdjust the percentages to fit your situation. High rent city? Your needs slice will be bigger.\n\n**Prioritize in this order**\n1. Cover essential bills first\n2. Build a small emergency fund (~$1,000 to start)\n3. Pay down high-interest debt (credit cards)\n4. Invest for retirement (especially if your employer matches 401k contributions — that's free money)\n5. Save for other goals\n\n**Pick a method you'll actually stick with**\n- Spreadsheet — full control, free, manual work\n- App like YNAB, Copilot, or Mint — automates tracking, costs a bit\n- Envelope method — physical cash in labeled envelopes, great if you overspend on cards\n\n**Review monthly**\nBudgets drift. A 15-minute monthly check-in catches problems before they compound.\n\nThe biggest thing: a perfect budget you ignore beats nothing, but an imperfect one you actually follow beats everything. Start simple.\n\nWant advice tailored to a specific situation, like paying off debt, saving for something, or managing irregular income?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers give nearly identical, well-structured budgeting frameworks with concrete steps, methods, and prioritization. B edges ahead by offering a closing clarifying question that surfaces the missing context (debt, irregular income, specific goals), better serving the vague prompt, while A stalls on no clarification. Otherwise they are very close in structure and completeness."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers cover the same budgeting fundamentals with strong structure and actionability. A edges ahead on clarification by closing with a targeted follow-up question that invites tailoring (debt, irregular income), which better surfaces missing context, and it adds a practical note on reviewing statements first. B is slightly more complete on method variety (zero-based, pay yourself first) but offers no clarifying prompt."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p22",
+        "lang": "zh",
+        "domain": "education",
+        "prompt": "怎么教小孩学数学",
+        "why_vague": "孩子年龄、现有水平、目标、时间都没说"
+      },
+      "answers": {
+        "control": "教小孩学数学，几个实用方向：\n\n**从生活场景入手**\n- 购物时让孩子算找零、比较价格\n- 做饭时用量杯、计时器感受数量和时间\n- 分零食时练习等分，理解除法概念\n\n**用具体物体建立直觉**\n- 用积木、硬币、扑克牌做加减法\n- 画图或用手指帮助理解，别急着让孩子背公式\n- 先建立\"数感\"，再过渡到抽象符号\n\n**游戏化练习**\n- 棋类游戏（飞行棋、象棋）培养逻辑和计算\n- 数字拼图、数独（简单版）\n- 家长出题时包装成\"故事题\"，比直接算式更有趣\n\n**按年龄调整难度**\n- 学前：数数、认数字、形状\n- 小学低年级：加减法、简单乘除、时间和金钱\n- 小学高年级：分数、小数、面积、简单方程\n\n**几个注意点**\n- 孩子答错时别急着纠正，先问\"你是怎么想的\"\n- 短时高频比长时低频效果好，每天10分钟比周末1小时强\n- 家长的态度很重要，别把\"数学难\"的焦虑传给孩子\n\n有没有具体年龄段或某个难点？可以聊得更具体。",
+        "refine": "教小孩学数学，关键是让他们觉得有趣、有意义，而不是死记硬背。几个实用的方法：\n\n**从生活入手**\n- 买东西时让孩子算钱、找零\n- 做饭时一起量食材的分量\n- 数台阶、数停车场里的车\n\n**用游戏代替练习题**\n- 扑克牌可以玩加减法游戏\n- 积木、拼图培养空间感\n- 棋盘游戏（如大富翁）练习数字运算\n\n**具体再抽象**\n先让孩子用实物（积木、糖果、手指）摆一摆，理解了概念再过渡到数字符号。比如 3+2，先数三颗糖再加两颗糖，最后才写算式。\n\n**允许犯错，不要急**\n孩子算错了，引导他自己找出哪里不对，比直接给答案更有效。\n\n**每次练习量不要多**\n专注力有限，每次 10-15 分钟足够，保持正向体验比完成大量题目重要。\n\n**根据年龄调整**\n- 3-5岁：数数、认识形状、大小比较\n- 6-8岁：加减法、简单乘法、认识钟表和金钱\n- 9岁以上：分数、小数、逻辑推理\n\n最重要的是保护孩子对数学的好奇心，一旦他们觉得数学\"好玩\"，后面就容易多了。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are well-structured, in Chinese, and cover similar practical ground (life scenarios, games, concrete-to-abstract, age-based difficulty, encouraging mistakes). A edges ahead by ending with a focused clarifying question about age or specific difficulty, which surfaces the missing context the vague prompt left out, while B simply closes with encouragement. Otherwise they are nearly equivalent in completeness and actionability."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are well-structured, in Chinese, and cover similar practical ground (life scenarios, concrete-to-abstract, games, age-based difficulty, attitude tips). B edges ahead on clarification by explicitly inviting the user to specify an age range or difficulty point, which suits the vague prompt, while A simply ends with advice. Content quality is otherwise comparable."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p23",
+        "lang": "en",
+        "domain": "fitness",
+        "prompt": "give me a workout plan",
+        "why_vague": "no goal, fitness level, equipment, or schedule"
+      },
+      "answers": {
+        "control": "Here's a solid 4-day workout split:\n\n**Day 1 — Push (Chest, Shoulders, Triceps)**\n- Bench Press: 4x5\n- Overhead Press: 3x8\n- Incline Dumbbell Press: 3x10\n- Lateral Raises: 3x12\n- Tricep Pushdowns: 3x12\n\n**Day 2 — Pull (Back, Biceps)**\n- Deadlift: 4x5\n- Pull-ups: 3x8\n- Barbell Rows: 3x8\n- Face Pulls: 3x15\n- Barbell Curls: 3x10\n\n**Day 3 — Rest or Active Recovery**\n\n**Day 4 — Legs**\n- Squat: 4x5\n- Romanian Deadlift: 3x8\n- Leg Press: 3x10\n- Walking Lunges: 3x12 each leg\n- Calf Raises: 4x15\n\n**Day 5 — Upper Body Accessory**\n- Dips: 3x10\n- Cable Rows: 3x12\n- Arnold Press: 3x10\n- Hammer Curls: 3x12\n- Rear Delt Flies: 3x15\n\n**Day 6 & 7 — Rest**\n\nA few notes:\n- The heavy compound lifts (bench, squat, deadlift, OHP) use lower reps to build strength. Accessories use higher reps for hypertrophy.\n- Rest 2-3 min between heavy sets, 60-90 sec for accessories.\n- Progressive overload is the key driver — add small amounts of weight each week when you hit the top of your rep range.\n\nWant me to adjust this for a specific goal (fat loss, strength, muscle size) or time constraint?",
+        "refine": "Here's a solid general-purpose workout plan. I'll assume intermediate fitness level and 4 days per week — let me know if you want adjustments.\n\n**4-Day Upper/Lower Split**\n\nDay 1 — Upper (Push focus)\n- Bench press 4x8\n- Overhead press 3x10\n- Incline dumbbell press 3x12\n- Tricep pushdowns 3x12\n- Lateral raises 3x15\n\nDay 2 — Lower (Quad focus)\n- Squat 4x8\n- Leg press 3x12\n- Lunges 3x10 each leg\n- Leg extensions 3x15\n- Calf raises 4x15\n\nDay 3 — Rest or light cardio\n\nDay 4 — Upper (Pull focus)\n- Barbell rows 4x8\n- Pull-ups or lat pulldowns 3x10\n- Cable rows 3x12\n- Face pulls 3x15\n- Bicep curls 3x12\n\nDay 5 — Lower (Hamstring/glute focus)\n- Romanian deadlift 4x8\n- Hip thrusts 3x12\n- Leg curls 3x15\n- Bulgarian split squat 3x10 each leg\n- Calf raises 4x15\n\nDays 6–7 — Rest\n\n**General guidelines**\n- Rest 60–90 seconds between sets for hypertrophy, 2–3 min for strength sets\n- Progressive overload: add weight or reps each week\n- Warm up 5–10 min before lifting\n- Aim for 7–9 hours of sleep and enough protein (0.7–1g per lb of bodyweight)\n\nLet me know your goals (strength, fat loss, muscle gain), experience level, or equipment constraints and I can tailor this further."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers state assumptions and offer a complete, actionable plan with a follow-up question. B is slightly stronger on clarification (explicit assumption of level and frequency upfront) and completeness (adds warmup, sleep, protein guidance), while A is also excellent but omits recovery/nutrition basics."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers deliver a structured, actionable 4-day workout plan with clear assumptions and a closing offer to tailor by goal/equipment. A is slightly stronger on clarification by explicitly stating its assumptions upfront (intermediate level, 4 days) and including broader lifestyle guidance (sleep, protein, warm-up), while B explains the rep-scheme rationale well. The differences are marginal but A's explicit assumption-surfacing and fuller completeness give it a slight edge."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p24",
+        "lang": "zh",
+        "domain": "tech",
+        "prompt": "帮我设计一个数据库",
+        "why_vague": "应用场景、实体、规模、技术栈未指定"
+      },
+      "answers": {
+        "control": "好的，我需要了解一些信息才能帮你设计合适的数据库：\n\n1. **用途** - 这个数据库是用来做什么的？（比如：电商系统、博客、CRM、库存管理等）\n\n2. **核心实体** - 需要管理哪些主要对象？（比如：用户、订单、产品、文章等）\n\n3. **规模预期** - 大概的数据量和并发用户数？\n\n4. **技术栈偏好** - 有没有特定的数据库系统要求？（比如：MySQL、PostgreSQL、MongoDB等）\n\n5. **特殊需求** - 有没有特别的功能需求？（比如：实时搜索、地理位置、多语言、审计日志等）\n\n你可以简单描述一下你的项目场景，我就能给你设计一个合适的数据库结构。",
+        "refine": "我来帮你设计数据库。不过\"数据库\"这个范围比较广，我需要了解几个关键信息才能给你有用的设计：\n\n1. **这是什么系统？** 比如电商平台、博客系统、库存管理、用户认证服务……\n2. **核心业务实体有哪些？** 比如用户、订单、商品、文章等\n3. **有没有特殊需求？** 比如高并发读写、多租户、时序数据、全文搜索\n\n如果你现在没有太多想法，给我一个场景描述也行，比如\"一个外卖平台\"或者\"公司内部的员工考勤系统\"，我可以基于常见需求给你一个完整的初版设计，包括表结构、字段类型、索引建议和关系图。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask the same focused clarifying questions in Chinese with clear structure. B is stronger on actionability because it explicitly offers to deliver a complete first-pass design (table structures, field types, index suggestions, relationship diagram) from just a scenario, giving the user a concrete path forward, whereas A only promises a 'suitable structure'."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask focused clarifying questions in Chinese and are well structured. A is slightly stronger on actionability because it explicitly offers to deliver a complete first-pass design (table schema, field types, index suggestions, ER diagram) based on a scenario, lowering the barrier to progress. B asks more thorough questions but stops at clarification without offering an assumption-based first pass."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p25",
+        "lang": "en",
+        "domain": "productivity",
+        "prompt": "how do I get more organized",
+        "why_vague": "no context on work, tools, or what's failing now"
+      },
+      "answers": {
+        "control": "A few approaches that work well together:\n\n**Capture everything in one place** — pick a single system (app, notebook, whatever) for tasks, ideas, and commitments. The tool matters less than consistency.\n\n**Break work into concrete next actions** — \"plan trip\" is not actionable, \"search flights for June 10\" is. Vague items stall.\n\n**Weekly review** — spend 15-20 minutes each week clearing your inbox, updating your task list, and planning the next week. This is what keeps systems from decaying.\n\n**Reduce decisions** — routines for recurring tasks (morning, end of workday, weekly) mean you spend less mental energy figuring out what to do next.\n\n**Limit your daily list** — pick 3-5 things that must get done today instead of writing 20 items and feeling behind.\n\nIf you want a starting point, the GTD (Getting Things Done) method by David Allen is a solid framework. Digital tools like Notion, Todoist, or even Apple Reminders work fine — the system behind the tool is what matters.\n\nWhat area are you trying to get more organized in — work, personal life, a specific project?",
+        "refine": "A few approaches that actually work, depending on what feels most chaotic right now:\n\n**For your time and tasks**\n- Pick one system and stick with it — a simple to-do list, a notebook, or an app like Todoist or Notion. The tool matters less than the habit.\n- Capture everything in one place instead of scattered across sticky notes, emails, and your head.\n- Do a weekly review: what's done, what's pending, what's coming up.\n\n**For your space**\n- \"A place for everything, everything in its place\" — assign a home to items you constantly lose.\n- Spend 10 minutes at the end of the day resetting your workspace.\n\n**For digital stuff**\n- Inbox zero is real: process email in batches, not constantly. Archive, reply, or delete.\n- Use folders or tags consistently, or just rely on search and stop over-organizing.\n\n**For your head**\n- Brain dump regularly — write everything swirling in your mind onto paper to get it out of your head.\n- Break big vague things (\"get finances in order\") into specific next actions (\"find last month's bank statement\").\n\nThe biggest trap is spending more time organizing systems than actually doing things. Start with the one area causing you the most friction and fix that first.\n\nWhat's the main area you're trying to get a handle on — work tasks, physical space, digital files, something else?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers give solid assumption-based first passes and end with a clarifying question about which area. B is more comprehensive, splitting advice by domain (time/space/digital/mental) which better handles the ambiguity of an unspecified 'organized', while A is tighter and leans toward a single task-management framing. B's broader coverage and friction-first guidance give it a slight edge in completeness and actionability."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers make reasonable assumptions, give concrete steps, and close with a clarifying question, in faithful English. A is broader, segmenting by life domain (time, space, digital, mental) which better fits the vague prompt, while B is tighter and adds a useful named framework (GTD) but covers less ground. A's domain coverage gives a slight edge on completeness and actionability for an unspecified ask."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p26",
+        "lang": "zh",
+        "domain": "writing",
+        "prompt": "写一封道歉信",
+        "why_vague": "对象、事由、关系、期望结果未说明"
+      },
+      "answers": {
+        "control": "你好，\n\n请问这封道歉信是写给谁的？用于什么场合？比如：\n\n- 朋友或家人\n- 同事或上司\n- 客户或合作方\n- 其他情况\n\n了解一些背景后，我可以帮你写得更贴切。",
+        "refine": "我需要一些背景信息才能写出合适的道歉信。\n\n请告诉我：\n\n1. **对象** — 道歉给谁？（朋友、同事、客户、家人……）\n2. **原因** — 为什么道歉？发生了什么事？\n3. **语气** — 正式、半正式还是私人感情？\n\n你提供的细节越多，信件就越贴切。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask clarifying questions in correct Chinese and neither offers an assumption-based draft, which is a shared gap in actionability. B is stronger because it surfaces more of the essential missing context (recipient, reason, and tone) in a clean numbered, scannable format, whereas A only asks about recipient and occasion."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers stall on clarifying questions rather than offering an assumption-based draft, but A surfaces more relevant dimensions (recipient, reason, tone) while B only asks about recipient/occasion. Neither provides a useful first-pass draft, capping their actionability and completeness."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p27",
+        "lang": "en",
+        "domain": "cooking",
+        "prompt": "suggest a dinner recipe",
+        "why_vague": "no diet, ingredients on hand, time, or servings"
+      },
+      "answers": {
+        "control": "Here's a simple but satisfying one: **Lemon Herb Roasted Chicken Thighs with Vegetables**\n\n**Ingredients (serves 4)**\n- 4 bone-in, skin-on chicken thighs\n- 2 cups baby potatoes, halved\n- 1 cup cherry tomatoes\n- 1 zucchini, sliced\n- 3 cloves garlic, minced\n- 2 tbsp olive oil\n- Juice and zest of 1 lemon\n- 1 tsp dried oregano\n- 1 tsp dried thyme\n- Salt and pepper to taste\n- Fresh parsley for garnish\n\n**Instructions**\n1. Preheat oven to 425°F (220°C).\n2. Toss potatoes with olive oil, garlic, salt, and pepper. Spread on a sheet pan and roast for 15 minutes.\n3. Mix lemon juice, zest, oregano, thyme, salt, and pepper. Coat chicken thighs with the mixture.\n4. Push potatoes to the sides, add chicken skin-side up, and surround with tomatoes and zucchini.\n5. Roast another 25–30 minutes until chicken skin is golden and internal temp hits 165°F.\n6. Garnish with parsley and serve.\n\n**Why it works:** One pan, minimal cleanup, and the chicken fat bastes the vegetables as everything roasts together. The lemon keeps it bright without much effort.\n\nWant something vegetarian, a different cuisine, or a faster weeknight option?",
+        "refine": "Here's a simple, solid one:\n\n**Garlic Butter Lemon Chicken with Roasted Vegetables**\n\nIngredients (serves 2):\n- 2 chicken breasts\n- 3 tbsp butter\n- 4 garlic cloves, minced\n- 1 lemon (juice + zest)\n- 2 tsp fresh thyme (or dried)\n- 2 cups mixed vegetables (zucchini, bell pepper, cherry tomatoes)\n- Olive oil, salt, pepper\n\nSteps:\n1. Preheat oven to 400°F (200°C). Toss vegetables with olive oil, salt, and pepper on a sheet pan and roast for 20-25 min.\n2. Season chicken with salt and pepper. Sear in an oven-safe skillet over medium-high heat, 3-4 min per side until golden.\n3. Reduce heat, add butter and garlic, baste the chicken as the butter melts. Add lemon juice, zest, and thyme.\n4. Transfer skillet to oven and finish cooking 10-12 min until internal temp hits 165°F (74°C).\n5. Plate over the roasted vegetables and spoon the pan sauce on top.\n\nReady in about 35 minutes, one pan, minimal cleanup. Works just as well with salmon if you want something lighter — just cut oven time to 8-10 min.\n\nWant something vegetarian, a specific cuisine, or based on ingredients you already have?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers give a complete, well-structured recipe with assumption-based first passes and close with focused clarifying questions about dietary needs, cuisine, and ingredients. They are nearly equivalent in quality; B edges slightly on actionability by offering a salmon substitution with adjusted timing, but A's note that chicken fat bastes the vegetables is equally useful. The difference is marginal."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers deliver a complete, actionable recipe with a one-pan format and close with focused clarifying questions about cuisine, dietary needs, and time, striking a good balance between assumption-based action and clarification. A adds a salmon variation for flexibility, while B uses a more forgiving cut (bone-in thighs) and explains why the technique works; both are well-structured and faithful. They are essentially equivalent in quality."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p28",
+        "lang": "zh",
+        "domain": "analysis",
+        "prompt": "分析一下这个行业怎么样",
+        "why_vague": "未指明行业、分析维度、目的和受众"
+      },
+      "answers": {
+        "control": "您好！您提到了\"这个行业\"，但我不太清楚您指的是哪个具体行业。能告诉我您想了解的是哪个行业吗？\n\n比如：\n- 科技/AI\n- 新能源/电动车\n- 房地产\n- 医疗健康\n- 金融/投资\n- 餐饮/消费\n- 其他\n\n请告诉我具体方向，我来为您分析。",
+        "refine": "您想分析哪个行业？请告诉我具体的行业名称，比如：\n\n- 新能源/电动汽车\n- 人工智能/科技\n- 房地产\n- 医疗健康\n- 消费零售\n- 金融/银行\n- 制造业\n\n或者其他您感兴趣的领域，我来帮您做深入分析。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are essentially identical: they only ask which industry without offering any analysis framework (market size, competition, trends, regulation) or an assumption-based first pass, so both stall the task somewhat. The category lists differ trivially. Neither demonstrates how the analysis would proceed."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 4,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers do the same thing: ask which industry and offer a list of options, without providing any assumption-based analysis framework or dimensions (market size, competition, trends) that would let the user move forward. A is marginally more concise and cleaner, while B adds a redundant restatement, but the difference is negligible and both stall rather than give a useful first pass."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p29",
+        "lang": "en",
+        "domain": "travel",
+        "prompt": "plan a trip for me",
+        "why_vague": "no destination, dates, budget, or interests"
+      },
+      "answers": {
+        "control": "I'd be happy to help plan a trip! To put together something useful, I need a few details:\n\n- **Where** do you want to go? (or do you want suggestions?)\n- **When** and for how long?\n- **Who's traveling?** (solo, couple, family, group)\n- **What's your budget?**\n- **What kind of trip?** (relaxing beach, city exploration, adventure, culture, food, etc.)",
+        "refine": "Happy to help plan a trip! I need a few key details to give you something useful:\n\n1. Where are you thinking of going, or are you open to suggestions?\n2. Where are you traveling from?\n3. When and for how long?\n4. What's your budget range?\n5. What kind of trip — relaxing beach, city exploration, adventure, culture, food-focused, etc.?\n\nIf you want, just share whatever you know and I'll work with it."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers stall with clarifying questions rather than offering an assumption-based first-pass itinerary, limiting actionability. B is slightly stronger: it adds the departure-location question and explicitly invites the user to share partial info, lowering the barrier to progress."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are pure clarification responses asking nearly identical questions, and neither offers an assumption-based first-pass itinerary, which limits actionability equally. B is slightly more scannable with bold labels and adds the 'who's traveling' dimension, while A adds the origin question and an invitation to share partial info; the differences roughly balance out."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p30",
+        "lang": "zh",
+        "domain": "career",
+        "prompt": "我该不该换工作",
+        "why_vague": "现状、动机、行业、风险偏好等关键信息缺失"
+      },
+      "answers": {
+        "control": "这是个很个人的决定，没有标准答案。几个角度可以帮你想清楚：\n\n**考虑换的信号**\n- 长期缺乏成长空间或学习机会\n- 薪资明显低于市场水平且无改善空间\n- 工作环境或文化让你持续感到压抑\n- 和直属上级的关系难以修复\n\n**考虑留的理由**\n- 当前项目或技能积累还没到位，跳槽时机不成熟\n- 外部机会还没摸清楚，容易低估现状\n- 生活稳定性（签证、贷款、家庭）需要优先考量\n\n**一个实用的做法**\n先主动出去面试几家，不一定要接，但能给你两个东西：真实的市场反馈，以及一个具体的 offer 用来和现状对比。\n\n你现在主要是因为什么在考虑这个问题？",
+        "refine": "这个问题没有统一答案，取决于你的具体情况。几个值得认真想的维度：\n\n**考虑换的信号**\n- 长期感到停滞，学不到新东西\n- 薪资明显低于市场水平且没有改善空间\n- 工作环境影响身心健康（高压、不公平、人际关系差）\n- 价值观与公司方向持续冲突\n- 对工作内容已经失去基本兴趣\n\n**不一定要换的情况**\n- 只是短期疲惫或某个项目压力大\n- 有明确的晋升路径但需要等待\n- 外部机会并不比现在明显更好\n- 正处于重要的积累期（技术、人脉、资历）\n\n**做决定前可以问自己**\n1. 我不满的是这份工作，还是整个行业/职业方向？\n2. 如果现在的问题解决了，我还会想走吗？\n3. 我有没有具体的下家，还是只是想逃离现状？\n\n你现在是什么情况？是有具体的不满，还是机会来了在评估？说得更具体一点，可以帮你想得更清楚。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are in Chinese, well-structured, and end with a clarifying question while giving an assumption-based first pass. A adds a concrete actionable tactic (go interview to get real market feedback and a comparable offer), which gives stronger forward momentum. B offers more thorough self-reflection questions and slightly broader signal coverage but stops short of a concrete action step. A's interview suggestion edges it on actionability while B edges on completeness; A's practical move is the more decisive differentiator."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are in Chinese, well-structured with clear signal categories, and end with a focused clarifying question. A offers three reflective self-questions that help diagnose root cause, while B offers a concrete actionable tactic (interview externally to get real market feedback and a comparable offer). B's practical step edges out slightly on actionability, but A's diagnostic questions add depth; they are very close overall."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p31",
+        "lang": "en",
+        "domain": "career",
+        "prompt": "make my resume better",
+        "why_vague": "no resume, role, or industry given"
+      },
+      "answers": {
+        "control": "I'd be happy to help improve your resume, but I don't see one attached or shared here. Could you paste the content of your resume as text so I can work with it?",
+        "refine": "I'd be happy to help improve your resume, but I don't see one attached to your message.\n\nPaste your resume text here (or share the file), and let me know if you have any specific goals — like targeting a particular role or industry — so I can tailor the suggestions."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly identify the missing resume and ask the user to paste it, but B additionally surfaces important context (target role, industry) that would tailor improvements, making it more complete and actionable. Neither provides an assumption-based first pass, but B's added clarifying prompt edges out A."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both correctly note the missing resume and ask for it rather than fabricating content. A is slightly better because it also prompts for target role/industry, surfacing additional important context that would tailor the help, while B only asks for the text. Neither offers an assumption-based first pass (e.g., general resume best practices), so both are limited on actionability."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p32",
+        "lang": "zh",
+        "domain": "career",
+        "prompt": "帮我优化一下简历",
+        "why_vague": "没有简历内容、目标岗位、行业"
+      },
+      "answers": {
+        "control": "我很乐意帮你优化简历！请把你的简历内容粘贴过来，我来帮你改进。\n\n如果你有以下信息也可以一并提供，优化效果会更好：\n\n- 目标职位或行业\n- 工作年限和主要技能方向\n- 有没有特别想突出的项目或成就",
+        "refine": "请把你的简历内容粘贴过来，我来帮你优化。\n\n如果你能告诉我目标职位或行业，优化效果会更好。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers correctly ask for the resume content and target role in Chinese, but A surfaces more useful missing context (years of experience, skill direction, highlights) in a scannable bulleted list, giving the user more to act on. B is adequate but thinner and covers fewer clarifying dimensions."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 3,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both correctly request the resume content and respond in Chinese, but B surfaces more relevant missing context (target role, experience level, highlights) in a scannable bulleted format, while A only mentions target role. B gives the user clearer guidance on what to provide without stalling."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p33",
+        "lang": "en",
+        "domain": "career",
+        "prompt": "write a cover letter for me",
+        "why_vague": "no job, company, or background"
+      },
+      "answers": {
+        "control": "I'd be happy to help you write a cover letter. To make it effective, I need some information:\n\n- What position are you applying for?\n- What company?\n- What are your relevant skills or experience for this role?\n- Are there any specific achievements or projects you want to highlight?\n- Do you have the job description I can reference?\n\nShare what you have and I'll draft a cover letter tailored to the position.",
+        "refine": "To write a strong cover letter, I need a few key details:\n\n1. What role/position are you applying for?\n2. What company is it at?\n3. What's your relevant background (current role, years of experience, key skills)?\n4. Anything specific you want to highlight — a project, achievement, or reason you want this particular role?\n\nEven a rough set of bullet points works. The more context you give me, the more tailored and convincing the letter will be."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask nearly identical clarifying questions without providing an assumption-based draft, so neither moves the task forward independently. They are very close in quality, with B slightly better for inviting rough bullet points and explaining why context helps, but neither offers a starter draft or template."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask nearly identical clarifying questions and neither provides an assumption-based draft or template, so both stall somewhat. They are very close in quality, with B adding a useful request for the job description but neither offering a concrete first pass."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p34",
+        "lang": "zh",
+        "domain": "career",
+        "prompt": "帮我写一封求职信",
+        "why_vague": "岗位、公司、个人背景都没说"
+      },
+      "answers": {
+        "control": "我很乐意帮你写求职信。为了写出更符合你需求的求职信，我需要了解一些信息：\n\n1. **目标职位**：你申请的是什么职位？\n2. **目标公司**：公司名称是什么？（如果知道的话）\n3. **你的背景**：\n   - 教育背景（学历、专业）\n   - 工作经验（年限、相关经历）\n   - 核心技能或专长\n4. **重点突出**：你希望强调哪些方面？（比如技术能力、项目经验、领导力等）\n5. **语言风格**：希望正式一些还是稍微亲切一些？\n\n请提供这些信息，我会为你量身定制一封求职信。",
+        "refine": "我需要一些信息才能写出有针对性的求职信。请告诉我：\n\n1. **应聘职位**：你申请的是什么岗位？（例如：软件工程师、产品经理、市场专员等）\n2. **目标公司**：是否有具体的公司名称？\n3. **你的背景**：相关工作经验、学历、核心技能有哪些？\n4. **亮点**：有没有特别想突出的项目成果或经历？\n\n提供这些信息后，我可以为你写一封专业且有说服力的求职信。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers only ask clarification questions and neither provides an assumption-based draft or template, which the rubric explicitly discourages — a useful first pass would have helped the user move forward. A is marginally more complete, adding a question about language/tone style and more detailed background sub-points, giving it a slight edge on completeness. Both are well-structured and in matching language."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers respond in Chinese and only ask clarifying questions without offering an assumption-based draft, which limits actionability for both. B is slightly more complete, covering language/style preference and breaking down background into structured sub-points, giving the user clearer guidance on what to provide."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p35",
+        "lang": "en",
+        "domain": "career",
+        "prompt": "help me prepare for an interview",
+        "why_vague": "role, company, level, format unspecified"
+      },
+      "answers": {
+        "control": "Happy to help. To give you the most useful prep, a few quick questions:\n\n- What role or field is the interview for (e.g., software engineer, product manager, data scientist)?\n- What stage is it (phone screen, technical, behavioral, final round)?\n- Any specific areas you want to focus on (e.g., system design, algorithms, leadership questions)?\n- How much time do you have before the interview?",
+        "refine": "Happy to help. To give you the most useful prep, a couple quick questions:\n\n1. What role or field is the interview for (e.g., software engineer, product manager, data scientist, marketing)?\n2. Do you have a specific company or interview format in mind (e.g., behavioral, technical, case study)?\n\nIf you want to jump in right now, just tell me the role and I'll start with the most common questions and what interviewers are typically looking for."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both ask focused clarifying questions, but B avoids stalling by offering an assumption-based path forward ('tell me the role and I'll start'), giving the user a way to make immediate progress. A asks more thorough questions but provides no fallback if the user wants to begin now, making it less actionable."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask reasonable clarifying questions, but A also offers an assumption-based path forward ('tell me the role and I'll start with the most common questions'), making it more actionable and avoiding stalling. B asks more thorough questions but offers no immediate value or next step beyond questioning."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p36",
+        "lang": "zh",
+        "domain": "career",
+        "prompt": "帮我准备面试",
+        "why_vague": "岗位、公司、轮次、形式未知"
+      },
+      "answers": {
+        "control": "你想准备哪方面的面试？告诉我一些背景信息，我可以更有针对性地帮你：\n\n1. **职位方向** — 前端、后端、全栈、算法、产品、数据等？\n2. **目标公司** — 大厂（字节、阿里、腾讯）、外企、创业公司？\n3. **经验水平** — 应届、几年工作经验？\n4. **薄弱环节** — 算法、系统设计、项目经验、行为问题（BQ）？\n\n有了这些信息，我可以帮你做模拟面试、整理高频题、复习知识点或者打磨自我介绍。",
+        "refine": "我来帮你准备面试！为了给你最有针对性的帮助，需要了解几点：\n\n1. **面试的职位/方向是什么？**（前端、后端、全栈、算法工程师、产品经理、数据分析……）\n2. **目标公司或行业？**（大厂、初创公司、外企？）\n3. **你的经验水平？**（应届、几年工作经验？）\n4. **你最想强化哪方面？**（技术题、系统设计、行为面试、自我介绍……）\n\n告诉我这些，我就能帮你制定具体的复习计划、准备常见题目和答题框架。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are nearly identical in approach: same four focused clarifying questions (direction, company, experience, weak areas), same clean numbered structure, both in Chinese matching the ask, and both note what they can do once they have info. Neither offers an assumption-based first pass, so neither has an edge on actionability. They are indistinguishable in quality."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "tie",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers are near-identical Chinese responses that ask the same four focused clarification questions (role, company, experience, weak areas) with parallel structure, and both offer to help once info is provided. Neither gives an assumption-based first pass, so both are slightly weak on actionability. B adds marginally more concrete examples (named companies, BQ/mock interview), but the difference is negligible."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p37",
+        "lang": "en",
+        "domain": "writing",
+        "prompt": "write a blog post about productivity",
+        "why_vague": "audience, angle, length, tone missing"
+      },
+      "answers": {
+        "control": "# Productivity Isn't About Doing More\n\nMost productivity advice tells you to optimize your schedule, use the right apps, or wake up at 5 AM. But productivity isn't about cramming more into your day—it's about doing the right things well.\n\n## Focus on leverage, not volume\n\nThe difference between busy and productive is leverage. One strategic decision can eliminate dozens of tasks. One good system can replace hours of manual work. Ask yourself: what would make everything else easier or unnecessary?\n\n## Protect your attention\n\nYour attention is finite. Every notification, meeting, and context switch chips away at it. The most productive people aren't superhuman—they're selective. They say no more than they say yes. They batch similar work. They create uninterrupted blocks for deep work.\n\n## Build systems, not habits\n\nHabits require willpower. Systems run on their own. Automate what you can. Create templates for recurring work. Document processes so you're not reinventing the wheel. The goal isn't discipline—it's removing the need for it.\n\n## Ship imperfect work\n\nPerfectionism masquerades as quality but it's really a productivity killer. Done is better than perfect. Get feedback early. Iterate quickly. Most work improves through use, not endless polishing.\n\n## Know when to stop\n\nProductivity has diminishing returns. Working longer doesn't mean working better. Rest compounds. So does learning. The best work often happens after you step away from it.\n\nProductivity is getting the right things done with the least wasted effort. Everything else is just being busy.",
+        "refine": "# The Productivity Lie We Keep Telling Ourselves\n\nMost productivity advice is wrong. Not slightly off — fundamentally, structurally wrong. It treats humans like software that just needs better inputs to produce better outputs. Download the right app, follow the right morning routine, color-code your calendar, and you'll finally unlock your potential.\n\nBut here's what actually happens: you spend three hours setting up a task management system and call it a productive day.\n\n## The Busy Trap\n\nWe've confused motion with progress. Answering emails feels productive. Sitting in meetings feels productive. Reorganizing your desktop feels productive. None of it is, necessarily.\n\nReal productivity is simple to define and hard to practice: doing the work that matters, and less of everything else.\n\nThe question most people never ask is: *what actually matters?* Instead, they optimize their response time to things that don't.\n\n## Why Your To-Do List Is Failing You\n\nA to-do list is a collection of demands on your time. It doesn't know what's important. It doesn't know what requires your specific skills versus what could be delegated or dropped. It treats \"buy milk\" and \"finish the proposal\" as equivalent items waiting to be checked off.\n\nThe fix isn't a better app. It's a different question. Instead of asking \"what do I need to do?\" ask \"what would make today genuinely worthwhile?\" Usually that's one, maybe two things. Everything else is support work.\n\n## The Energy Problem Nobody Talks About\n\nTime management is a red herring. You have the same 24 hours as everyone else. The real variable is energy — mental, physical, emotional.\n\nA tired mind working on a hard problem for three hours produces less than a sharp mind working on it for 45 minutes. Yet most productivity systems treat all hours as equal and all tasks as separable from the person doing them.\n\nWork with your energy, not against it. Save deep, focused work for when you're at your best. Batch administrative tasks for when you're not. Protect your recovery time like it's a meeting you can't reschedule — because it is.\n\n## Single-Tasking Is a Superpower\n\nMultitasking doesn't exist. What we call multitasking is rapid, costly task-switching that leaves behind a cognitive residue every time you switch contexts. Research suggests it can cost up to 40% of productive capacity.\n\nThe people who consistently produce great work share one habit: they work on one thing at a time. Not because they're disciplined robots, but because they've learned that focus compounds. An hour of uninterrupted work is worth three hours of fragmented attention.\n\nClose the tabs. Put the phone in another room. Tell people you'll respond later. The notifications will survive without you.\n\n## The Calendar as Commitment\n\nHere's a practical shift that changes everything: stop keeping a to-do list and start putting important work on your calendar as time blocks.\n\nA task on a list is a wish. A task on your calendar is a commitment — one that crowds out the endless stream of small requests that would otherwise fill your day.\n\nBlock two hours tomorrow morning for the thing that actually matters. Treat it like a flight you can't miss. See what happens.\n\n## Done Is Better Than Perfect\n\nPerfectionism is procrastination wearing a responsible costume. The report that's 90% done and on someone's desk is infinitely more useful than the one that's 95% done and still on yours.\n\nShipping imperfect work, getting feedback, and iterating is almost always faster than trying to get it right in one go. This isn't an excuse for sloppiness — it's an argument for momentum. Momentum is hard to start and easy to lose.\n\n## What Productivity Actually Feels Like\n\nSustainable productivity isn't the feeling of a packed schedule or a cleared inbox. It's the quiet satisfaction of having done the thing you said you'd do — the hard thing, the important thing.\n\nThat feeling is available to anyone. It doesn't require a new app, a 5am alarm, or a 90-day challenge. It requires honesty about what matters, the discipline to protect time for it, and the willingness to let the rest wait.\n\nStart there."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 3,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Neither answer surfaces the missing context (audience, length, angle, platform) through questions or stated assumptions, so both score low on clarification. Both are well-structured English blog posts faithful to the ask, but B is more complete and actionable, offering concrete practical shifts (calendar time-blocking, energy-based scheduling, single-tasking) while A stays at a more abstract level."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 3,
+              "actionability": 3,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Neither answer surfaces missing context (audience, tone, length, platform) for this vague prompt, so both score low on clarification, though both deliver a usable assumption-based draft. A is more complete and actionable with concrete examples and practical shifts (time-blocking, energy management), while B is tighter but thinner and more generic. Both are well-structured and in correct English."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p38",
+        "lang": "zh",
+        "domain": "writing",
+        "prompt": "写一篇关于效率提升的博客",
+        "why_vague": "受众、角度、篇幅、语气未定"
+      },
+      "answers": {
+        "control": "# 停止忙碌，开始高效\n\n我们都经历过这样的一天：从早忙到晚，待办事项却似乎没减少多少。忙碌感和真正的效率，是两回事。\n\n## 区分重要和紧急\n\n艾森豪威尔矩阵是个老生常谈，但它之所以流传至今，是因为它真的管用。把任务分成四类：\n\n- 重要且紧急 → 立刻做\n- 重要不紧急 → 规划时间做\n- 紧急不重要 → 委托或快速处理\n- 不重要不紧急 → 删掉\n\n大多数人把时间花在\"紧急\"上，却忽略了\"重要\"。长期策略、技能提升、深度思考，这些事情不会催你，但它们决定你六个月后在哪里。\n\n## 保护你的注意力\n\n注意力才是真正稀缺的资源，不是时间。一个小时的专注可以抵得上三个小时的分心工作。\n\n几个实用做法：\n\n**时间块（Time Blocking）**：把一天分成几个专注块，每块只做一件事。会议、回复消息、深度工作，不要混在一起。\n\n**关掉通知**：手机通知默认全关，只保留真正重要的。每次通知打断后，重新进入专注状态需要平均 23 分钟，这是有研究支持的数据。\n\n**两分钟原则**：如果一件事两分钟以内能完成，马上做，不要放进待办列表。\n\n## 减少决策疲劳\n\n每天做的决策越多，每个决策的质量越低。这不是意志力问题，是神经科学。\n\n降低决策消耗的方法：\n\n- 提前规划明天的重点任务（今晚睡前，不是明天早上）\n- 重复性的事情固定流程，不要每次重新思考\n- 对低价值的选择果断一点——穿什么、吃什么，不值得消耗太多脑力\n\n## 休息是效率的一部分\n\n很多人把休息当成效率的对立面，其实恰好相反。睡眠不足会直接损害认知能力，效果相当于轻度醉酒。\n\n番茄工作法的核心不只是\"工作 25 分钟\"，而是\"工作 25 分钟之后必须休息 5 分钟\"。强制休息才是它真正起作用的原因。\n\n## 最后一点\n\n效率提升没有魔法，也没有一套适合所有人的系统。真正有用的方法，是你愿意坚持用的那个。与其花时间研究各种效率系统，不如选一个，用够三个月再说。\n\n开始比完美更重要。",
+        "refine": "# 告别低效：让每一天都值得\n\n我们都经历过这样的一天——忙碌了整整八个小时，回头看看，却不知道自己到底做了什么。\n\n效率不是关于\"做更多\"，而是关于\"做对的事，用对的方式\"。\n\n---\n\n## 一、先搞清楚你在做什么\n\n很多人的效率问题，根本不在执行层面，而在计划层面。\n\n每天早上花五分钟，写下今天**最重要的三件事**（不是最紧急的，是最重要的）。这三件事完成，这一天就是成功的。其余的都是额外收获。\n\n这个方法看起来简单，但它强迫你做一件困难的事：**取舍**。\n\n---\n\n## 二、时间块比待办清单更有效\n\n待办清单告诉你要做什么，但不告诉你什么时候做。于是任务悬在空中，你不断地看清单、不断地拖延。\n\n时间块（Time Blocking）的做法是：把任务直接排进日历。\n\n- 9:00–10:30 — 深度工作（写作、分析、代码）\n- 10:30–11:00 — 处理邮件和消息\n- 14:00–15:30 — 会议或协作\n\n当一个任务有了专属时间，它就从\"我应该做\"变成了\"我现在做\"。\n\n---\n\n## 三、保护你的深度工作时间\n\n研究表明，人每天真正能高质量专注的时间只有 **3–5 小时**。\n\n不要把这段时间浪费在回复消息、刷新通知上。\n\n几个实用做法：\n\n- 关闭手机通知，设置固定的\"回复时段\"\n- 使用番茄工作法：专注 25 分钟，休息 5 分钟\n- 告诉团队你的\"勿扰时段\"，大多数人会尊重它\n\n---\n\n## 四、减少决策消耗\n\n每一个决策，无论大小，都会消耗你的认知能量。\n\n奥巴马在任时只穿灰色或蓝色西装，原因就是这个——把精力留给真正重要的决策。\n\n你不需要这么极端，但可以：\n\n- 提前规划每周的饮食或穿着\n- 建立固定的晨间和晚间流程\n- 对重复性工作建立模板和检查清单\n\n---\n\n## 五、结束一天，也是一种技能\n\n很多人没有\"下班仪式\"，工作状态会悄悄延伸到晚上，大脑始终在待机。\n\n试着建立一个简单的收尾仪式：写下今天完成的事、明天最重要的一件事，然后关上电脑。\n\n这个动作在心理上告诉大脑：**今天结束了，可以休息了**。\n\n---\n\n## 最后\n\n效率提升不是一套神奇的技巧，而是一系列小习惯的叠加。你不需要同时改变所有事情，从一件事开始：今天，写下你最重要的三件事。\n\n明天，再写一次。\n\n慢慢地，你会发现，你的每一天都开始变得有分量。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 4,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ignored the opportunity to surface missing context (audience, length, angle) and instead produced a full draft, which is a reasonable assumption-based first pass for a 'write a blog' ask. Both are well-organized, complete, and concrete; B edges slightly ahead with numbered sections, a sharper closing call-to-action, and a single clear starting habit, while A offers more research-backed detail but a flatter structure."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 4,
+              "actionability": 4,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 2,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers deliver a complete, well-structured Chinese blog on productivity without stalling, and neither surfaces explicit clarifying questions for the vague prompt. B is slightly stronger on completeness and actionability, adding the Eisenhower matrix, the two-minute rule, and research-backed details (23-minute refocus, sleep impairment), while A is polished but covers fewer concrete frameworks."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p39",
+        "lang": "en",
+        "domain": "marketing",
+        "prompt": "create a marketing plan",
+        "why_vague": "no product, budget, channel, or goal"
+      },
+      "answers": {
+        "control": "I'll create a marketing plan document for you. To make it most useful, could you tell me a bit more about:\n\n- What product, service, or business this is for\n- Your target audience\n- Key goals (brand awareness, lead generation, sales, etc.)\n- Timeline and budget constraints (if any)\n\nOr I can create a general marketing plan template that you can customize. Which would you prefer?",
+        "refine": "I'll sketch a solid foundation. Here are my assumptions: you're creating a plan from scratch, likely for a product or service business, and you want a general-purpose structure you can adapt. Let me know if your context is more specific.\n\n---\n\n# Marketing Plan\n\n## 1. Executive Summary\nOne-paragraph snapshot of the business, the product/service, and the core marketing goal (e.g., grow revenue 30% in 12 months, launch a new product, enter a new market).\n\n---\n\n## 2. Business & Product Overview\n- What you sell and the problem it solves\n- Key differentiators vs. competitors\n- Current stage (pre-launch, growth, mature)\n\n---\n\n## 3. Goals & KPIs\nSet SMART goals. Examples:\n\n| Goal | KPI | Target | Timeframe |\n|------|-----|--------|-----------|\n| Grow brand awareness | Website traffic | +50% | 6 months |\n| Generate leads | MQLs per month | 200 | Q3 |\n| Increase revenue | Monthly recurring revenue | $50K | 12 months |\n\n---\n\n## 4. Target Audience\nDefine 1–3 customer personas:\n- Demographics (age, location, income, job title)\n- Pain points and motivations\n- Where they spend time online/offline\n- How they make purchase decisions\n\n---\n\n## 5. Competitive Analysis\n- 3–5 direct competitors\n- Their strengths and weaknesses\n- Gaps in the market you can own\n- Your positioning statement: *\"For [audience], [brand] is the [category] that [unique benefit] because [reason to believe].\"*\n\n---\n\n## 6. Marketing Channels & Tactics\n\nPick channels based on where your audience actually is.\n\n**Owned channels**\n- Website / SEO\n- Email marketing\n- Blog / content\n\n**Paid channels**\n- Google / Meta / LinkedIn Ads\n- Influencer partnerships\n- Sponsorships\n\n**Earned channels**\n- PR and press coverage\n- Social sharing\n- Customer reviews and referrals\n\nFor each channel, define: objective, content type, posting cadence, owner, and budget.\n\n---\n\n## 7. Content Strategy\n- Content pillars (3–5 themes tied to customer pain points)\n- Content calendar (weekly/monthly cadence)\n- Formats: blog posts, short-form video, case studies, newsletters, social posts\n\n---\n\n## 8. Budget\n\n| Category | Monthly Budget | Annual Budget |\n|----------|---------------|---------------|\n| Paid ads | $X | $X |\n| Content creation | $X | $X |\n| Tools & software | $X | $X |\n| Events / PR | $X | $X |\n| **Total** | **$X** | **$X** |\n\n---\n\n## 9. Execution Timeline\n\n| Month | Focus |\n|-------|-------|\n| 1–2 | Foundation: brand, website, tracking setup |\n| 3–4 | Launch campaigns, build content backlog |\n| 5–6 | Optimize based on data, scale what works |\n| 7–12 | Growth phase, test new channels, expand |\n\n---\n\n## 10. Measurement & Reporting\n- Weekly: channel-level metrics (clicks, impressions, open rates)\n- Monthly: KPI review against targets\n- Quarterly: full plan review, adjust budget and tactics\n\n---\n\nTo make this more specific, tell me:\n1. What is the product or service?\n2. Who is the target customer?"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "A only asks clarifying questions and stalls without delivering anything actionable, while B makes explicit assumptions, delivers a complete, well-structured marketing plan template with concrete examples, and still surfaces the two key clarifying questions at the end. B is far more useful as a first pass."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "A states assumptions and delivers a complete, structured, actionable marketing plan template with tables and clear sections while still ending with two focused clarifying questions. B only asks clarifying questions and stalls, offering nothing concrete until the user responds."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "p40",
+        "lang": "zh",
+        "domain": "marketing",
+        "prompt": "做一个营销方案",
+        "why_vague": "产品、预算、渠道、目标全缺"
+      },
+      "answers": {
+        "control": "需要更多信息才能为你制定有针对性的营销方案。请告诉我：\n\n1. **产品/服务**：你要推广什么？\n2. **目标受众**：面向哪类人群？\n3. **预算范围**：大概投入多少？\n4. **目标**：品牌曝光、获客、促销转化，还是其他？\n5. **渠道偏好**：线上、线下，还是两者结合？\n6. **时间周期**：短期活动还是长期运营？\n\n提供这些信息后，我可以给你一个具体可执行的方案。",
+        "refine": "我来帮你制定一个营销方案。不过\"营销方案\"涵盖的范围很广，我先基于常见场景给你一个通用框架，然后问你几个问题来进一步精准化。\n\n---\n\n## 营销方案框架\n\n### 一、目标设定\n- **业务目标**：提升销售额 / 增加用户注册 / 提高品牌知名度\n- **量化指标**：如\"30天内新增1000名用户\"或\"转化率提升20%\"\n\n### 二、目标用户分析\n- 人群画像：年龄、性别、职业、消费习惯\n- 痛点与需求：他们在解决什么问题？\n- 获取渠道：他们在哪里出没（微信、抖音、小红书、线下）？\n\n### 三、核心价值主张\n- 一句话说清楚：**你的产品/服务为什么值得选择？**\n- 与竞争对手的差异化在哪里？\n\n### 四、营销渠道组合\n\n| 渠道 | 适合场景 | 预算占比建议 |\n|------|---------|------------|\n| 社交媒体（抖音/小红书） | 品牌曝光、种草 | 30-40% |\n| 私域流量（微信群/公众号） | 用户留存、复购 | 20-30% |\n| KOL/KOC 合作 | 信任背书、裂变 | 20-25% |\n| 搜索广告（百度/微信搜一搜） | 精准捕捉需求 | 10-20% |\n| 线下活动/地推 | 高接触场景 | 视情况 |\n\n### 五、内容策略\n- **吸引期**：制造话题、痛点共鸣内容\n- **转化期**：案例展示、对比测评、限时优惠\n- **留存期**：用户故事、社群运营、会员体系\n\n### 六、执行节奏（以4周为例）\n- **第1周**：预热造势，悬念内容铺量\n- **第2周**：正式上线，KOL集中发酵\n- **第3周**：促销转化，限时活动\n- **第4周**：复盘优化，二次触达未转化用户\n\n### 七、预算分配与ROI预估\n- 总预算 → 渠道分配 → 每个渠道的目标获客成本（CAC）\n- 预估转化漏斗：曝光 → 点击 → 留资 → 成交\n\n---\n\n为了给你更具体、可落地的方案，我需要了解：\n\n1. **产品/服务是什么**？（实体产品、App、课程、B2B服务……）\n2. **目标受众**是谁？\n3. **预算范围**大概是多少？\n\n把这些告诉我，我来给你做一份真正能用的方案。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "scores": {
+            "A": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "A only asks clarifying questions and stalls without delivering any draft, while B provides a complete, actionable marketing framework with channel mix, budget allocation, timeline, and ROI structure, then follows with focused questions to refine. B delivers an assumption-based first pass plus clarification, which best fits the uplift goal."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "scores": {
+            "A": {
+              "clarification": 5,
+              "structure": 5,
+              "completeness": 5,
+              "actionability": 5,
+              "language_fidelity": 5
+            },
+            "B": {
+              "clarification": 4,
+              "structure": 3,
+              "completeness": 2,
+              "actionability": 2,
+              "language_fidelity": 5
+            }
+          },
+          "reasoning": "Both answers ask the right clarifying questions in Chinese, but A also delivers a concrete, structured framework with channel mix, budget percentages, content phases, and a 4-week execution timeline that the user can act on immediately. B only asks questions and stalls the task without any first-pass content. A gives uplift while preserving the clarification step; B provides almost no actionability."
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,13 @@
   "name": "prompt-refine-skill",
   "version": "2.3.0",
   "description": "A model-aware Agent Skill that silently refines your prompt for the model currently answering.",
+  "scripts": {
+    "test": "node --test scripts/*.test.mjs && python -m unittest eval/test_run_eval.py",
+    "validate": "node scripts/validate-strategies.mjs && node scripts/render-strategy-tables.mjs && node scripts/check-readme-anchors.mjs && node scripts/check-strategy-budget.mjs && node scripts/check-links.mjs --live",
+    "render:tables": "node scripts/render-strategy-tables.mjs --write",
+    "check:tables": "node scripts/render-strategy-tables.mjs",
+    "pack:dry": "npm pack --dry-run --json"
+  },
   "keywords": [
     "agent-skill",
     "agent-skills",
@@ -24,6 +31,8 @@
   "author": "Li-Bailiang",
   "files": [
     "SKILL.md",
+    "data/",
+    "scripts/",
     "strategies/",
     "examples/",
     "hooks/",

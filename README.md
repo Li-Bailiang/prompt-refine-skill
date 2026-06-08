@@ -188,7 +188,17 @@ npx degit Li-Bailiang/prompt-refine-skill .claude/skills/prompt-refine
 
 The skill is also published on npm as
 [`prompt-refine-skill`](https://www.npmjs.com/package/prompt-refine-skill) (versioned
-releases). The commands above place the files in your tool's skills directory.
+releases). npm does not auto-register an Agent Skill; use it as a versioned source and
+unpack the package into your tool's skills directory:
+
+```bash
+mkdir -p .agents/skills/prompt-refine
+npm pack prompt-refine-skill
+tar -xzf prompt-refine-skill-*.tgz --strip-components=1 -C .agents/skills/prompt-refine
+```
+
+The `git clone` and `degit` commands above place the files directly in your tool's skills
+directory.
 
 Activate it in a conversation:
 
@@ -269,7 +279,19 @@ The length-matched figure is reported alongside the headline to rule out a lengt
 | prose-language switches on Chinese prompts (code stripped) | **0 / 60** |
 | parse fallbacks · skipped prompts | 0 · 0 |
 
+### Guard suite
+
+Prompt Refine also has a small non-regression suite for clear or constraint-heavy prompts:
+JSON/config output, word limits, language fidelity, and direct-answer tasks. On the
+current 6-prompt guard suite, refine wins **66.7%** of 12 position-swapped judgments
+(8 wins / 4 losses / 0 ties). Treat this as an early guardrail, not a broad proof.
+
 Models: generator `claude-sonnet-4-6`, judge `claude-opus-4-8`. The host-model strategy under test is Anthropic (`strategies/anthropic.md`); other strategy files ship with the same design but have not yet been evaluated at this scale.
+
+The evaluation harness, prompts, rubrics, anonymized answer pairs, judge JSON, run
+commands, and checked-in result summaries are available in the GitHub repository under
+[`eval/`](eval/). The eval files are kept out of the npm package so normal skill
+installation stays lightweight.
 
 ## Limitations
 

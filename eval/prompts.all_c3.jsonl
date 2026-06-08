@@ -1,0 +1,40 @@
+{"id": "p81", "lang": "en", "domain": "marketing", "prompt": "create a content calendar", "why_vague": "channels, cadence, themes, goals unknown"}
+{"id": "p82", "lang": "zh", "domain": "marketing", "prompt": "做一个内容日历", "why_vague": "渠道、频率、主题、目标未知"}
+{"id": "p83", "lang": "en", "domain": "business", "prompt": "write an outreach email for partnerships", "why_vague": "recipient, offer, goal, tone missing"}
+{"id": "p84", "lang": "zh", "domain": "business", "prompt": "写一封商务合作邮件", "why_vague": "对象、提案、目标、语气未定"}
+{"id": "p85", "lang": "en", "domain": "career", "prompt": "help me negotiate my salary", "why_vague": "offer, role, leverage, target unknown"}
+{"id": "p86", "lang": "zh", "domain": "career", "prompt": "帮我谈一下薪资", "why_vague": "offer、岗位、筹码、目标未知"}
+{"id": "p87", "lang": "en", "domain": "management", "prompt": "write a performance review", "why_vague": "no employee, role, period, or examples"}
+{"id": "p88", "lang": "zh", "domain": "management", "prompt": "帮我写一份绩效评估", "why_vague": "员工、岗位、周期、事例缺失"}
+{"id": "p89", "lang": "en", "domain": "teamwork", "prompt": "give me icebreakers for a team meeting", "why_vague": "team size, context, tone, time unknown"}
+{"id": "p90", "lang": "zh", "domain": "teamwork", "prompt": "给团队会议想几个破冰话题", "why_vague": "团队规模、场景、语气、时长未知"}
+{"id": "p91", "lang": "en", "domain": "process", "prompt": "help me run a retrospective", "why_vague": "team, format, duration, issues unspecified"}
+{"id": "p92", "lang": "zh", "domain": "process", "prompt": "帮我组织一次项目复盘", "why_vague": "团队、形式、时长、问题未定"}
+{"id": "p93", "lang": "en", "domain": "analysis", "prompt": "analyze customer churn", "why_vague": "no data, segment, period, or definition"}
+{"id": "p94", "lang": "zh", "domain": "analysis", "prompt": "帮我分析一下用户流失", "why_vague": "数据、分群、周期、定义未知"}
+{"id": "p95", "lang": "en", "domain": "data", "prompt": "build a dashboard for sales metrics", "why_vague": "metrics, audience, tool, granularity unknown"}
+{"id": "p96", "lang": "zh", "domain": "data", "prompt": "做一个销售指标看板", "why_vague": "指标、受众、工具、粒度未知"}
+{"id": "p97", "lang": "en", "domain": "data", "prompt": "clean this dataset for me", "why_vague": "no dataset, columns, or cleaning goal"}
+{"id": "p98", "lang": "zh", "domain": "data", "prompt": "帮我清洗一下这个数据集", "why_vague": "没有数据集、字段、清洗目标"}
+{"id": "p99", "lang": "en", "domain": "analysis", "prompt": "forecast next quarter revenue", "why_vague": "history, method, drivers, assumptions missing"}
+{"id": "p100", "lang": "zh", "domain": "analysis", "prompt": "预测一下下季度营收", "why_vague": "历史数据、方法、驱动因素、假设缺失"}
+{"id": "p101", "lang": "en", "domain": "pr", "prompt": "write a press release", "why_vague": "news, company, quote, audience unspecified"}
+{"id": "p102", "lang": "zh", "domain": "pr", "prompt": "帮我写一篇新闻稿", "why_vague": "事件、公司、引语、受众未定"}
+{"id": "p103", "lang": "en", "domain": "hr", "prompt": "create an onboarding guide for new hires", "why_vague": "role, company, tools, timeline unknown"}
+{"id": "p104", "lang": "zh", "domain": "hr", "prompt": "给新员工做一份入职指南", "why_vague": "岗位、公司、工具、时间线未知"}
+{"id": "p105", "lang": "en", "domain": "startup", "prompt": "help me prepare a pitch deck", "why_vague": "company, stage, audience, ask missing"}
+{"id": "p106", "lang": "zh", "domain": "startup", "prompt": "帮我准备一份路演PPT", "why_vague": "公司、阶段、受众、诉求未知"}
+{"id": "p107", "lang": "en", "domain": "writing", "prompt": "write a grant proposal", "why_vague": "project, funder, budget, goals unspecified"}
+{"id": "p108", "lang": "zh", "domain": "writing", "prompt": "帮我写一份项目申请书", "why_vague": "项目、资助方、预算、目标未定"}
+{"id": "p109", "lang": "en", "domain": "research", "prompt": "design a survey to measure satisfaction", "why_vague": "audience, construct, scale, length unknown"}
+{"id": "p110", "lang": "zh", "domain": "research", "prompt": "设计一份满意度调查问卷", "why_vague": "受众、测量维度、量表、长度未知"}
+{"id": "p111", "lang": "en", "domain": "design", "prompt": "help me redesign my landing page", "why_vague": "product, goal, audience, current page missing"}
+{"id": "p112", "lang": "zh", "domain": "design", "prompt": "帮我重新设计落地页", "why_vague": "产品、目标、受众、现有页面缺失"}
+{"id": "p113", "lang": "en", "domain": "health", "prompt": "help me eat healthier", "why_vague": "diet, goals, restrictions, habits unknown"}
+{"id": "p114", "lang": "zh", "domain": "health", "prompt": "帮我制定健康饮食方案", "why_vague": "饮食、目标、禁忌、习惯未知"}
+{"id": "p115", "lang": "en", "domain": "product", "prompt": "help me prioritize my product roadmap", "why_vague": "features, goals, constraints, users missing"}
+{"id": "p116", "lang": "zh", "domain": "product", "prompt": "帮我排一下产品路线图优先级", "why_vague": "功能、目标、约束、用户未定"}
+{"id": "p117", "lang": "en", "domain": "support", "prompt": "write a reply to an angry customer", "why_vague": "issue, history, policy, desired outcome missing"}
+{"id": "p118", "lang": "zh", "domain": "support", "prompt": "帮我回复一个愤怒的客户", "why_vague": "问题、历史、政策、期望结果未知"}
+{"id": "p119", "lang": "en", "domain": "academic", "prompt": "help me write a literature review", "why_vague": "topic, field, sources, scope unspecified"}
+{"id": "p120", "lang": "zh", "domain": "academic", "prompt": "帮我写一篇文献综述", "why_vague": "主题、领域、文献、范围未定"}

@@ -6,7 +6,8 @@ Prompt Refine is young and intentionally small. This is a living document — se
 ## Now
 - Keep the vendor strategies aligned with each vendor's **current official** guidance
   (ongoing accuracy passes as the docs change).
-- Repository health: governance files, versioned releases, npm distribution. ✅
+- Repository health: governance files, versioned releases, npm distribution, public eval
+  artifacts, and CI quality gates. ✅
 
 ## Next
 - **Evaluate more host-model strategies** beyond Anthropic — ideally with a cross-vendor
@@ -17,7 +18,6 @@ Prompt Refine is young and intentionally small. This is a living document — se
 - A short **before → after demo** captured inside a real tool.
 
 ## Later / ideas
-- Optional CI to validate strategy-file structure and source links.
 - Deeper, model-specific techniques in select strategies (beyond summarizing docs).
 - Additional distribution channels — only if there is genuine demand.
 

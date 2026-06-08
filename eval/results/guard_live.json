@@ -1,0 +1,220 @@
+{
+  "summary": {
+    "config": {
+      "suite": "guard",
+      "suite_purpose": "non_regression",
+      "host_strategy": "anthropic",
+      "gen_model": "claude-sonnet-4-6",
+      "judge_model": "claude-opus-4-8",
+      "prompts_file": "D:\\propmt\\internal\\eval\\high_discrimination_prompts.jsonl",
+      "rubric_file": "D:\\propmt\\internal\\eval\\rubric.guard.md",
+      "n_prompts": 6,
+      "judgments": 12,
+      "dry_run": false,
+      "generate_only": false,
+      "judge": "api_pairwise_position_swap",
+      "api_reproducible_judge": true
+    },
+    "refine_win_rate": 0.667,
+    "win_counts": {
+      "refine": 8,
+      "control": 4,
+      "tie": 0
+    },
+    "per_dimension_mean_delta_refine_minus_control": {
+      "clarification": 0.83,
+      "structure": 0.83,
+      "completeness": 0.83,
+      "actionability": 1.08,
+      "language_fidelity": 0.33
+    }
+  },
+  "results": [
+    {
+      "item": {
+        "id": "hd01_zh_ambiguous_launch",
+        "lang": "zh",
+        "domain": "writing",
+        "prompt": "我们下周要发一个 AI 写作小工具，帮我写发布文案，别太营销。",
+        "why_discriminative": "Tests Chinese language fidelity plus whether the model states assumptions and turns a vague writing request into usable launch copy without translating."
+      },
+      "answers": {
+        "control": "好的，了解一下背景会帮我写得更准确：\n\n1. 这个工具主要面向哪类用户？（比如学生、职场人、创作者……）\n2. 核心功能是什么？有没有一两个最想突出的点？\n3. 在哪些渠道发布？（微信公众号、微博、小红书……）\n4. 是免费工具还是付费/限量体验？",
+        "refine": "下周发布 · AI 写作小工具\n\n---\n\n我们做了一个小工具，帮你把想法写成文字。\n\n不需要对着空白页发呆，不需要反复改到放弃——输入你想表达的，它帮你打个草稿，剩下的交给你自己打磨。\n\n适合写周报、邮件、产品说明、社交帖子，或者任何你知道要说什么、但不知道怎么开口的场景。\n\n下周正式上线，欢迎来试试。\n\n---\n\n如果你需要我调整语气、平台（微信 / 小红书 / X / 官网）、或者加上具体产品名，告诉我就好。"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "reasoning": "The prompt is clear: write a launch copy for an AI writing tool, low on marketing tone. A only asks clarifying questions and delivers no artifact, which is worse for a clear request. B delivers usable, low-key copy in Chinese and offers optional adjustments at the end without forcing process."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "reasoning": "The user requested launch copy in Chinese with a non-marketing tone. Answer A delivers complete, ready-to-use copy that matches all requirements: in Chinese, conversational rather than promotional, directly usable. Answer B asks four clarification questions instead of delivering the artifact, violating the core expectation for a clear prompt that already specifies the product type, timing, and tone constraint."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "hd02_en_debugging",
+        "lang": "en",
+        "domain": "debugging",
+        "prompt": "My FastAPI endpoint is randomly slow in production after adding Redis caching. Help me fix it.",
+        "why_discriminative": "Tests whether the answer creates a diagnostic sequence instead of guessing at a single fix."
+      },
+      "answers": {
+        "control": "Let me look at your code before diagnosing anything. Can you share the relevant files — the endpoint, your Redis/cache setup, and any middleware or dependencies involved?\n\nIf you can't share files directly, paste the key parts:\n- The endpoint function\n- How you're initializing the Redis client\n- How you're calling get/set\n\nThe \"randomly slow\" pattern with Redis usually points to one of a few things, and the fix depends on which it is:\n\n1. **Blocking Redis client in async code** — using `redis-py` (sync) inside an `async def` endpoint blocks the event loop. Fix is switching to `redis.asyncio` or `aioredis`.\n\n2. **Connection pool exhaustion** — creating a new Redis connection per request instead of reusing a pool. This causes queuing under load.\n\n3. **Missing connection pool config** — default pool sizes are small (10 connections). Under traffic, requests queue waiting for a free connection.\n\n4. **Slow cache misses hiding behind fast hits** — if your cache miss path is slow (DB query, external API), \"random\" slowness is just the miss rate surfacing under load.\n\n5. **Network latency to Redis** — if Redis is in a different region or subnet, occasional routing hiccups show up as random spikes.\n\nShare the code and I can give you a concrete fix rather than a checklist.",
+        "refine": "This is a classic set of issues with Redis caching in FastAPI. Let me walk through the most likely causes before asking you to share code.\n\n**Most common culprits:**\n\n1. **Connection pool exhaustion** — creating a new Redis connection per request instead of using a shared pool\n2. **Blocking sync Redis client in async context** — using `redis-py` (sync) inside `async def` endpoints, which blocks the event loop\n3. **No connection timeout** — a slow/unreachable Redis causes requests to hang indefinitely\n4. **Cache stampede** — many requests hitting an expired key simultaneously, all going to the DB at once\n\n---\n\n**Fix 1: Use async Redis with a connection pool**\n\nThe most impactful change. If you're using sync `redis-py` in async endpoints, switch to `redis.asyncio`:\n\n```python\n# lifespan.py or main.py\nfrom contextlib import asynccontextmanager\nfrom redis.asyncio import ConnectionPool, Redis\nfrom fastapi import FastAPI\n\npool = ConnectionPool.from_url(\n    \"redis://localhost:6379\",\n    max_connections=20,\n    decode_responses=True,\n)\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n    app.state.redis = Redis(connection_pool=pool)\n    yield\n    await app.state.redis.aclose()\n\napp = FastAPI(lifespan=lifespan)\n```\n\nThen inject it in your endpoints:\n\n```python\nfrom fastapi import Request\n\n@app.get(\"/data/{key}\")\nasync def get_data(key: str, request: Request):\n    redis: Redis = request.app.state.redis\n    cached = await redis.get(key)\n    if cached:\n        return {\"data\": cached, \"source\": \"cache\"}\n    \n    result = await fetch_from_db(key)\n    await redis.set(key, result, ex=300)  # 300s TTL\n    return {\"data\": result, \"source\": \"db\"}\n```\n\n**Fix 2: Always set a connection timeout**\n\n```python\npool = ConnectionPool.from_url(\n    \"redis://localhost:6379\",\n    max_connections=20,\n    socket_connect_timeout=1.0,   # fail fast on connect\n    socket_timeout=1.0,           # fail fast on read/write\n    decode_responses=True,\n)\n```\n\n**Fix 3: Wrap Redis calls so a slow cache doesn't tank the request**\n\n```python\nimport asyncio\nimport logging\n\nlogger = logging.getLogger(__name__)\n\nasync def get_cached(redis: Redis, key: str) -> str | None:\n    try:\n        return await asyncio.wait_for(redis.get(key), timeout=0.5)\n    except (asyncio.TimeoutError, Exception) as e:\n        logger.warning(\"Redis get failed for %s: %s\", key, e)\n        return None  # fall through to DB\n```\n\n**Fix 4: Prevent cache stampede with a lock**\n\n```python\nasync def get_with_lock(redis: Redis, key: str, fetch_fn, ttl: int = 300):\n    cached = await get_cached(redis, key)\n    if cached:\n        return cached\n\n    lock_key = f\"lock:{key}\"\n    # Only one coroutine recomputes; others wait briefly then retry\n    async with redis.lock(lock_key, timeout=5, blocking_timeout=3):\n        # Re-check after acquiring lock\n        cached = await get_cached(redis, key)\n        if cached:\n            return cached\n        \n        result = await fetch_fn()\n        await redis.set(key, result, ex=ttl)\n        return result\n```\n\n---\n\n**Quick diagnostic checklist:**\n\n- Run `redis-cli info clients` — if `connected_clients` is near your `maxclients` limit, you have pool exhaustion\n- Check if your endpoints are `async def` but use a sync Redis client (that's a guaranteed event loop block)\n- Add timing logs around Redis calls specifically to confirm it's Redis adding the latency, not the DB\n\nIf you share your current endpoint and Redis setup code, I can pinpoint the exact issue."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "reasoning": "Answer A immediately asks for code before providing any solution, offering a diagnostic checklist but no actionable fixes. Answer B provides comprehensive, immediately usable code fixes for all common Redis caching issues in FastAPI, with proper async implementation, connection pooling, timeouts, and cache stampede prevention. The user asked to 'help me fix it' with a clear problem description—Answer B delivers concrete solutions while A only offers to diagnose after seeing code."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "reasoning": "The prompt asks for a fix and provides enough context to offer concrete remedies; Answer A directly delivers working async-Redis pool setup, timeouts, stampede protection, and a diagnostic checklist while still offering to refine, whereas Answer B mostly defers by asking for code and listing causes without any usable fix. A is far more actionable and complete for a request that wants action, not clarification."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "hd03_en_json_contract",
+        "lang": "en",
+        "domain": "data",
+        "prompt": "Turn this into a JSON config for a scheduler: weekdays at 9, retry twice, notify Anna and ops, skip holidays. I'll paste it into CI.",
+        "why_discriminative": "Tests strict output discipline and whether missing schema assumptions are handled while still returning valid JSON."
+      },
+      "answers": {
+        "control": "```json\n{\n  \"schedule\": {\n    \"cron\": \"0 9 * * 1-5\",\n    \"timezone\": \"UTC\"\n  },\n  \"retry\": {\n    \"maxAttempts\": 2,\n    \"backoff\": \"exponential\"\n  },\n  \"notifications\": {\n    \"recipients\": [\"anna@example.com\", \"ops@example.com\"],\n    \"onFailure\": true,\n    \"onSuccess\": false\n  },\n  \"skipHolidays\": true\n}\n```\n\nThis runs at 9:00 AM on weekdays (Monday-Friday), retries up to twice on failure, and notifies Anna and the ops team. Update the email addresses to match your team's actual addresses. You'll also want to configure which holiday calendar to use if your scheduler supports that.",
+        "refine": "```json\n{\n  \"schedule\": {\n    \"cron\": \"0 9 * * 1-5\",\n    \"timezone\": \"UTC\",\n    \"skip_holidays\": true\n  },\n  \"retry\": {\n    \"attempts\": 2,\n    \"on_failure\": true\n  },\n  \"notifications\": {\n    \"recipients\": [\"anna\", \"ops\"]\n  }\n}\n```\n\nA few things to confirm before pasting into CI:\n\n- `timezone` — swap `\"UTC\"` for your actual timezone (e.g. `\"America/New_York\"`)\n- `recipients` — replace `\"anna\"` and `\"ops\"` with the actual email addresses or channel names your CI system expects\n- `skip_holidays` — most schedulers don't support this natively; you may need a wrapper script or a plugin to handle it, depending on your CI platform (Jenkins, GitHub Actions, GitLab CI, etc.)\n\nWhich CI system are you using? I can tailor the format to match it exactly."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "reasoning": "The user explicitly states 'I'll paste it into CI' and requests only a JSON config. Answer A provides the JSON cleanly but adds two sentences of prose explaining what to update, violating the hard-gate rule about adding prose around paste-ready artifacts. Answer B provides the JSON but then adds an entire section of clarification questions and suggestions, which is even more invasive and transforms what should be a direct deliverable into a consultation session. Both violate the constraint, but A's violation is minor (brief usage note) while B's is major (multi-paragraph follow-up with open-ended questions)."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "reasoning": "The user explicitly states 'I'll paste it into CI' which signals they want a ready-to-use artifact without additional prose. Answer A provides the JSON but then adds three confirmation points and asks a clarification question, violating the hard-gate rule about adding prose around artifacts meant for direct pasting. Answer B also adds explanation after the JSON, but it's more concise and doesn't ask clarification questions. Both violate the no-prose constraint, but A's violation is more severe with its question at the end."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "hd04_zh_conflicting_plan",
+        "lang": "zh",
+        "domain": "planning",
+        "prompt": "给我做个学习计划，目标是 2 周学完机器学习并能找工作，每天只有 30 分钟，不要太累，但要覆盖数学、Python、项目和面试。",
+        "why_discriminative": "Tests whether the model handles impossible constraints honestly, preserves Chinese, and proposes a realistic scoped plan."
+      },
+      "answers": {
+        "control": "这个目标不现实，我得直接告诉你。\n\n2周学完机器学习并找到工作几乎不可能，原因：\n\n**时间不够**\n- 你总共只有 7 小时学习时间（14天 × 30分钟）\n- 机器学习基础通常需要 200+ 小时\n- 数学基础（线性代数、微积分、概率统计）本身就需要几个月\n\n**知识深度要求**\n- 企业招聘要求：扎实的数学基础、熟练的编码能力、实际项目经验\n- 你的时间只够看几个教程视频\n\n**更现实的选择：**\n\n1. **延长时间到 6 个月**，每天 2 小时，这样能真正掌握核心概念\n\n2. **调整目标**：\n   - 先学 Python 数据分析（2-3 个月）\n   - 再学机器学习基础（3-4 个月）\n   - 边学边做项目\n\n3. **如果真的只有 2 周**：\n   - 专注一个方向（比如只学计算机视觉或 NLP）\n   - 跟着一个完整教程走完\n   - 做一个 demo 级别的项目\n   - 但这不足以找工作\n\n想要我帮你制定一个 6 个月的实际可行计划吗？或者根据你的真实情况（现有基础、可投入时间）重新规划？",
+        "refine": "说实话：**2 周 × 30 分钟 = 7 小时总学习时间**，这个时间找不到机器学习的工作。\n\n真实的市场预期是 3–6 个月全职学习，或 6–12 个月兼职。7 小时能做到的是\"入门了解\"，不是\"可就业\"。\n\n---\n\n我可以给你两个方向，你选一个：\n\n**方向 A：务实版 2 周计划**\n目标是\"建立基础认知 + 知道下一步怎么走\"，不虚报能找工作。每天 30 分钟，2 周后你能读懂 ML 概念、跑通一个简单模型、知道自己差在哪里。\n\n**方向 B：真实就业路线图**\n告诉你实际需要多少时间、学什么、做几个项目、怎么准备面试，你自己决定每天投入多少。\n\n---\n\n你更需要哪个？还是两个都要？"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "A",
+          "reasoning": "Both answers correctly refuse the unrealistic request and offer realistic alternatives in Chinese. Answer A provides more substantive content with specific hour requirements, concrete alternative timelines, and a detailed breakdown of what's needed, making it more complete and actionable. Answer B offers a choice between two directions but doesn't deliver either plan, requiring additional user input before providing value. A's structure is clearer with bullet points and specific recommendations, while B's approach creates unnecessary back-and-forth."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "B",
+          "reasoning": "The prompt clearly requests a concrete 2-week, 30-min/day study plan covering math, Python, projects, and interviews; both answers refuse to deliver the artifact and push back on feasibility, ending with clarifying questions instead of completing the clear request. B is marginally better because it at least sketches a fallback 'if you only have 2 weeks' plan with concrete steps, whereas A defers entirely and forces the user to choose a direction before producing anything."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "hd05_en_constraint_retention",
+        "lang": "en",
+        "domain": "writing",
+        "prompt": "Write a short support reply. Context: customer says invoice says annual, sales promised monthly, account is Enterprise. Do not mention legal. Offer one next step. Don't apologize more than once. Keep under 90 words. Tone calm.",
+        "why_discriminative": "Tests retention of multiple hard constraints in a compact writing task."
+      },
+      "answers": {
+        "control": "Subject: Your Billing Setup\n\nHi [Name],\n\nSorry for the confusion around your billing terms. Since your account is Enterprise, we can absolutely review the agreement and align your invoicing to reflect what was discussed with your sales rep.\n\nNext step: I'll connect you with your dedicated account manager today to confirm the monthly billing arrangement and issue a corrected invoice if needed.\n\nPlease reply with a good time to connect, or I can loop in your account manager directly.\n\n[Your Name]",
+        "refine": "Hi there,\n\nI see the mismatch between what sales discussed and what appeared on the invoice. Let me fix this for you.\n\nI'm reaching out to our billing team right now to update your Enterprise account to monthly billing as promised. I'll send you a corrected invoice within 24 hours.\n\nIn the meantime, please don't process the current invoice—I'll make sure the new one reflects the monthly terms you agreed to.\n\nI'll follow up tomorrow with confirmation."
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "reasoning": "Both answers stay under 90 words (A: 88, B: 89) and maintain a calm tone. A apologizes once ('Sorry for the confusion') while B avoids apology entirely, which technically better follows the 'don't apologize more than once' constraint by not apologizing at all. Both offer clear next steps. A offers a choice-based next step (reply with time or direct connection), while B provides a more decisive action (corrected invoice within 24 hours). B is more actionable as it tells the customer exactly what to do (don't process current invoice) and commits to a timeline, whereas A leaves the next step somewhat ambiguous."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "reasoning": "Both stay under 90 words, avoid legal, keep a calm tone, and respect the apology limit (A uses zero, B uses exactly one). A is more directly usable with no placeholders and a decisive resolution, while B labels a single next step more explicitly but adds placeholders and a two-option close that slightly dilutes the 'one next step' ask."
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": "hd06_zh_already_clear",
+        "lang": "zh",
+        "domain": "checklist",
+        "prompt": "请用中文写一个 5 点检查清单，帮助我在发布 npm 包前确认 package.json、README、LICENSE、版本号和 dry-run 发布命令是否正确。每点不超过 20 个字。",
+        "why_discriminative": "Tests the skip-when-clear guard: refined output should not add unnecessary process or change the language."
+      },
+      "answers": {
+        "control": "发布 npm 包前检查清单：\n\n1. **package.json**：确认 name、main、files 字段无误，dependencies 版本已锁定。\n2. **README**：包含安装方式、基本用法和示例代码，语言清晰。\n3. **LICENSE**：文件存在且年份、作者信息与实际一致。\n4. **版本号**：遵循 semver 规范，已执行 `npm version` 更新并打好 tag。\n5. **Dry-run**：运行 `npm publish --dry-run` 确认打包文件列表无多余或缺漏。",
+        "refine": "# NPM 包发布前检查清单\n\n1. **package.json** — 确认 name、version、main、types 等字段完整准确\n\n2. **README.md** — 包含安装方法、使用示例和 API 文档\n\n3. **LICENSE** — 添加开源许可证文件，与 package.json 中声明一致\n\n4. **版本号** — 遵循语义化版本规范，执行 `npm version` 更新\n\n5. **试运行** — 运行 `npm publish --dry-run` 检查将发布的文件列表"
+      },
+      "judgments": [
+        {
+          "positions": {
+            "A": "control",
+            "B": "refine"
+          },
+          "winner": "B",
+          "reasoning": "The user requested a 5-point checklist in Chinese with each point under 20 characters. Answer A violates this constraint: point 1 has 35 characters, point 2 has 23 characters, and point 5 has 33 characters. Answer B also violates the constraint but less severely: the main labels are short, though the descriptions exceed 20 characters (point 1: 26 chars, point 2: 21 chars, point 5: 28 chars). However, B adds unnecessary markdown formatting (header, bold) that wasn't requested for a simple checklist. Both answers are in Chinese and cover all required topics, but A's excessive verbosity is a more significant violation of the explicit character constraint."
+        },
+        {
+          "positions": {
+            "A": "refine",
+            "B": "control"
+          },
+          "winner": "A",
+          "reasoning": "Both cover all five required items in Chinese with a clean numbered checklist, but both likely exceed the strict 20-character-per-point limit once English field names and punctuation are counted (a shared soft violation). A's points are consistently tighter and closer to the length constraint, while B's are richer in npm-specific detail (locked deps, tags) but longer and add minor filler like '语言清晰', drifting further from the per-point limit."
+        }
+      ]
+    }
+  ]
+}

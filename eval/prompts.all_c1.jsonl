@@ -1,0 +1,40 @@
+{"id": "p01", "lang": "en", "domain": "coding", "prompt": "write me a python script to process excel", "why_vague": "no file, no operation, no output spec"}
+{"id": "p02", "lang": "zh", "domain": "coding", "prompt": "帮我写个爬虫", "why_vague": "目标网站、抓取字段、反爬、输出格式全缺"}
+{"id": "p03", "lang": "en", "domain": "writing", "prompt": "help me write an email to my boss", "why_vague": "topic, tone, ask, and recipient context missing"}
+{"id": "p04", "lang": "zh", "domain": "writing", "prompt": "写一段产品介绍", "why_vague": "产品、受众、卖点、长度未定"}
+{"id": "p05", "lang": "en", "domain": "analysis", "prompt": "analyze this market", "why_vague": "which market, for whom, what decision"}
+{"id": "p06", "lang": "zh", "domain": "analysis", "prompt": "分析一下这个行业的前景", "why_vague": "哪个行业、时间范围、判断依据缺失"}
+{"id": "p07", "lang": "en", "domain": "planning", "prompt": "help me plan a trip", "why_vague": "destination, dates, budget, party size unknown"}
+{"id": "p08", "lang": "zh", "domain": "planning", "prompt": "帮我做个学习计划", "why_vague": "学什么、基础、时长、目标未给"}
+{"id": "p09", "lang": "en", "domain": "debugging", "prompt": "my code doesn't work, help", "why_vague": "no code, no error, no language"}
+{"id": "p10", "lang": "zh", "domain": "learning", "prompt": "怎么学好机器学习", "why_vague": "基础、目标、时间、偏好未知"}
+{"id": "p11", "lang": "en", "domain": "data", "prompt": "make a chart from my data", "why_vague": "no data, no chart type, no goal"}
+{"id": "p12", "lang": "zh", "domain": "product", "prompt": "给我的 app 提点建议", "why_vague": "app 是什么、用户、目标、平台缺失"}
+{"id": "p13", "lang": "en", "domain": "career", "prompt": "how do I get better at my job", "why_vague": "role, current level, and goal unspecified"}
+{"id": "p14", "lang": "zh", "domain": "writing", "prompt": "帮我润色一下简历", "why_vague": "无简历内容、目标岗位、行业"}
+{"id": "p15", "lang": "en", "domain": "research", "prompt": "explain AI progress", "why_vague": "scope, audience, depth, and decision context undefined"}
+{"id": "p16", "lang": "zh", "domain": "coding", "prompt": "优化一下这段 SQL", "why_vague": "无 SQL、表结构、数据量、目标"}
+{"id": "p17", "lang": "en", "domain": "design", "prompt": "design a logo for my startup", "why_vague": "name, industry, style, constraints missing"}
+{"id": "p18", "lang": "zh", "domain": "general", "prompt": "给我讲讲量子计算", "why_vague": "受众、深度、侧重点未定"}
+{"id": "p19", "lang": "en", "domain": "marketing", "prompt": "help me write a launch tweet for my app", "why_vague": "no app description, audience, tone, or call-to-action"}
+{"id": "p20", "lang": "zh", "domain": "business", "prompt": "帮我写一份商业计划书", "why_vague": "行业、商业模式、受众、融资阶段全缺"}
+{"id": "p21", "lang": "en", "domain": "finance", "prompt": "explain how to budget my money", "why_vague": "no income, expenses, goals, or timeframe given"}
+{"id": "p22", "lang": "zh", "domain": "education", "prompt": "怎么教小孩学数学", "why_vague": "孩子年龄、现有水平、目标、时间都没说"}
+{"id": "p23", "lang": "en", "domain": "fitness", "prompt": "give me a workout plan", "why_vague": "no goal, fitness level, equipment, or schedule"}
+{"id": "p24", "lang": "zh", "domain": "tech", "prompt": "帮我设计一个数据库", "why_vague": "应用场景、实体、规模、技术栈未指定"}
+{"id": "p25", "lang": "en", "domain": "productivity", "prompt": "how do I get more organized", "why_vague": "no context on work, tools, or what's failing now"}
+{"id": "p26", "lang": "zh", "domain": "writing", "prompt": "写一封道歉信", "why_vague": "对象、事由、关系、期望结果未说明"}
+{"id": "p27", "lang": "en", "domain": "cooking", "prompt": "suggest a dinner recipe", "why_vague": "no diet, ingredients on hand, time, or servings"}
+{"id": "p28", "lang": "zh", "domain": "analysis", "prompt": "分析一下这个行业怎么样", "why_vague": "未指明行业、分析维度、目的和受众"}
+{"id": "p29", "lang": "en", "domain": "travel", "prompt": "plan a trip for me", "why_vague": "no destination, dates, budget, or interests"}
+{"id": "p30", "lang": "zh", "domain": "career", "prompt": "我该不该换工作", "why_vague": "现状、动机、行业、风险偏好等关键信息缺失"}
+{"id": "p31", "lang": "en", "domain": "career", "prompt": "make my resume better", "why_vague": "no resume, role, or industry given"}
+{"id": "p32", "lang": "zh", "domain": "career", "prompt": "帮我优化一下简历", "why_vague": "没有简历内容、目标岗位、行业"}
+{"id": "p33", "lang": "en", "domain": "career", "prompt": "write a cover letter for me", "why_vague": "no job, company, or background"}
+{"id": "p34", "lang": "zh", "domain": "career", "prompt": "帮我写一封求职信", "why_vague": "岗位、公司、个人背景都没说"}
+{"id": "p35", "lang": "en", "domain": "career", "prompt": "help me prepare for an interview", "why_vague": "role, company, level, format unspecified"}
+{"id": "p36", "lang": "zh", "domain": "career", "prompt": "帮我准备面试", "why_vague": "岗位、公司、轮次、形式未知"}
+{"id": "p37", "lang": "en", "domain": "writing", "prompt": "write a blog post about productivity", "why_vague": "audience, angle, length, tone missing"}
+{"id": "p38", "lang": "zh", "domain": "writing", "prompt": "写一篇关于效率提升的博客", "why_vague": "受众、角度、篇幅、语气未定"}
+{"id": "p39", "lang": "en", "domain": "marketing", "prompt": "create a marketing plan", "why_vague": "no product, budget, channel, or goal"}
+{"id": "p40", "lang": "zh", "domain": "marketing", "prompt": "做一个营销方案", "why_vague": "产品、预算、渠道、目标全缺"}

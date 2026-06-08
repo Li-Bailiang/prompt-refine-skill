@@ -1,0 +1,18 @@
+{"id": "p01", "lang": "en", "domain": "coding", "prompt": "write me a python script to process excel", "why_vague": "no file, no operation, no output spec"}
+{"id": "p02", "lang": "zh", "domain": "coding", "prompt": "帮我写个爬虫", "why_vague": "目标网站、抓取字段、反爬、输出格式全缺"}
+{"id": "p03", "lang": "en", "domain": "writing", "prompt": "help me write an email to my boss", "why_vague": "topic, tone, ask, and recipient context missing"}
+{"id": "p04", "lang": "zh", "domain": "writing", "prompt": "写一段产品介绍", "why_vague": "产品、受众、卖点、长度未定"}
+{"id": "p05", "lang": "en", "domain": "analysis", "prompt": "analyze this market", "why_vague": "which market, for whom, what decision"}
+{"id": "p06", "lang": "zh", "domain": "analysis", "prompt": "分析一下这个行业的前景", "why_vague": "哪个行业、时间范围、判断依据缺失"}
+{"id": "p07", "lang": "en", "domain": "planning", "prompt": "help me plan a trip", "why_vague": "destination, dates, budget, party size unknown"}
+{"id": "p08", "lang": "zh", "domain": "planning", "prompt": "帮我做个学习计划", "why_vague": "学什么、基础、时长、目标未给"}
+{"id": "p09", "lang": "en", "domain": "debugging", "prompt": "my code doesn't work, help", "why_vague": "no code, no error, no language"}
+{"id": "p10", "lang": "zh", "domain": "learning", "prompt": "怎么学好机器学习", "why_vague": "基础、目标、时间、偏好未知"}
+{"id": "p11", "lang": "en", "domain": "data", "prompt": "make a chart from my data", "why_vague": "no data, no chart type, no goal"}
+{"id": "p12", "lang": "zh", "domain": "product", "prompt": "给我的 app 提点建议", "why_vague": "app 是什么、用户、目标、平台缺失"}
+{"id": "p13", "lang": "en", "domain": "career", "prompt": "how do I get better at my job", "why_vague": "role, current level, and goal unspecified"}
+{"id": "p14", "lang": "zh", "domain": "writing", "prompt": "帮我润色一下简历", "why_vague": "无简历内容、目标岗位、行业"}
+{"id": "p15", "lang": "en", "domain": "research", "prompt": "explain AI progress", "why_vague": "scope, audience, depth, and decision context undefined"}
+{"id": "p16", "lang": "zh", "domain": "coding", "prompt": "优化一下这段 SQL", "why_vague": "无 SQL、表结构、数据量、目标"}
+{"id": "p17", "lang": "en", "domain": "design", "prompt": "design a logo for my startup", "why_vague": "name, industry, style, constraints missing"}
+{"id": "p18", "lang": "zh", "domain": "general", "prompt": "给我讲讲量子计算", "why_vague": "受众、深度、侧重点未定"}
