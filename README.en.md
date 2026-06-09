@@ -240,6 +240,7 @@ Most tools also accept the shared `.agents/skills/` convention. User-level paths
 | Mistral / Codestral | `strategies/mistral.md` | Mistral best practices |
 | Qwen | `strategies/qwen.md` | Alibaba Model Studio guidance |
 | xAI Grok | `strategies/xai-grok.md` | xAI Grok prompting references |
+| Perplexity Sonar | `strategies/perplexity.md` | Perplexity prompt guide |
 | Cohere Command | `strategies/cohere.md` | Cohere docs |
 | Amazon Nova | `strategies/amazon-nova.md` | Nova prompt guide |
 | Microsoft Phi | `strategies/microsoft-phi.md` | Phi Cookbook |

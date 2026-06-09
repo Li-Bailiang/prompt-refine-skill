@@ -4,7 +4,7 @@ description: >
   Silently restructures the user's natural-language prompt into the format the model
   CURRENTLY running this skill handles best, then answers. On activation it identifies
   which model family is executing it (Claude, GPT, Gemini, Llama, DeepSeek, Mistral,
-  Qwen, Grok, Command, Nova, or Phi) and loads that one model's official strategy — so
+  Qwen, Grok, Perplexity, Command, Nova, or Phi) and loads that one model's official strategy — so
   the optimization always matches the model that actually runs it. Activate with
   /prompt-refine. Use when users want better answers without learning prompt engineering.
 ---
@@ -37,6 +37,7 @@ answer (unless verbose mode is on).
 | Mistral / Codestral | `strategies/mistral.md` |
 | Qwen / 通义千问 (Alibaba) | `strategies/qwen.md` |
 | Grok (xAI) | `strategies/xai-grok.md` |
+| Perplexity / Sonar | `strategies/perplexity.md` |
 | Command R / R+ (Cohere) | `strategies/cohere.md` |
 | Nova (Amazon) | `strategies/amazon-nova.md` |
 | Phi (Microsoft) | `strategies/microsoft-phi.md` |

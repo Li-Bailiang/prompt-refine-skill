@@ -72,6 +72,15 @@
     "sourceZh": "xAI Grok prompting references"
   },
   {
+    "id": "perplexity",
+    "file": "strategies/perplexity.md",
+    "skillLabel": "Perplexity / Sonar",
+    "readmeLabelEn": "Perplexity Sonar",
+    "readmeLabelZh": "Perplexity Sonar",
+    "sourceEn": "Perplexity prompt guide",
+    "sourceZh": "Perplexity prompt guide"
+  },
+  {
     "id": "cohere",
     "file": "strategies/cohere.md",
     "skillLabel": "Command R / R+ (Cohere)",
