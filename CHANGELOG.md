@@ -3,6 +3,13 @@
 All notable changes to Prompt Refine are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Perplexity / Sonar strategy** grounded in the official Perplexity Prompt Guide, focused
+  on source-bounded research, retrieval constraints, citation discipline, and uncertainty
+  handling.
+
 ## [2.3.0] — 2026-06-08
 
 Distribution, automation, and a deeper OpenAI strategy. Routing and runtime behavior are

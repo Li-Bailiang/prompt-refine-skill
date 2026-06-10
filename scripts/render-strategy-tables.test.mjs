@@ -11,7 +11,7 @@ import {
 } from './render-strategy-tables.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = (file) => readFileSync(join(root, file), 'utf8');
+const read = (file) => readFileSync(join(root, file), 'utf8').replace(/\r\n/g, '\n');
 
 test('strategy manifest renders the SKILL.md routing table', () => {
   const manifest = loadManifest();
@@ -32,4 +32,13 @@ test('strategy manifest renders consistent English and Chinese README tables', (
   assert.ok(read('README.zh.md').includes(zhTable));
   assert.match(zhTable, /OpenAI GPT（GPT-5 系列）/);
   assert.match(zhTable, /DeepSeek V4（含 R1）/);
+});
+
+test('strategy manifest includes Perplexity as a source-grounded model family', () => {
+  const manifest = loadManifest();
+  const perplexity = manifest.find((entry) => entry.id === 'perplexity');
+
+  assert.ok(perplexity);
+  assert.equal(perplexity.file, 'strategies/perplexity.md');
+  assert.match(perplexity.sourceEn, /Perplexity/i);
 });
