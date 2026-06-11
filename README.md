@@ -241,6 +241,7 @@ Most tools also accept the shared `.agents/skills/` convention. User-level paths
 | Qwen | `strategies/qwen.md` | Alibaba Model Studio guidance |
 | xAI Grok | `strategies/xai-grok.md` | xAI Grok prompting references |
 | Perplexity Sonar | `strategies/perplexity.md` | Perplexity prompt guide |
+| Kimi / Moonshot AI | `strategies/kimi.md` | Kimi prompt best practices |
 | Cohere Command | `strategies/cohere.md` | Cohere docs |
 | Amazon Nova | `strategies/amazon-nova.md` | Nova prompt guide |
 | Microsoft Phi | `strategies/microsoft-phi.md` | Phi Cookbook |

@@ -42,3 +42,12 @@ test('strategy manifest includes Perplexity as a source-grounded model family', 
   assert.equal(perplexity.file, 'strategies/perplexity.md');
   assert.match(perplexity.sourceEn, /Perplexity/i);
 });
+
+test('strategy manifest includes Kimi as an official model family', () => {
+  const manifest = loadManifest();
+  const kimi = manifest.find((entry) => entry.id === 'kimi');
+
+  assert.ok(kimi);
+  assert.equal(kimi.file, 'strategies/kimi.md');
+  assert.match(kimi.sourceEn, /Kimi/i);
+});

@@ -81,6 +81,15 @@
     "sourceZh": "Perplexity prompt guide"
   },
   {
+    "id": "kimi",
+    "file": "strategies/kimi.md",
+    "skillLabel": "Kimi (Moonshot AI)",
+    "readmeLabelEn": "Kimi / Moonshot AI",
+    "readmeLabelZh": "Kimi / Moonshot AI",
+    "sourceEn": "Kimi prompt best practices",
+    "sourceZh": "Kimi prompt best practices"
+  },
+  {
     "id": "cohere",
     "file": "strategies/cohere.md",
     "skillLabel": "Command R / R+ (Cohere)",
