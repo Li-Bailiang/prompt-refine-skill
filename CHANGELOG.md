@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - **Perplexity / Sonar strategy** grounded in the official Perplexity Prompt Guide, focused
   on source-bounded research, retrieval constraints, citation discipline, and uncertainty
   handling.
+- **Kimi / Moonshot AI strategy** grounded in official Kimi prompt and API guidance, focused
+  on Chinese-first prompting, long-context extraction, delimited references, tool intent,
+  and compact structured outputs.
+- **Kimi before/after example** showing Chinese contract-risk extraction over long context.
 
 ## [2.3.0] — 2026-06-08
 

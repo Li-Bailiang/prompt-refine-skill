@@ -134,6 +134,28 @@ user's **original language is always preserved**.
 
 ---
 
+## 8. Host model: Kimi — Chinese long-context extraction
+
+**Before**
+> 帮我看下这份合同哪里有风险
+
+**After** (`strategies/kimi.md`)
+> 你是一名合同审阅顾问。请仅基于下方合同文本，提取对我方不利或需要确认的条款。
+>
+> 重点关注：
+> 1. 付款、交付、验收和违约责任
+> 2. 单方解除、自动续约、排他或竞业限制
+> 3. 模糊表述、缺失定义、缺失期限
+>
+> 输出为表格：`条款位置 | 风险点 | 为什么有风险 | 建议修改方向`。
+> 如果合同文本没有覆盖某项，请写“未见明确约定”，不要补猜。
+>
+> ```text
+> [合同全文]
+> ```
+
+---
+
 > These are illustrative. In normal (non-verbose) mode the user never sees the "after" —
 > the model answers the refined version directly. Run `/refine verbose` to see the diff
 > for your own prompts.
