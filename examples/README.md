@@ -156,6 +156,32 @@ user's **original language is always preserved**.
 
 ---
 
+## 9. Host model: Z.ai GLM — long-horizon coding agent boundaries
+
+**Before**
+> build a crawler and dashboard for these supplier pages
+
+**After** (`strategies/zai-glm.md`)
+> Goal: build a supplier-page crawler and a small dashboard from the URLs below.
+>
+> GLM surface: coding agent with tool use and thinking mode enabled.
+>
+> Done criteria:
+> 1. crawler extracts supplier name, product category, price signal, and contact URL
+> 2. dashboard groups suppliers by category and flags missing fields
+> 3. tests cover one valid page, one missing-price page, and one unreachable page
+>
+> Tool boundaries: use only the provided URLs and local repo files. Do not invent supplier
+> data; mark missing values as `null`.
+>
+> Stop after implementation and report: changed files, test command, and remaining risks.
+>
+> ```text
+> [supplier URLs]
+> ```
+
+---
+
 > These are illustrative. In normal (non-verbose) mode the user never sees the "after" —
 > the model answers the refined version directly. Run `/refine verbose` to see the diff
 > for your own prompts.
