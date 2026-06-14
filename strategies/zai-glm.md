@@ -19,6 +19,8 @@ the task to the right capability rather than writing a generic chat prompt.
    classification, or low-latency extraction.
 3. **Frame long-horizon work with checkpoints.** For coding or research agents, provide the
    goal, done criteria, state to preserve, allowed files/tools, and when to stop or ask.
+4. **Make tool calls concrete.** State the real-world outcome each tool should achieve, the
+   required parameters, permission boundaries, and how to validate returned data.
 
 ## Anti-patterns to avoid
 
