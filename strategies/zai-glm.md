@@ -21,6 +21,8 @@ the task to the right capability rather than writing a generic chat prompt.
    goal, done criteria, state to preserve, allowed files/tools, and when to stop or ask.
 4. **Make tool calls concrete.** State the real-world outcome each tool should achieve, the
    required parameters, permission boundaries, and how to validate returned data.
+5. **Use structured-output contracts for strict formats.** For JSON or tabular extraction,
+   define required fields, null/missing behavior, and whether extra keys are forbidden.
 
 ## Anti-patterns to avoid
 
