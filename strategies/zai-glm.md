@@ -17,6 +17,8 @@ the task to the right capability rather than writing a generic chat prompt.
 2. **Set thinking intent explicitly.** Use thinking mode for hard planning, coding,
    tool-heavy diagnosis, and multi-step reasoning; avoid forcing it for simple rewriting,
    classification, or low-latency extraction.
+3. **Frame long-horizon work with checkpoints.** For coding or research agents, provide the
+   goal, done criteria, state to preserve, allowed files/tools, and when to stop or ask.
 
 ## Anti-patterns to avoid
 
