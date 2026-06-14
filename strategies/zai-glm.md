@@ -35,3 +35,4 @@ the task to the right capability rather than writing a generic chat prompt.
 ## Anti-patterns to avoid
 
 - Writing a generic "be helpful" prompt that ignores GLM-specific API controls
+- Replacing thinking-mode selection with blanket "think step by step" instructions
