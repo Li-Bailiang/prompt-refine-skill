@@ -25,6 +25,8 @@ the task to the right capability rather than writing a generic chat prompt.
    define required fields, null/missing behavior, and whether extra keys are forbidden.
 6. **Keep streaming output separable.** For interactive agents, separate progress notes,
    tool arguments, tool results, and the final user-facing answer so partial output is safe.
+7. **Separate stable context from per-turn input.** Put reusable instructions, corpora, or
+   specs in stable context/cache; keep the user turn focused on the current delta.
 
 ## Anti-patterns to avoid
 
