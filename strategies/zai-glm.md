@@ -5,9 +5,10 @@
 
 ## What is distinctive for Z.ai GLM
 
-Z.ai's GLM family exposes model and API controls for long-context reasoning, thinking mode,
-tool use, and structured outputs. Treat those controls as part of prompt design instead of
-writing a generic chat prompt.
+Z.ai's GLM family exposes model and API controls for long-horizon reasoning, thinking mode,
+tool use, structured outputs, context caching, and multimodal input. GLM-5.1 is positioned
+for agentic coding, complex reasoning, and long tasks, so prompt quality depends on matching
+the task to the right capability rather than writing a generic chat prompt.
 
 ## Restructuring rules
 
