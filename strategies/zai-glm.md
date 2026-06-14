@@ -27,6 +27,8 @@ the task to the right capability rather than writing a generic chat prompt.
    tool arguments, tool results, and the final user-facing answer so partial output is safe.
 7. **Separate stable context from per-turn input.** Put reusable instructions, corpora, or
    specs in stable context/cache; keep the user turn focused on the current delta.
+8. **Bind each visual input to a task.** For GLM-5V-style prompts, say what to inspect in
+   each image/video/file and whether to extract text, compare layout, or reason about state.
 
 ## Anti-patterns to avoid
 
