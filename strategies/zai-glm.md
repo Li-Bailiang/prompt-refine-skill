@@ -37,3 +37,4 @@ the task to the right capability rather than writing a generic chat prompt.
 - Writing a generic "be helpful" prompt that ignores GLM-specific API controls
 - Replacing thinking-mode selection with blanket "think step by step" instructions
 - Asking the model to browse, query databases, or modify files when no real tool is attached
+- Requesting strict JSON only in prose while omitting schema, missing-value policy, or field rules
