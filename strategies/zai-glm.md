@@ -14,6 +14,9 @@ the task to the right capability rather than writing a generic chat prompt.
 
 1. **Name the intended GLM surface.** Say whether the task is chat, coding, tool use,
    structured extraction, or multimodal analysis so the prompt can use the right API behavior.
+2. **Set thinking intent explicitly.** Use thinking mode for hard planning, coding,
+   tool-heavy diagnosis, and multi-step reasoning; avoid forcing it for simple rewriting,
+   classification, or low-latency extraction.
 
 ## Anti-patterns to avoid
 
