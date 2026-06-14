@@ -13,6 +13,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   on Chinese-first prompting, long-context extraction, delimited references, tool intent,
   and compact structured outputs.
 - **Kimi before/after example** showing Chinese contract-risk extraction over long context.
+- **Z.ai GLM strategy** grounded in official GLM capability docs, focused on thinking mode,
+  long-horizon tasks, function calling, structured output, context caching, streaming, and
+  GLM-5V multimodal task binding.
+- **GLM before/after examples** showing coding-agent boundaries and completion criteria in
+  English and Chinese.
 
 ## [2.3.0] — 2026-06-08
 
