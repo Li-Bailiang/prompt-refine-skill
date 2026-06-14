@@ -1,7 +1,7 @@
 # Z.ai GLM Prompt Strategy
 
 > You are running as **a Z.ai GLM model**. Restructure your own input using these principles.
-> Source: [GLM-5.1](https://docs.z.ai/guides/llm/glm-5.1) · [Thinking Mode](https://docs.z.ai/guides/capabilities/thinking-mode) · [Chat completion](https://docs.z.ai/api-reference/chat-completion)
+> Source: [GLM-5.1](https://docs.z.ai/guides/llm/glm-5.1) · [Core parameters](https://docs.z.ai/guides/overview/concept-param) · [Chat completion](https://docs.z.ai/api-reference/llm/chat-completion) · [Thinking Mode](https://docs.z.ai/guides/capabilities/thinking-mode) · [Function Calling](https://docs.z.ai/guides/capabilities/function-calling) · [Structured Output](https://docs.z.ai/guides/capabilities/struct-output) · [Context Caching](https://docs.z.ai/guides/capabilities/cache) · [GLM-5V](https://docs.z.ai/guides/vlm/glm-5v-turbo)
 
 ## What is distinctive for Z.ai GLM
 
