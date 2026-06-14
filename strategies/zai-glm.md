@@ -23,6 +23,8 @@ the task to the right capability rather than writing a generic chat prompt.
    required parameters, permission boundaries, and how to validate returned data.
 5. **Use structured-output contracts for strict formats.** For JSON or tabular extraction,
    define required fields, null/missing behavior, and whether extra keys are forbidden.
+6. **Keep streaming output separable.** For interactive agents, separate progress notes,
+   tool arguments, tool results, and the final user-facing answer so partial output is safe.
 
 ## Anti-patterns to avoid
 
