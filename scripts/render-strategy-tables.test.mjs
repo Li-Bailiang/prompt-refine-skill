@@ -51,3 +51,12 @@ test('strategy manifest includes Kimi as an official model family', () => {
   assert.equal(kimi.file, 'strategies/kimi.md');
   assert.match(kimi.sourceEn, /Kimi/i);
 });
+
+test('strategy manifest includes Z.ai GLM as an official model family', () => {
+  const manifest = loadManifest();
+  const glm = manifest.find((entry) => entry.id === 'zai-glm');
+
+  assert.ok(glm);
+  assert.equal(glm.file, 'strategies/zai-glm.md');
+  assert.match(glm.sourceEn, /Z\.ai|GLM/i);
+});

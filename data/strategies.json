@@ -90,6 +90,15 @@
     "sourceZh": "Kimi prompt best practices"
   },
   {
+    "id": "zai-glm",
+    "file": "strategies/zai-glm.md",
+    "skillLabel": "GLM (Z.ai)",
+    "readmeLabelEn": "Z.ai GLM",
+    "readmeLabelZh": "Z.ai GLM",
+    "sourceEn": "Z.ai GLM official docs",
+    "sourceZh": "Z.ai GLM official docs"
+  },
+  {
     "id": "cohere",
     "file": "strategies/cohere.md",
     "skillLabel": "Command R / R+ (Cohere)",
